@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Objects/Upgrades/Upgrade.gd" type="Script" id=1]
+
+[node name="Upgrade" type="Node2D"]
+script = ExtResource( 1 )
+_bonus_lv20_descr = ""
+_bonus_lv30_descr = ""

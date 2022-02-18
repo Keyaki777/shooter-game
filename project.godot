@@ -13,15 +13,36 @@ _global_script_classes=[ {
 "class": "Hero",
 "language": "GDScript",
 "path": "res://Actors/Hero.gd"
+}, {
+"base": "Node",
+"class": "Upgrade",
+"language": "GDScript",
+"path": "res://Objects/Upgrades/Upgrade.gd"
+}, {
+"base": "Node2D",
+"class": "Wave",
+"language": "GDScript",
+"path": "res://Objects/WaveSystem/Waves/Wave.gd"
 } ]
 _global_script_class_icons={
-"Hero": ""
+"Hero": "",
+"Upgrade": "",
+"Wave": ""
 }
 
 [application]
 
 config/name="space shooter"
+run/main_scene="res://Game/Levels/Level.tscn"
 config/icon="res://icon.png"
+
+[display]
+
+window/size/width=1080
+window/size/height=1920
+window/handheld/orientation="portrait"
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [physics]
 
