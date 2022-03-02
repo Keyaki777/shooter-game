@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Objects/UpgradeSystem/UpgradeHandler.gd" type="Script" id=1]
-[ext_resource path="res://Objects/Upgrades/Upgrades/Hp_up.tscn" type="PackedScene" id=2]
-[ext_resource path="res://UI/Upgrade_Button/Button.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/upgradeSystem/upgradeHandler.gd" type="Script" id=1]
+[ext_resource path="res://ui/Upgrade_Button/Button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/hp_trigger_upgrade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/hurt_trigger_upgrade.tscn" type="PackedScene" id=5]
 
 [node name="Upgrade_Handler" type="Node2D"]
 script = ExtResource( 1 )
@@ -45,11 +46,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" parent="ColorRect/Panel/HBoxContainer" instance=ExtResource( 3 )]
+[node name="Button" parent="ColorRect/Panel/HBoxContainer" instance=ExtResource( 2 )]
 margin_right = 531.0
 margin_bottom = 203.0
 
-[node name="Button2" parent="ColorRect/Panel/HBoxContainer" instance=ExtResource( 3 )]
+[node name="Button2" parent="ColorRect/Panel/HBoxContainer" instance=ExtResource( 2 )]
 margin_left = 535.0
 margin_right = 1066.0
 margin_bottom = 203.0
@@ -58,6 +59,6 @@ margin_bottom = 203.0
 
 [node name="Common" type="Node" parent="UpgradeContainer"]
 
-[node name="Upgrade_hp" parent="UpgradeContainer/Common" instance=ExtResource( 2 )]
-_bonus_lv20_descr = " "
-_bonus_lv30_descr = " "
+[node name="hurt_trigger_upgrade" parent="UpgradeContainer/Common" instance=ExtResource( 5 )]
+
+[node name="up_trigger_upgrade" parent="UpgradeContainer/Common" instance=ExtResource( 4 )]

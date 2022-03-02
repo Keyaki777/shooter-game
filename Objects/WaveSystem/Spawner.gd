@@ -4,7 +4,7 @@ signal wave_ended
 signal all_waves_ended
 
 export var scene_to_spawn: PackedScene
-export var location_number: int = 4
+export var location_number: int = 1
 
 onready var spawned = $Spawned
 onready var locations = $Locations.get_children()

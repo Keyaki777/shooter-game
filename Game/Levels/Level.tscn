@@ -1,13 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Actors/Hero.tscn" type="PackedScene" id=1]
+[ext_resource path="res://actors/heros/hero.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/UpgradeSystem/UpgradeHandler.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Game/Levels/Level.gd" type="Script" id=3]
+[ext_resource path="res://game/levels/level.gd" type="Script" id=3]
 [ext_resource path="res://Objects/WaveSystem/WaveSystem.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Objects/WaveSystem/Waves/Wave.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/waveSystem/waves/wave.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/hitbox/hitBoxArea2D.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "level1-0"
+length = 15.0
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -15,11 +17,17 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.8, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [  ],
-"method": "_hide_upgrade_ui"
+"method": "show_upgrade"
+}, {
+"args": [  ],
+"method": "set_wait_for_wave_end"
+}, {
+"args": [  ],
+"method": "show_upgrade"
 } ]
 }
 tracks/1/type = "value"
@@ -29,10 +37,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.4, 2.1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ) ]
+"values": [ ExtResource( 5 ), ExtResource( 5 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("AnimationPlayer/WaveSystem/Spawner:selected_position")
@@ -41,10 +49,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.4, 2.1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ NodePath("AnimationPlayer/WaveSystem/Spawner/Locations/top5") ]
+"values": [ NodePath("AnimationPlayer/WaveSystem/Spawner/Locations/top5"), NodePath("AnimationPlayer/WaveSystem/Spawner/Locations/top5") ]
 }
 tracks/3/type = "method"
 tracks/3/path = NodePath("AnimationPlayer/WaveSystem/Spawner")
@@ -53,37 +61,19 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.5, 2.2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [ Vector2( 0, 0 ) ],
+"method": "spawn"
+}, {
 "args": [ Vector2( 0, 0 ) ],
 "method": "spawn"
 } ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("AnimationPlayer/WaveSystem:play_on_wave_ended")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("AnimationPlayer/WaveSystem:play_on_all_waves_ended")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0.1 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 30.0
 
 [node name="Level" type="Node2D"]
 script = ExtResource( 3 )
@@ -98,9 +88,18 @@ autoplay = "level1-0"
 anims/level1-0 = SubResource( 1 )
 
 [node name="WaveSystem" parent="AnimationPlayer" instance=ExtResource( 4 )]
+play_on_wave_ended = true
 
 [node name="Spawner" parent="AnimationPlayer/WaveSystem" index="0"]
 scene_to_spawn = ExtResource( 5 )
+selected_position = NodePath("AnimationPlayer/WaveSystem/Spawner/Locations/top5")
+
+[node name="HitBoxArea2D" parent="." instance=ExtResource( 6 )]
+position = Vector2( 532, 248 )
+damage = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
+shape = SubResource( 2 )
 
 [editable path="AnimationPlayer/WaveSystem"]
 [editable path="AnimationPlayer/WaveSystem/Spawner"]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://objects/upgrades/upgrade.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/hurt_trigger_upgrade.gd" type="Script" id=2]
+
+[node name="hurt_trigger_upgrade" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+_up_name = "hurt_upgrade"
+_signal_connect = "hero_hurt"
+is_unlocked = true
+is_signal_connect = true

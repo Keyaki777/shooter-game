@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://objects/upgrades/abstract_upgrades/hp_trigger_upgrade.gd" type="Script" id=1]
+[ext_resource path="res://objects/upgrades/upgrade.tscn" type="PackedScene" id=2]
+
+[node name="hp_trigger_upgrade" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+is_unlocked = true
+is_signal_connect = true

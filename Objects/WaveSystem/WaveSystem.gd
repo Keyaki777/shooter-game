@@ -1,6 +1,7 @@
 extends Node2D
 
-signal play
+signal wave_ended
+signal all_waves_ended
 
 onready var spawner = $Spawner
 
@@ -10,19 +11,13 @@ export var delay_between_waves: int = 1
 
 
 func _ready():
-	spawner.connect("all_waves_ended", self, "on_spawner_all_waves_ended")
-	spawner.connect("wave_ended", self, "wave_ended")
+	spawner.connect("all_waves_ended", self, "_on_spawner_all_waves_ended")
+	spawner.connect("wave_ended", self, "_on_spawner_wave_ended")
 
 
-func on_spawner_all_waves_ended() -> void:
-	if play_on_all_waves_ended:
-		play_next()
+func _on_spawner_all_waves_ended() -> void:
+	emit_signal("all_waves_ended")
 
 
-func wave_ended() -> void:
-	if play_on_wave_ended:
-		play_next()
-
-
-func play_next():
-	emit_signal("play")
+func _on_spawner_wave_ended() -> void:
+	emit_signal("wave_ended")

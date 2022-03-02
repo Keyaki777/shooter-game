@@ -1,6 +1,7 @@
 extends Node
 class_name Upgrade
 
+signal request_signal_connect(upgrade)
 
 var hero: Hero
 
@@ -13,6 +14,8 @@ var _atribute_bonus: float = 0
 export var _bonus_lv10_descr: String = " "
 export var _bonus_lv20_descr: String = " "
 export var _bonus_lv30_descr: String = " "
+export var _signal_connect: String = " "
+
 
 #var category: = 
 
@@ -25,10 +28,18 @@ export var is_selected: bool = false
 export var is_activated: bool = false
 # if the upgrade has be unlocked by the player
 export var is_unlocked: bool = false
+export var is_signal_connect: bool = false
 
 var is_bonus_10: bool = false
 var is_bonus_20: bool = false
 var is_bonus_30: bool = false
+
+
+func initialize() -> void:
+	if !is_signal_connect:
+		return
+	emit_signal("request_signal_connect", self)
+	is_activated = true
 
 
 func execute() -> void:
@@ -56,9 +67,9 @@ func set_price(value) -> void:
 	pass
 
 
-func level_up() -> void:
+func buy() -> void:
 	if !is_activated:
-			is_activated = true
+		initialize()
 	level += 1
 	check_bonus()
 	update_atribute_bonus()
@@ -91,3 +102,8 @@ func execute_bonus_20() -> void:
 
 func execute_bonus_30() -> void:
 	is_bonus_30 = true
+	
+
+func on_signal_received(value):
+	_execute()
+	print("original")

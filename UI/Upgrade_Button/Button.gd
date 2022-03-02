@@ -1,5 +1,6 @@
 extends Button
 signal upgrade_button_pressed(button)
+signal upgrade_animation_ended
 
 onready var label_name = $VBoxContainer/Name
 onready var label_level = $VBoxContainer/Level
@@ -13,7 +14,7 @@ onready var label_bonus_30 = $VBoxContainer/Bonus30
 var upgrade: Upgrade
 
 
-func fill_camps(upgrade: Upgrade) -> void:
+func fill_fields(upgrade: Upgrade) -> void:
 	self.upgrade = upgrade
 	label_name.text = String(upgrade._up_name)
 	label_level.text = "Level: " + String(upgrade.level)
@@ -36,3 +37,8 @@ func fill_camps(upgrade: Upgrade) -> void:
 func _on_Button_button_up():
 	emit_signal("upgrade_button_pressed", self)
 
+func _play_upgrade_animation():
+	$AnimationPlayer.play("shine")
+
+func update_fields():
+	fill_fields(upgrade)

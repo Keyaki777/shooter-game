@@ -10,22 +10,40 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://actors/enemy/enemy.gd"
+}, {
+"base": "Node2D",
 "class": "Hero",
 "language": "GDScript",
-"path": "res://Actors/Hero.gd"
+"path": "res://actors/heros/hero.gd"
+}, {
+"base": "Area2D",
+"class": "HitBoxArea2D",
+"language": "GDScript",
+"path": "res://objects/hitbox/hitBoxArea2D.gd"
+}, {
+"base": "Area2D",
+"class": "HurtBoxArea2D",
+"language": "GDScript",
+"path": "res://objects/hurtBoxArea2D/hurtBoxArea2D.gd"
 }, {
 "base": "Node",
 "class": "Upgrade",
 "language": "GDScript",
-"path": "res://Objects/Upgrades/Upgrade.gd"
+"path": "res://objects/upgrades/upgrade.gd"
 }, {
 "base": "Node2D",
 "class": "Wave",
 "language": "GDScript",
-"path": "res://Objects/WaveSystem/Waves/Wave.gd"
+"path": "res://objects/waveSystem/waves/wave.gd"
 } ]
 _global_script_class_icons={
+"Enemy": "",
 "Hero": "",
+"HitBoxArea2D": "",
+"HurtBoxArea2D": "",
 "Upgrade": "",
 "Wave": ""
 }
@@ -33,7 +51,7 @@ _global_script_class_icons={
 [application]
 
 config/name="space shooter"
-run/main_scene="res://Game/Levels/Level.tscn"
+run/main_scene="res://game/Levels/Level.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -43,6 +61,38 @@ window/size/height=1920
 window/handheld/orientation="portrait"
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[input]
+
+shoot={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+move_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="damage"
 
 [physics]
 
