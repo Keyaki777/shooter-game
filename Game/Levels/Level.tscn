@@ -1,11 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://actors/heros/hero.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Objects/UpgradeSystem/UpgradeHandler.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/levels/level.gd" type="Script" id=3]
+[ext_resource path="res://Actors/heros/hero.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/waveSystem/waves/wave.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Objects/UpgradeSystem/UpgradeHandler.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Objects/WaveSystem/WaveSystem.tscn" type="PackedScene" id=4]
-[ext_resource path="res://objects/waveSystem/waves/wave.tscn" type="PackedScene" id=5]
-[ext_resource path="res://objects/hitbox/hitBoxArea2D.tscn" type="PackedScene" id=6]
+[ext_resource path="res://objects/hitbox/hitBoxArea2D.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/levels/level.gd" type="Script" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "level1-0"
@@ -40,7 +40,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0.4, 2.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 5 ), ExtResource( 5 ) ]
+"values": [ ExtResource( 2 ), ExtResource( 2 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("AnimationPlayer/WaveSystem/Spawner:selected_position")
@@ -75,12 +75,21 @@ tracks/3/keys = {
 [sub_resource type="CircleShape2D" id=2]
 radius = 30.0
 
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.0666667, 0.12549, 1, 1 )
+
 [node name="Level" type="Node2D"]
-script = ExtResource( 3 )
+script = ExtResource( 6 )
 
 [node name="Hero" parent="." instance=ExtResource( 1 )]
 
-[node name="Upgrade_Handler" parent="." instance=ExtResource( 2 )]
+[node name="UpgradeHandler" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -91,15 +100,80 @@ anims/level1-0 = SubResource( 1 )
 play_on_wave_ended = true
 
 [node name="Spawner" parent="AnimationPlayer/WaveSystem" index="0"]
-scene_to_spawn = ExtResource( 5 )
+scene_to_spawn = ExtResource( 2 )
 selected_position = NodePath("AnimationPlayer/WaveSystem/Spawner/Locations/top5")
 
-[node name="HitBoxArea2D" parent="." instance=ExtResource( 6 )]
+[node name="HitBoxArea2D" parent="." instance=ExtResource( 5 )]
 position = Vector2( 532, 248 )
 damage = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
 shape = SubResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Ui" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/Ui"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 11.0
+margin_top = -58.0
+margin_right = 361.0
+margin_bottom = -8.0
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer/Ui/HealthBar"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = -25.0
+margin_right = 350.0
+margin_bottom = 25.0
+text = "0/0"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/Ui"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 11.0
+margin_top = -113.0
+margin_right = 188.0
+margin_bottom = -63.0
+custom_styles/fg = SubResource( 5 )
+custom_styles/bg = SubResource( 4 )
+value = 50.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShieldLabel" type="Label" parent="CanvasLayer/Ui/ShieldBar"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_right = 22.0
+text = "10 10"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [editable path="AnimationPlayer/WaveSystem"]
 [editable path="AnimationPlayer/WaveSystem/Spawner"]

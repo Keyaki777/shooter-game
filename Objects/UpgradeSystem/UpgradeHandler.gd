@@ -2,6 +2,10 @@ extends Node2D
 
 signal upgrade_ended
 signal upgrade_connect_request(upgrade)
+signal request_signal_trigger10(upgrade)
+signal request_signal_trigger20(upgrade)
+signal request_signal_trigger30(upgrade)
+
 
 var hero: Hero setget set_hero
 
@@ -21,6 +25,11 @@ func _ready():
 	
 	for upgrade in all_upgrades:
 		upgrade.connect("request_signal_connect", self, "_on_upgrade_request_signal_connect")
+		upgrade.connect("request_signal_trigger10", self, "_on_upgrade_request_trigger10")
+		upgrade.connect("request_signal_trigger20", self, "_on_upgrade_request_trigger20")
+		upgrade.connect("request_signal_trigger30", self, "_on_upgrade_request_trigger30")
+		
+		
 	
 	for button in $ColorRect/Panel/HBoxContainer.get_children():
 		button.connect("upgrade_button_pressed", self, "upgrade_button_pressed")
@@ -59,3 +68,20 @@ func on_upgrade_animation_ended() -> void:
 
 func _on_upgrade_request_signal_connect(upgrade: Upgrade) -> void:
 	emit_signal("upgrade_connect_request", upgrade)
+	
+
+func _on_upgrade_request_trigger10(upgrade) -> void:
+	emit_signal("request_signal_trigger10", upgrade)
+
+
+func _on_upgrade_request_trigger20(upgrade) -> void:
+	emit_signal("request_signal_trigger20", upgrade)
+
+
+func _on_upgrade_request_trigger30(upgrade) -> void:
+	emit_signal("request_signal_trigger30", upgrade)
+
+
+func init_all_upgrades() -> void:
+	pass
+

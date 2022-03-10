@@ -10,14 +10,29 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Node2D",
+"class": "Bullet",
+"language": "GDScript",
+"path": "res://objects/projectiles/bullets/bullet.gd"
+}, {
+"base": "Node2D",
 "class": "Enemy",
 "language": "GDScript",
-"path": "res://actors/enemy/enemy.gd"
+"path": "res://Actors/Enemy/enemy.gd"
 }, {
 "base": "Node2D",
 "class": "Hero",
 "language": "GDScript",
-"path": "res://actors/heros/hero.gd"
+"path": "res://Actors/heros/hero.gd"
+}, {
+"base": "Node2D",
+"class": "HeroWeapon",
+"language": "GDScript",
+"path": "res://objects/weapons/hero_weapon.gd"
+}, {
+"base": "Node",
+"class": "Hero_Action",
+"language": "GDScript",
+"path": "res://Actors/heros/hero_action/shield_recharge_action.gd"
 }, {
 "base": "Area2D",
 "class": "HitBoxArea2D",
@@ -29,6 +44,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/hurtBoxArea2D/hurtBoxArea2D.gd"
 }, {
+"base": "Node2D",
+"class": "Nova",
+"language": "GDScript",
+"path": "res://objects/novas/Nova.gd"
+}, {
+"base": "Node",
+"class": "Status",
+"language": "GDScript",
+"path": "res://objects/Status/status.gd"
+}, {
+"base": "Node",
+"class": "StatusStorage",
+"language": "GDScript",
+"path": "res://Actors/heros/StatusHandler.gd"
+}, {
 "base": "Node",
 "class": "Upgrade",
 "language": "GDScript",
@@ -38,20 +68,32 @@ _global_script_classes=[ {
 "class": "Wave",
 "language": "GDScript",
 "path": "res://objects/waveSystem/waves/wave.gd"
+}, {
+"base": "Node2D",
+"class": "shield_source",
+"language": "GDScript",
+"path": "res://objects/shield_source.gd"
 } ]
 _global_script_class_icons={
+"Bullet": "",
 "Enemy": "",
 "Hero": "",
+"HeroWeapon": "",
+"Hero_Action": "",
 "HitBoxArea2D": "",
 "HurtBoxArea2D": "",
+"Nova": "",
+"Status": "",
+"StatusStorage": "",
 "Upgrade": "",
-"Wave": ""
+"Wave": "",
+"shield_source": ""
 }
 
 [application]
 
 config/name="space shooter"
-run/main_scene="res://game/Levels/Level.tscn"
+run/main_scene="res://game/Levels/level.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -87,6 +129,11 @@ move_up={
 move_down={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+test_input_1={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":49,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

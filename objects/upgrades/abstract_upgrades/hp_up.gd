@@ -1,6 +1,15 @@
 extends Upgrade
 
 
+func _ready():
+	_up_name = ""
+	_desc_name = ""
+	_bonus_lv10_descr = " "
+	_bonus_lv20_descr = " "
+	_bonus_lv30_descr = " "
+	_signal_connect = ""
+
+
 func _execute():
 	hero.bonus_hp += _bonus_level
 

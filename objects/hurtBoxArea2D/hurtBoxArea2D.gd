@@ -4,6 +4,7 @@ class_name HurtBoxArea2D
 signal hit_landed(damage)
 signal healed_by_value(heal_value)
 signal healed_by_percent(heal_percent_value)
+signal missed
 
 enum Teams{PLAYER, ENEMY}
 export (Teams) var team:= Teams.ENEMY
@@ -12,8 +13,12 @@ var total_armor:= 0
 export var base_armor: = 0
 var bonus_armor = 0 setget set_bonus_armor
 var bonus_percent_armor = 0 setget set_bonus_percent_armor
+var is_miss: bool = false
+var miss_chance: int = 0
  
 var character: Node2D 
+
+onready var status = $Status
 
 
 func get_hurt(damage) -> void:
@@ -37,3 +42,20 @@ func set_total_armor() -> void:
 	total_armor = new_total_armor
 
 
+func is_miss(damage: int) -> bool:
+#	return false
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	if rng.randi_range(0, 100) < miss_chance:
+		emit_signal("missed")
+		return true
+	else:
+		return false
+	
+	
+	
+	
+	
+	
+	
+	

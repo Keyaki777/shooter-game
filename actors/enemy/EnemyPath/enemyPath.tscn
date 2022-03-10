@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://actors/enemy/enemy.gd" type="Script" id=1]
+[ext_resource path="res://Actors/Enemy/enemy.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://actors/enemy/EnemyPath/enemy_Path.gd" type="Script" id=3]
+[ext_resource path="res://Actors/Enemy/EnemyPath/enemy_Path.gd" type="Script" id=3]
 
 [sub_resource type="Curve2D" id=1]
 _data = {

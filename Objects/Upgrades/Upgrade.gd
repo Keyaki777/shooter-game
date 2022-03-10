@@ -2,20 +2,32 @@ extends Node
 class_name Upgrade
 
 signal request_signal_connect(upgrade)
+signal request_signal_trigger10(upgrade)
+signal request_signal_trigger20(upgrade)
+signal request_signal_trigger30(upgrade)
+
+
+enum Elemental_Type {NORMAL, POISON, FIRE, WATER, ICE, LIGHT}
+
+enum Unique_Types{BASIC, SECONDARY_ELEMENTAL, SHOOT_ELEMENTAL, REVENGE, MISS, SHIELD_NOVA, CRITICAL, SHIELD_ON, SHIELD_ON}
+export (Unique_Types) var unique_type = Unique_Types.BASIC
+
+#enum Teams{PLAYER, ENEMY}
+#export (Teams) var team := Teams.ENEMY
 
 var hero: Hero
 
-export var _up_name: String = ""
-export var _desc_name: String = ""
+var _up_name: String = ""
+var _desc_name: String = ""
 export var _bonus_level: float = 1.0
 
 var _atribute_bonus: float = 0
 
-export var _bonus_lv10_descr: String = " "
-export var _bonus_lv20_descr: String = " "
-export var _bonus_lv30_descr: String = " "
-export var _signal_connect: String = " "
-
+var _bonus_lv10_descr: String = ""
+var _bonus_lv20_descr: String = ""
+var _bonus_lv30_descr: String = ""
+var _signal_connect: String = ""
+var _scene_path: String = ""
 
 #var category: = 
 
@@ -34,12 +46,17 @@ var is_bonus_10: bool = false
 var is_bonus_20: bool = false
 var is_bonus_30: bool = false
 
+var _signal_bonus10: String = ""
+var _signal_bonus20: String = ""
+var _signal_bonus30: String = ""
+
 
 func initialize() -> void:
 	if !is_signal_connect:
 		return
 	emit_signal("request_signal_connect", self)
 	is_activated = true
+	get_children()
 
 
 func execute() -> void:
@@ -70,7 +87,7 @@ func set_price(value) -> void:
 func buy() -> void:
 	if !is_activated:
 		initialize()
-	level += 1
+	level += 15
 	check_bonus()
 	update_atribute_bonus()
 	
@@ -85,25 +102,49 @@ func check_next_atribute():
 
 func check_bonus() -> void:
 	if !is_bonus_10 and level >= 10:
-		execute_bonus_10()
+		init_bonus_10()
 		
 	if !is_bonus_20 and level >= 20:
-		execute_bonus_20()
+		init_bonus_20()
 		
 	if !is_bonus_30 and level >= 30:
-		execute_bonus_30()
+		init_bonus_30()
 
 
-func execute_bonus_10() -> void:
-	is_bonus_10 = true
+func _execute_bonus_10() -> void:
+	pass
 
-func execute_bonus_20() -> void:
-	is_bonus_20 = true
 
-func execute_bonus_30() -> void:
-	is_bonus_30 = true
+func _execute_bonus_20() -> void:
+	pass
+
+
+func _execute_bonus_30() -> void:
+	pass
 	
 
-func on_signal_received(value):
-	_execute()
-	print("original")
+func on_signal_received(value = 0):
+#	_execute()
+	pass
+
+
+func init_bonus_10() -> void:
+	is_bonus_10 = true
+	if _signal_bonus10 != "":
+		emit_signal("request_signal_trigger10",self)
+
+
+func init_bonus_20() -> void:
+	is_bonus_20 = true
+	if _signal_bonus20 != "":
+		emit_signal("request_signal_trigger20",self)
+
+
+func init_bonus_30() -> void:
+	is_bonus_30 = true
+	if _signal_bonus30 != "":
+		emit_signal("request_signal_trigger30",self)
+
+
+func add_status_on_hero_weapon() -> void:
+	hero.hero_weapon.add_status(_scene_path)

@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://objects/upgradeSystem/upgradeHandler.gd" type="Script" id=1]
 [ext_resource path="res://ui/Upgrade_Button/Button.tscn" type="PackedScene" id=2]
-[ext_resource path="res://objects/upgrades/abstract_upgrades/hp_trigger_upgrade.tscn" type="PackedScene" id=4]
-[ext_resource path="res://objects/upgrades/abstract_upgrades/hurt_trigger_upgrade.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/enemy_died_upgrade.tscn" type="PackedScene" id=5]
 
 [node name="Upgrade_Handler" type="Node2D"]
 script = ExtResource( 1 )
@@ -59,6 +58,4 @@ margin_bottom = 203.0
 
 [node name="Common" type="Node" parent="UpgradeContainer"]
 
-[node name="hurt_trigger_upgrade" parent="UpgradeContainer/Common" instance=ExtResource( 5 )]
-
-[node name="up_trigger_upgrade" parent="UpgradeContainer/Common" instance=ExtResource( 4 )]
+[node name="Enemy_died_upgrade" parent="UpgradeContainer/Common" instance=ExtResource( 5 )]
