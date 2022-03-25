@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://objects/hitbox/hitBoxArea2D.gd" type="Script" id=1]
+[ext_resource path="res://objects/hitbox/HitBoxArea2D.gd" type="Script" id=1]
 
-[node name="hitBoxArea2D" type="Area2D"]
-collision_layer = 0
+[node name="HitBoxArea2D" type="Area2D"]
 monitorable = false
+collision_layer = 0
 script = ExtResource( 1 )
 
 [connection signal="area_entered" from="." to="." method="_on_HitBoxArea2D_area_entered"]

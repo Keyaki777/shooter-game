@@ -1,14 +1,15 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Actors/heros/hero_action/shield_recharge_action.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://objects/hurtBoxArea2D/hurtBoxArea2D.tscn" type="PackedScene" id=3]
-[ext_resource path="res://objects/weapons/hero_weapon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Actors/heros/hero.gd" type="Script" id=5]
-[ext_resource path="res://objects/projectiles/bullets/bullet.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Actors/heros/StatusHandler.gd" type="Script" id=7]
-[ext_resource path="res://objects/shield_source.tscn" type="PackedScene" id=8]
-[ext_resource path="res://objects/novas/Nova.tscn" type="PackedScene" id=9]
+[ext_resource path="res://objects/shield_source.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/projectiles/bullets/Bullet.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/novas/Nova.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/hurtBoxArea2D/hurtBoxArea2D.tscn" type="PackedScene" id=6]
+[ext_resource path="res://objects/weapons/hero_weapon.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Actors/heros/Hero.gd" type="Script" id=8]
+[ext_resource path="res://Actors/heros/StatusHandler.gd" type="Script" id=9]
+[ext_resource path="res://Actors/heros/hero_movement_handler.gd" type="Script" id=10]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -21,16 +22,16 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 34, 34 )
 
-[node name="Hero" type="Node2D"]
-script = ExtResource( 5 )
-base_speed = 5
+[node name="Hero" type="KinematicBody2D"]
+script = ExtResource( 8 )
 base_hp = 100.0
 base_shield = 20.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = 1.57079
 frames = SubResource( 1 )
 
-[node name="HurtBoxArea2D" parent="." instance=ExtResource( 3 )]
+[node name="HurtBoxArea2D" parent="." instance=ExtResource( 6 )]
 team = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBoxArea2D"]
@@ -43,14 +44,21 @@ script = ExtResource( 1 )
 wait_time = 2.0
 one_shot = true
 
-[node name="HeroWeapon" parent="." instance=ExtResource( 4 )]
-projectile_scene = ExtResource( 6 )
+[node name="HeroWeapon" parent="." instance=ExtResource( 7 )]
+projectile_scene = ExtResource( 4 )
+cooldown_time = 0.7
 
 [node name="StatusStorage" type="Node" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( 9 )
 
-[node name="shield_source" parent="." instance=ExtResource( 8 )]
-projectile_scene = ExtResource( 9 )
+[node name="ShieldSource" parent="." instance=ExtResource( 3 )]
+projectile_scene = ExtResource( 5 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="HeroMovementHandler" type="Node" parent="."]
+script = ExtResource( 10 )
+_rotation_speed = 20
 
 [connection signal="hit_landed" from="HurtBoxArea2D" to="." method="_on_HurtBoxArea2D_hit_landed"]
 [connection signal="timeout" from="ShieldRechargeAction/ShieldRegenCooldown" to="ShieldRechargeAction" method="_on_ShieldRegenCooldown_timeout"]

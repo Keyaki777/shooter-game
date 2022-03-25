@@ -1,4 +1,4 @@
-extends Node2D
+extends KinematicBody2D
 class_name Hero
 
 signal total_hp_changed
@@ -8,6 +8,7 @@ signal total_shield_changed
 signal shield_changed
 signal shield_depleted
 signal shield_full
+signal stopped
 
 signal heal
 signal before_hit(damage)
@@ -17,13 +18,16 @@ signal hurt(damage)
 
 # can be hurt by another thing (example) status
 
-var direction = Vector2.ZERO
-var velocity = Vector2.ZERO
+var target:Enemy
+#
+#var direction = Vector2.ZERO
+#var velocity = Vector2.ZERO
 
-export var base_speed: int = 10
-var bonus_speed = 0
-var final_speed = 0
-onready var screen_size = get_viewport_rect().size
+#export var base_speed: int = 300
+#export var _rotation_speed: = 180
+#var bonus_speed = 0
+#var final_speed = 0
+#onready var screen_size = get_viewport_rect().size
 
 export var base_hp: float = 1
 var bonus_hp: float = 0 setget set_bonus_hp
@@ -40,17 +44,17 @@ export var shield_regen_base: float = 0.5
 export var shield_recharge_cd: float = 2 setget set_shield_recharge_cd
 
 var can_be_hurt: bool = false
-var can_move: bool = false
+
 
 onready var shield_recharge_action: = $ShieldRechargeAction
 onready var hero_weapon: HeroWeapon = $HeroWeapon
 onready var status_storage = $StatusStorage
-
+onready var _tween = $Tween
+onready var _shield_source : ShieldSource = $ShieldSource
+onready var hero_movement_handler := $HeroMovementHandler
 
 
 func _ready():
-	set_final_speed()
-	
 	update_total_hp()
 	set_hp(_total_hp)
 
@@ -59,15 +63,17 @@ func _ready():
 	
 	shield_recharge_action.character = self
 	hero_weapon.character = self
+	_shield_source.character = self
+	hero_movement_handler.character = self
+
+
+func _physics_process(delta):
+	update_target()
 
 
 func _powered_up() -> void:
 	pass
 
-
-func set_final_speed() -> void:
-	final_speed = base_speed + bonus_speed
-	
 
 func set_bonus_shield(value) -> void:
 	bonus_shield = value
@@ -120,44 +126,15 @@ func set_hp(value):
 	hp = clamp(hp, 0, _total_hp)
 	emit_signal("hp_changed")
 
+
 func set_bonus_hp(value):
 	bonus_hp = value
 	update_total_hp()
-	
-	
+
+
 func set_bonus_percent_hp(value) -> void:
 	bonus_percent_hp = value
 	update_total_hp()
-
-
-func _physics_process(delta):
-	movement_handler()
-	update_velocity()
-	move()
-	clamp_position()
-
-
-func movement_handler() -> void:
-	update_direction()
-
-
-func update_direction() -> void:
-	direction.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	direction.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
-	direction = direction.normalized()
-
-
-func update_velocity() -> void:
-	velocity = direction * final_speed
-
-
-func move() -> void:
-	translate(velocity)
-
-
-func clamp_position() -> void:
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
 
 
 func get_hurt(damage) -> void:
@@ -200,4 +177,24 @@ func _input(event):
 func set_shield_recharge_cd(value):
 		shield_recharge_cd = value
 		shield_recharge_action.shield_regen_cooldown.wait_time = shield_recharge_cd
+
+
+func update_target() -> void:
+	var nearest_enemy: Enemy
+	var nearest_distance
+	var all_enemies = get_tree().get_nodes_in_group("enemys")
+	
+	if ! all_enemies.empty():
+		nearest_enemy = all_enemies[0]
+		nearest_distance = self.position.distance_to(all_enemies[0].position)
+	
+	for enemy in all_enemies:
+		var distance_to_this_enemy = self.position.distance_to(enemy.position)
+		if distance_to_this_enemy < nearest_distance:
+			nearest_distance = distance_to_this_enemy
+			nearest_enemy = enemy
+
+	target = nearest_enemy
+
+
 

@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://objects/upgradeSystem/upgradeHandler.gd" type="Script" id=1]
+[ext_resource path="res://objects/upgradeSystem/UpgradeHandler.gd" type="Script" id=1]
 [ext_resource path="res://ui/Upgrade_Button/Button.tscn" type="PackedScene" id=2]
-[ext_resource path="res://objects/upgrades/abstract_upgrades/enemy_died_upgrade.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/EnemyDiedUpgrade.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/AttackPoisonUpgrade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/AttackFireUpgrade.tscn" type="PackedScene" id=5]
 
 [node name="Upgrade_Handler" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,7 +34,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/Panel"]
+[node name="ButtonsHBoxContainer" type="HBoxContainer" parent="ColorRect/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 7.0
@@ -45,17 +47,32 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" parent="ColorRect/Panel/HBoxContainer" instance=ExtResource( 2 )]
-margin_right = 531.0
+[node name="Button" parent="ColorRect/Panel/ButtonsHBoxContainer" instance=ExtResource( 2 )]
+margin_right = 352.0
 margin_bottom = 203.0
 
-[node name="Button2" parent="ColorRect/Panel/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 535.0
+[node name="Button2" parent="ColorRect/Panel/ButtonsHBoxContainer" instance=ExtResource( 2 )]
+margin_left = 356.0
+margin_right = 709.0
+margin_bottom = 203.0
+
+[node name="Button3" parent="ColorRect/Panel/ButtonsHBoxContainer" instance=ExtResource( 2 )]
+margin_left = 713.0
 margin_right = 1066.0
 margin_bottom = 203.0
 
 [node name="UpgradeContainer" type="Node2D" parent="."]
 
-[node name="Common" type="Node" parent="UpgradeContainer"]
+[node name="UnsortedContainer" type="Node" parent="UpgradeContainer"]
 
-[node name="Enemy_died_upgrade" parent="UpgradeContainer/Common" instance=ExtResource( 5 )]
+[node name="AttackPoisonUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 4 )]
+is_activated = true
+is_unlocked = true
+
+[node name="EnemyDiedUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 3 )]
+is_activated = true
+is_unlocked = true
+
+[node name="AttackPoisonUpgrade2" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 5 )]
+is_activated = true
+is_unlocked = true

@@ -2,7 +2,7 @@ extends Node
 class_name StatusStorage
 
 
-func add_status(status_name) -> void:
+func add_status(status_name: String) -> void:
 	if has_node(status_name):
 		return
 	var loaded_status = load("res://objects/Status/AllStatus/" + status_name + ".tscn")

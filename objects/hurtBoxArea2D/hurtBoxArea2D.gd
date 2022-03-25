@@ -21,6 +21,8 @@ var character: Node2D
 onready var status = $Status
 
 
+
+
 func get_hurt(damage) -> void:
 	var final_damage := clamp((damage - total_armor),1,10000)
 	emit_signal("hit_landed", final_damage)

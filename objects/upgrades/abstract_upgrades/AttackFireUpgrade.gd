@@ -1,20 +1,20 @@
 extends Upgrade
 
 func _ready():
-	_up_name = "On Enemy Died"
-	_desc_name = "triggers when enemy die"
-	_bonus_lv10_descr = ""
-	_bonus_lv20_descr = ""
-	_bonus_lv30_descr = ""
+	_up_name = "Fire Attack"
+	_up_effect = "triggers when enemy die"
+	_bonus_1 = ""
+	_bonus_2 = ""
+	_bonus_3 = ""
 	_signal_connect = "hero_shield_full"
-	_signal_bonus10 = "enemy_died"
-	_signal_bonus20 = ""
-	_signal_bonus30 = ""
+	_signal_bonus1 = "enemy_died"
+	_signal_bonus2 = ""
+	_signal_bonus3 = ""
 	_scene_path = "res://objects/status/status.tscn"
 	
 
 func _execute(value = 0):
-	self.add_status_on_hero_weapon()
+	add_status_on_hero_weapon("poison")
 	print(name)
 
 

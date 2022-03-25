@@ -1,16 +1,18 @@
 extends Node
 class_name Upgrade
 
+signal unlock_secondary(secondary_type)
 signal request_signal_connect(upgrade)
-signal request_signal_trigger10(upgrade)
-signal request_signal_trigger20(upgrade)
-signal request_signal_trigger30(upgrade)
+signal request_signal_trigger1(upgrade)
+signal request_signal_trigger2(upgrade)
+signal request_signal_trigger3(upgrade)
 
 
-enum Elemental_Type {NORMAL, POISON, FIRE, WATER, ICE, LIGHT}
+enum Types {Normal, Poison, Fire, Water, Ice}
+export (Types) var type = Types.Normal
 
-enum Unique_Types{BASIC, SECONDARY_ELEMENTAL, SHOOT_ELEMENTAL, REVENGE, MISS, SHIELD_NOVA, CRITICAL, SHIELD_ON, SHIELD_ON}
-export (Unique_Types) var unique_type = Unique_Types.BASIC
+enum Unique_Types{Basic, AttackType, Revenge, Miss, ShieldNova, Critical, ShieldOn, EnemyKilled}
+export (Unique_Types) var unique_type = Unique_Types.Basic
 
 #enum Teams{PLAYER, ENEMY}
 #export (Teams) var team := Teams.ENEMY
@@ -18,20 +20,19 @@ export (Unique_Types) var unique_type = Unique_Types.BASIC
 var hero: Hero
 
 var _up_name: String = ""
-var _desc_name: String = ""
+var _up_effect: String = ""
 export var _bonus_level: float = 1.0
 
 var _atribute_bonus: float = 0
 
-var _bonus_lv10_descr: String = ""
-var _bonus_lv20_descr: String = ""
-var _bonus_lv30_descr: String = ""
+var _bonus_1: String = ""
+var _bonus_2: String = ""
+var _bonus_3: String = ""
 var _signal_connect: String = ""
 var _scene_path: String = ""
 
 #var category: = 
 
-var price: int setget set_price, get_price
 var level: = 1
 
 # if is already selected to be shown to the player on ui
@@ -42,13 +43,13 @@ export var is_activated: bool = false
 export var is_unlocked: bool = false
 export var is_signal_connect: bool = false
 
-var is_bonus_10: bool = false
-var is_bonus_20: bool = false
-var is_bonus_30: bool = false
+var is_bonus_1: bool = false
+var is_bonus_2: bool = false
+var is_bonus_3: bool = false
 
-var _signal_bonus10: String = ""
-var _signal_bonus20: String = ""
-var _signal_bonus30: String = ""
+var _signal_bonus1: String = ""
+var _signal_bonus2: String = ""
+var _signal_bonus3: String = ""
 
 
 func initialize() -> void:
@@ -75,51 +76,23 @@ func _unexecute() -> void:
 	pass
 
 
-func get_price():
-	price = round( pow(level, 2) + level * 3 + 10)
-	return price
-
-
-func set_price(value) -> void:
-	pass
-
 
 func buy() -> void:
 	if !is_activated:
 		initialize()
-	level += 15
-	check_bonus()
-	update_atribute_bonus()
-	
-	
-func update_atribute_bonus() -> void:
+#	check_bonus()
+#	update_atribute_bonus()
+
+
+func _execute_bonus_1() -> void:
 	pass
 
 
-func check_next_atribute():
+func _execute_bonus_2() -> void:
 	pass
 
 
-func check_bonus() -> void:
-	if !is_bonus_10 and level >= 10:
-		init_bonus_10()
-		
-	if !is_bonus_20 and level >= 20:
-		init_bonus_20()
-		
-	if !is_bonus_30 and level >= 30:
-		init_bonus_30()
-
-
-func _execute_bonus_10() -> void:
-	pass
-
-
-func _execute_bonus_20() -> void:
-	pass
-
-
-func _execute_bonus_30() -> void:
+func _execute_bonus_3() -> void:
 	pass
 	
 
@@ -128,23 +101,40 @@ func on_signal_received(value = 0):
 	pass
 
 
-func init_bonus_10() -> void:
-	is_bonus_10 = true
-	if _signal_bonus10 != "":
-		emit_signal("request_signal_trigger10",self)
+func init_bonus_1() -> void:
+	is_bonus_1 = true
+	if _signal_bonus1 != "":
+		emit_signal("request_signal_trigger1",self)
 
 
-func init_bonus_20() -> void:
-	is_bonus_20 = true
-	if _signal_bonus20 != "":
-		emit_signal("request_signal_trigger20",self)
+func init_bonus_2() -> void:
+	is_bonus_2 = true
+	if _signal_bonus2 != "":
+		emit_signal("request_signal_trigger2",self)
 
 
-func init_bonus_30() -> void:
-	is_bonus_30 = true
-	if _signal_bonus30 != "":
-		emit_signal("request_signal_trigger30",self)
+func init_bonus_3() -> void:
+	is_bonus_3 = true
+	if _signal_bonus3 != "":
+		emit_signal("request_signal_trigger3",self)
 
 
-func add_status_on_hero_weapon() -> void:
-	hero.hero_weapon.add_status(_scene_path)
+func add_status_on_hero_weapon(status_name: String) -> void:
+	hero.hero_weapon.add_status(status_name)
+	hero.status_storage.add_status(status_name)
+	emit_signal("unlock_secondary", String(Types.keys()[type]) )
+	
+
+func awaken() -> void:
+	if is_bonus_1 == false:
+		init_bonus_1()
+	elif is_bonus_2 == false:
+		init_bonus_2()
+	elif is_bonus_3 == false:
+		init_bonus_3()
+	else:
+		return
+
+
+
+

@@ -2,13 +2,16 @@ extends Area2D
 class_name HitBoxArea2D
 
 signal hit_applied
+signal not_last_hit(hurt_box)
+signal max_hited
+
 
 enum Teams{PLAYER, ENEMY}
 export (Teams) var team := Teams.ENEMY
 
 export var damage:= 1
 
-export var max_number_of_hits = 1
+export var max_number_of_hits = 0
 var number_hited = 0
 
 var damage_source: Node setget set_damage_source
@@ -34,6 +37,11 @@ func apply_hit (hurt_box: HurtBoxArea2D) -> void:
 		hurt_box.get_hurt(damage)
 		apply_status(hurt_box)
 	emit_signal("hit_applied")
+	
+	if number_hited >= max_number_of_hits:
+		emit_signal("max_hited")
+	else:
+		emit_signal("not_last_hit", hurt_box)
 
 
 func apply_status(hurt_box: HurtBoxArea2D) -> void:

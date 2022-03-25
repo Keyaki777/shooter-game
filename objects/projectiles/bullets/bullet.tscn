@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://objects/hitbox/hitBoxArea2D.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/hitbox/HitBoxArea2D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
-[ext_resource path="res://objects/projectiles/bullets/bullet.gd" type="Script" id=3]
+[ext_resource path="res://objects/projectiles/bullets/Bullet.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 40, 40 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -12,13 +15,20 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 40, 40 )
+[sub_resource type="CircleShape2D" id=3]
+radius = 500.0
 
-[node name="bullet" type="Node2D"]
+[node name="Bullet" type="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource( 3 )
+speed = 450
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = 1.57079
 frames = SubResource( 1 )
 
 [node name="HitBoxArea2D" parent="." instance=ExtResource( 1 )]
@@ -26,4 +36,23 @@ frames = SubResource( 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
 shape = SubResource( 2 )
 
-[connection signal="hit_applied" from="HitBoxArea2D" to="." method="_on_HitBoxArea2D_hit_applied"]
+[node name="EnemyDetector" type="Area2D" parent="."]
+position = Vector2( 0, -1 )
+monitorable = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyDetector"]
+position = Vector2( 0, 1 )
+shape = SubResource( 3 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+modulate = Color( 0, 0.156863, 1, 1 )
+cast_to = Vector2( 0, 500 )
+collision_mask = 6
+
+[connection signal="max_hited" from="HitBoxArea2D" to="." method="_on_HitBoxArea2D_max_hited"]
+[connection signal="not_last_hit" from="HitBoxArea2D" to="." method="_on_HitBoxArea2D_not_last_hit"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

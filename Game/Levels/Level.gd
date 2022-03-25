@@ -39,10 +39,9 @@ func _ready():
 	
 	_upgrade_handler.connect("upgrade_ended", self, "_on_upgrade_handler_upgrade_ended")
 	_upgrade_handler.connect("upgrade_connect_request", self, "_on_upgrade_connect_request")
-	_upgrade_handler.connect("request_signal_trigger10", self, "_on_request_signal_trigger10")
-	_upgrade_handler.connect("request_signal_trigger20", self, "_on_request_signal_trigger20")
-	_upgrade_handler.connect("request_signal_trigger30", self, "_on_request_signal_trigger30")
-	
+	_upgrade_handler.connect("request_signal_trigger1", self, "_on_request_signal_trigger1")
+	_upgrade_handler.connect("request_signal_trigger2", self, "_on_request_signal_trigger2")
+	_upgrade_handler.connect("request_signal_trigger3", self, "_on_request_signal_trigger3")
 	
 	_spawner.connect("enemy_died", self, "_on_Spawner_enemy_died")
 	_spawner.connect("object_destroyed", self, "_on_Spawner_object_destroyed")
@@ -113,15 +112,15 @@ func _on_upgrade_connect_request(upgrade: Upgrade) -> void:
 	self.connect(upgrade._signal_connect, upgrade, "on_signal_received")
 
 
-func _on_request_signal_trigger10(upgrade: Upgrade) -> void:
+func _on_request_signal_trigger1(upgrade: Upgrade) -> void:
 	self.connect(upgrade._signal_bonus10, upgrade, "_execute_bonus_10")
 
 
-func _on_request_signal_trigger20(upgrade: Upgrade) -> void:
+func _on_request_signal_trigger2(upgrade: Upgrade) -> void:
 	self.connect(upgrade._signal_bonus20, upgrade, "_execute_bonus_20")
 
 
-func _on_request_signal_trigger30(upgrade: Upgrade) -> void:
+func _on_request_signal_trigger3(upgrade: Upgrade) -> void:
 	self.connect(upgrade._signal_bonus30, upgrade, "_execute_bonus_30")
 
 

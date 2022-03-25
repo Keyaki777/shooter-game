@@ -1,5 +1,5 @@
 extends Node2D
-class_name shield_source
+class_name ShieldSource
 
 var array_of_status_names: Array
 var shield_nova
@@ -11,9 +11,9 @@ func add_status(status_name: String) -> void:
 	array_of_status_names.append(status_name)
 
 
-func shoot() -> void:
+func Nova() -> void:
 	shield_nova = projectile_scene.instance() 
-	var shield_nova_hitbox: HitBoxArea2D = shield_nova.get_node("HitBoxArea2D")
+	var shield_nova_hitbox = shield_nova.get_node("HitBoxArea2D")
 	shield_nova_hitbox.damage_source = self
 	shield_nova_hitbox.team = 0
 	add_child(shield_nova)
@@ -23,5 +23,5 @@ func shoot() -> void:
 
 func _input(event):
 	if event.is_action("test_input_1"):
-		shoot()
+		Nova()
 
