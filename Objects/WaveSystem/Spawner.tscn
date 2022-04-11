@@ -3,34 +3,8 @@
 [ext_resource path="res://objects/waveSystem/spawner.gd" type="Script" id=1]
 [ext_resource path="res://objects/waveSystem/waves/wave.tscn" type="PackedScene" id=2]
 
-[node name="Spawner" type="Node2D"]
+[node name="WaveSpawner" type="Node2D"]
 script = ExtResource( 1 )
 scene_to_spawn = ExtResource( 2 )
-selected_position = NodePath("Locations/top4")
-
-[node name="Locations" type="Node2D" parent="."]
-
-[node name="middle 0" type="Position2D" parent="Locations"]
-position = Vector2( 540, 960 )
-
-[node name="top1" type="Position2D" parent="Locations"]
-
-[node name="top2" type="Position2D" parent="Locations"]
-position = Vector2( 180, 0 )
-
-[node name="top3" type="Position2D" parent="Locations"]
-position = Vector2( 360, 0 )
-
-[node name="top4" type="Position2D" parent="Locations"]
-position = Vector2( 540, 0 )
-
-[node name="top5" type="Position2D" parent="Locations"]
-position = Vector2( 720, 0 )
-
-[node name="top6" type="Position2D" parent="Locations"]
-position = Vector2( 900, 0 )
-
-[node name="top7" type="Position2D" parent="Locations"]
-position = Vector2( 1080, 0 )
 
 [node name="Spawned" type="Node2D" parent="."]

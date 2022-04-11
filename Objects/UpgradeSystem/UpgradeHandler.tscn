@@ -66,13 +66,10 @@ margin_bottom = 203.0
 [node name="UnsortedContainer" type="Node" parent="UpgradeContainer"]
 
 [node name="AttackPoisonUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 4 )]
-is_activated = true
 is_unlocked = true
 
 [node name="EnemyDiedUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 3 )]
-is_activated = true
 is_unlocked = true
 
 [node name="AttackPoisonUpgrade2" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 5 )]
-is_activated = true
 is_unlocked = true

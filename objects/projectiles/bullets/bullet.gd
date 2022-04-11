@@ -4,6 +4,7 @@ class_name Bullet
 export var speed: = 10
 var direction = Vector2.RIGHT setget set_direction
 var velocity: = Vector2.ZERO
+
 var max_wall_bounces: = 0
 var walls_bounced: = 0
 var enemies_bounced: = 0
@@ -13,7 +14,7 @@ onready var raycast2d: RayCast2D = $RayCast2D
 
 
 func _physics_process(delta):
-	var collision_info = move_and_collide(velocity * delta)
+	var collision_info = move_and_collide(velocity)
 	if collision_info:
 		bounce(collision_info)
 
@@ -24,7 +25,6 @@ func find_next_target(last_enemy_hurt_box) -> void:
 		return
 	var last_enemy = last_enemy_hurt_box.character
 	raycast2d.add_exception(last_enemy)
-	last_enemy.set_modulate(154)
 	var enemies_detected = enemy_detector.get_overlapping_areas()
 	for enemy_area in enemies_detected:
 		if enemy_area.get_parent() == last_enemy:

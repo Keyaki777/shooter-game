@@ -20,7 +20,7 @@ var max_number_of_hits: = 4
 var all_cannons: Array
 # 0 = left
 var last_front_cannon: int = 0
-
+var critical_chance: int = 0
 
 
 func _ready():
@@ -77,6 +77,7 @@ func shoot() -> void:
 		var spawned_projectile_hitbox = spawned_projectile.get_node("HitBoxArea2D")
 		spawned_projectile_hitbox.damage_source = self
 		spawned_projectile_hitbox.team = 0
+		spawned_projectile_hitbox.critical_chance = 50
 		spawned_projectile_hitbox.max_number_of_hits = max_number_of_hits
 		spawned_projectile.max_enemies_bounces = max_enemies_bounces
 		spawned_projectile.max_wall_bounces = max_wall_bounces

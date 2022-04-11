@@ -11,8 +11,8 @@ signal request_signal_trigger3(upgrade)
 enum Types {Normal, Poison, Fire, Water, Ice}
 export (Types) var type = Types.Normal
 
-enum Unique_Types{Basic, AttackType, Revenge, Miss, ShieldNova, Critical, ShieldOn, EnemyKilled}
-export (Unique_Types) var unique_type = Unique_Types.Basic
+enum Unique_Types{Normal, AttackType, Revenge, Miss, ShieldNova, Critical, ShieldOn, EnemyKilled}
+export (Unique_Types) var unique_type = Unique_Types.Normal
 
 #enum Teams{PLAYER, ENEMY}
 #export (Teams) var team := Teams.ENEMY
@@ -53,11 +53,15 @@ var _signal_bonus3: String = ""
 
 
 func initialize() -> void:
+	is_activated = true
+	buy_effect()
 	if !is_signal_connect:
 		return
 	emit_signal("request_signal_connect", self)
-	is_activated = true
-	get_children()
+
+
+func buy_effect() -> void:
+	pass
 
 
 func execute() -> void:

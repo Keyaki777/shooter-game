@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://objects/hitbox/HitBoxArea2D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://objects/HitBox2D/HitBoxArea2D.tscn" type="PackedScene" id=2]
 [ext_resource path="res://objects/novas/Nova.gd" type="Script" id=3]
 
 [node name="Nova" type="Node2D"]

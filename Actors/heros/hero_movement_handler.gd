@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 signal stopped
 
@@ -6,7 +6,6 @@ signal stopped
 var character: Hero setget set_character
 var direction = Vector2.ZERO
 var velocity = Vector2.ZERO
-
 export var base_speed: int = 300
 export var _rotation_speed: = 10
 
@@ -30,40 +29,42 @@ func _ready():
 
 
 func _physics_process(delta):
-	movement_handler()
+	update_direction()
 	update_velocity()
-	move()
 	clamp_position()
-	aim_handler(delta)
 
 
 func set_final_speed() -> void:
 	final_speed = base_speed + bonus_speed
 	
 	
-func aim_handler(delta) -> void:
+func rotate_to_target(delta) -> bool:
 	var angle_delta = _rotation_speed * delta
 	
-	if direction == Vector2.ZERO:
-		if !is_instance_valid(character.target):
-			character.update_target()
-			return
+	if !is_instance_valid(character.target):
+		character.update_target()
+		return false
 
-		var v = character.target.global_position - character.global_position
-		var angle = v.angle()
-		var r = character.global_rotation
-		angle = lerp_angle(r, angle, 1)
-		angle = clamp(angle, r - angle_delta, r + angle_delta)
-		character.global_rotation = angle
-	else:
-		var angle = velocity.angle()
-		angle = lerp_angle(character.global_rotation, angle, 1)
-		angle = clamp(angle, character.global_rotation - angle_delta, character.global_rotation + angle_delta)
-		character.global_rotation = angle
+	var v = character.target.global_position - character.global_position
+	var angle = v.angle()
+	var ideal_angle = angle
+	var r = character.global_rotation
+	angle = lerp_angle(r, angle, 1)
+	angle = clamp(angle, r - angle_delta, r + angle_delta)
+	character.global_rotation = angle
+	var x = (character.global_rotation - angle)
+	var character_rotation = character.global_rotation
+	if is_equal_approx(character.global_rotation,  ideal_angle):
+		return true
+	return false
 
 
-func movement_handler() -> void:
-	update_direction()
+func rotate_to_movement(delta) -> void:
+	var angle_delta = _rotation_speed * delta
+	var angle = velocity.angle()
+	angle = lerp_angle(character.global_rotation, angle, 1)
+	angle = clamp(angle, character.global_rotation - angle_delta, character.global_rotation + angle_delta)
+	character.global_rotation = angle
 
 
 func update_direction() -> void:
@@ -80,7 +81,6 @@ func update_velocity() -> void:
 
 
 func move() -> void:
-#	translate(velocity * delta)
 	if velocity != Vector2.ZERO:
 		character.move_and_slide(velocity, up)
 

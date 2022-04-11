@@ -39,8 +39,8 @@ func _ready():
 	for button in $ColorRect/Panel/ButtonsHBoxContainer.get_children():
 		button.connect("upgrade_button_pressed", self, "upgrade_button_pressed")
 		button.connect("upgrade_animation_ended", self, "on_upgrade_animation_ended")
-#	chosse_upgrades_to_buy()
-	chosse_upgrades_to_upgrade()
+	chosse_upgrades_to_buy()
+#	chosse_upgrades_to_upgrade()
 
 
 func chosse_upgrades_to_buy() -> void:
@@ -175,3 +175,7 @@ func _on_upgrade_unlock_secondary(type: String) -> void:
 func set_current_state(new_value) -> void:
 	current_state = new_value
 	
+
+func _unhandled_input(event):
+	if event:
+		pass

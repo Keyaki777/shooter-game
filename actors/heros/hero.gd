@@ -16,18 +16,8 @@ signal before_hurt(damage)
 signal hurt(damage)
 
 
-# can be hurt by another thing (example) status
 
-var target:Enemy
-#
-#var direction = Vector2.ZERO
-#var velocity = Vector2.ZERO
-
-#export var base_speed: int = 300
-#export var _rotation_speed: = 180
-#var bonus_speed = 0
-#var final_speed = 0
-#onready var screen_size = get_viewport_rect().size
+var target setget set_target
 
 export var base_hp: float = 1
 var bonus_hp: float = 0 setget set_bonus_hp
@@ -52,9 +42,18 @@ onready var status_storage = $StatusStorage
 onready var _tween = $Tween
 onready var _shield_source : ShieldSource = $ShieldSource
 onready var hero_movement_handler := $HeroMovementHandler
-
+onready var remote_transform : RemoteTransform2D = $RemoteTransform2D
+onready var _health_bar: ProgressBar = $UI/Control/HealthProgressBar
+onready var _shield_bar: ProgressBar = $UI/Control/ShieldProgressBar
+onready var _enemy_detector_raycast: RayCast2D = $RayCast2D
 
 func _ready():
+	connect("total_shield_changed", self, "_on_total_shield_changed")
+	connect("shield_changed", self, "_on_shield_changed" )
+	connect("total_hp_changed", self, "_on_total_hp_changed")
+	connect("hp_changed", self, "_on_hp_changed")
+
+	$UI.set_as_toplevel(true)
 	update_total_hp()
 	set_hp(_total_hp)
 
@@ -65,8 +64,9 @@ func _ready():
 	hero_weapon.character = self
 	_shield_source.character = self
 	hero_movement_handler.character = self
-
-
+	$StateMachine.set_character(self)
+	
+	
 func _physics_process(delta):
 	update_target()
 
@@ -167,11 +167,6 @@ func get_heal() -> void:
 func _on_HurtBoxArea2D_hit_landed(damage):
 	emit_signal("before_hit")
 	get_hurt(damage)
-	
-	
-func _input(event):
-	if event.is_action_pressed("move_right"):
-		_on_HurtBoxArea2D_hit_landed(10)
 
 
 func set_shield_recharge_cd(value):
@@ -180,21 +175,67 @@ func set_shield_recharge_cd(value):
 
 
 func update_target() -> void:
-	var nearest_enemy: Enemy
-	var nearest_distance
-	var all_enemies = get_tree().get_nodes_in_group("enemys")
 	
-	if ! all_enemies.empty():
-		nearest_enemy = all_enemies[0]
-		nearest_distance = self.position.distance_to(all_enemies[0].position)
+	var all_enemies = get_tree().get_nodes_in_group("enemies")
+	if all_enemies.empty():
+		target = null
+		return
+	var nearest_enemy_that_can_be_hitted = null
+	var nearest_distance_that_can_be_hitted = null
+	var can_hit_enemy: bool = false
+	var nearest_enemy = all_enemies[0]
+	var nearest_distance = self.global_position.distance_to(all_enemies[0].global_position)
 	
 	for enemy in all_enemies:
-		var distance_to_this_enemy = self.position.distance_to(enemy.position)
-		if distance_to_this_enemy < nearest_distance:
-			nearest_distance = distance_to_this_enemy
-			nearest_enemy = enemy
+		var distance_to_this_enemy = self.global_position.distance_to(enemy.global_position)
+		if enemy.can_see_player:
+			can_hit_enemy = true
+			if nearest_enemy_that_can_be_hitted == null:
+				nearest_distance_that_can_be_hitted = distance_to_this_enemy
+				nearest_enemy_that_can_be_hitted = enemy
+			elif distance_to_this_enemy < nearest_distance_that_can_be_hitted:
+				nearest_distance_that_can_be_hitted = distance_to_this_enemy
+				nearest_enemy_that_can_be_hitted = enemy
+		else:
+			if can_hit_enemy:
+				continue
+			elif distance_to_this_enemy < nearest_distance:
+				nearest_distance = distance_to_this_enemy
+				nearest_enemy = enemy
+				
+				
+	if nearest_distance_that_can_be_hitted != null:
+		self.target = nearest_enemy_that_can_be_hitted
+	else:
+		self.target = nearest_enemy
+		
+	_enemy_detector_raycast.look_at(target.global_position)
+	_enemy_detector_raycast.rotation_degrees -= 90
 
-	target = nearest_enemy
+
+func _on_hp_changed() -> void:
+	_health_bar.value = self.hp
+#	_health_label.text = String(hero.hp) + "/" + String(hero._total_hp)
 
 
+func _on_total_hp_changed() -> void:
+	_health_bar.max_value = self._total_hp
+#	_health_label.text = String(hero.hp) + "/" + String(hero._total_hp)
 
+
+func _on_shield_changed() -> void:
+	_shield_bar.value = self.shield
+#	_shield_label.text = String(hero.shield) + "/" + String(hero._total_shield)
+
+
+func _on_total_shield_changed() -> void:
+	_shield_bar.max_value = self._total_shield
+
+
+func set_target(value) -> void:
+	if target != null and is_instance_valid(target):
+		target.is_player_target = false
+	target = value
+	target.is_player_target = true
+		
+	

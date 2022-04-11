@@ -15,7 +15,6 @@ func _ready():
 
 func _execute(value = 0):
 	add_status_on_hero_weapon("poison")
-	print(name)
 
 
 func _unexecute():
