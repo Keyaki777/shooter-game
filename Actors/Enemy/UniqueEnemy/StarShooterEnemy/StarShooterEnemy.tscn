@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Actors/Enemy/UniqueEnemy/StarShooterEnemy/StarEnemyIdleState.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Enemy/UniqueEnemy/StarShooterEnemy/StarEnemyShootState.gd" type="Script" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://objects/Resources/DamagedShader.gdshader" type="Shader" id=5]
 [ext_resource path="res://Assets/Enemies/GreenShip/6.png" type="Texture" id=6]
 [ext_resource path="res://objects/projectiles/bullets/EnemyBullets/BasicEnemyBullet/StarBullet/StarBullet.tscn" type="PackedScene" id=7]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 17.2627
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -49,6 +52,9 @@ tracks/0/keys = {
 [node name="StarShooterEnemy" instance=ExtResource( 3 )]
 rotation = 1.57079
 _rotation_speed = 1
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource( 5 )
 
 [node name="target_sprite" parent="." index="1"]
 position = Vector2( -8, 0 )

@@ -4,10 +4,10 @@
 [ext_resource path="res://objects/Resources/DamagedShader.gdshader" type="Shader" id=2]
 [ext_resource path="res://objects/weapons/EnemyWeapons/BasicEnemyWeapon/BasicEnemyWeapon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Assets/Shoots/yellowpulse_strip8.png" type="Texture" id=4]
-[ext_resource path="res://Actors/Enemy/StraightPipeEnemy/StraightPipeEnemyShootState.gd" type="Script" id=5]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/StraightPipeEnemy/StraightPipeEnemyShootState.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Enemies/GreenShip/5.png" type="Texture" id=6]
 [ext_resource path="res://objects/HitBox2D/HitBoxArea2D.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Actors/Enemy/StraightPipeEnemy/StraightPipeEnemyIdleState.gd" type="Script" id=8]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/StraightPipeEnemy/StraightPipeEnemyIdleState.gd" type="Script" id=8]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true

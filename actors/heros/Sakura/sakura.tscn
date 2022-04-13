@@ -34,7 +34,7 @@ scale = Vector2( 0.161886, 0.161886 )
 frames = SubResource( 2 )
 
 [node name="HeroWeapon" parent="." index="5"]
-cooldown_time = 1.0
+cooldown_time = 0.3
 
 [node name="TrailPoint" type="Position2D" parent="." index="13"]
 position = Vector2( -31, 0 )

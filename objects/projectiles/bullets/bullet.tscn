@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://objects/HitBox2D/HitBoxArea2D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Shoots/shot2_strip12.png" type="Texture" id=2]
 [ext_resource path="res://objects/projectiles/bullets/Bullet.gd" type="Script" id=3]
+[ext_resource path="res://objects/LineTrail/Trail2D.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 40 )
@@ -82,7 +83,7 @@ radius = 500.0
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 3 )
-speed = 70
+speed = 45
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2( 0.486333, 0.486333 )
@@ -92,7 +93,7 @@ shape = SubResource( 1 )
 rotation = 1.57079
 scale = Vector2( 1.67182, 1.67182 )
 frames = SubResource( 14 )
-frame = 3
+frame = 5
 playing = true
 
 [node name="HitBoxArea2D" parent="." instance=ExtResource( 1 )]
@@ -117,6 +118,9 @@ shape = SubResource( 15 )
 modulate = Color( 0, 0.156863, 1, 1 )
 cast_to = Vector2( 0, 500 )
 collision_mask = 6
+
+[node name="Trail2D" parent="." instance=ExtResource( 4 )]
+lenght = 3
 
 [connection signal="max_hited" from="HitBoxArea2D" to="." method="_on_HitBoxArea2D_max_hited"]
 [connection signal="not_last_hit" from="HitBoxArea2D" to="." method="_on_HitBoxArea2D_not_last_hit"]

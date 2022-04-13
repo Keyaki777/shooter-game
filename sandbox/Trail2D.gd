@@ -3,7 +3,7 @@ extends Line2D
 
 export var lenght = 5
 var point = Vector2()
-func _process(delta):
+func _physics_process(delta):
 	
 	global_position = Vector2(0,0)
 	global_rotation = 0

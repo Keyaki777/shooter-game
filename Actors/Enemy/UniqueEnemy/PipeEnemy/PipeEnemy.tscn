@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Actors/Enemy/enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://objects/Resources/DamagedShader.gdshader" type="Shader" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://Actors/Enemy/UniqueEnemy/PipeEnemy/PipeEnemyShootState.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Enemies/GreenShip/11.png" type="Texture" id=6]
 [ext_resource path="res://objects/HitBox2D/HitBoxArea2D.tscn" type="PackedScene" id=7]
+
+[sub_resource type="CircleShape2D" id=23]
+radius = 14.0
 
 [sub_resource type="ShaderMaterial" id=18]
 resource_local_to_scene = true
@@ -177,6 +180,9 @@ _bundled = {
 
 [node name="PipeEnemy" instance=ExtResource( 1 )]
 _rotation_speed = 1
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource( 23 )
 
 [node name="target_sprite" parent="." index="1"]
 position = Vector2( -8, 0 )

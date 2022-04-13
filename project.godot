@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "RayCast2D",
+"class": "AntecipationRayCast2D",
+"language": "GDScript",
+"path": "res://sandbox/RayCast2D.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "BasicEnemyBullet",
 "language": "GDScript",
@@ -165,6 +170,7 @@ _global_script_classes=[ {
 "path": "res://objects/waveSystem/waves/wave.gd"
 } ]
 _global_script_class_icons={
+"AntecipationRayCast2D": "",
 "BasicEnemyBullet": "",
 "BasicWeapon": "",
 "Bullet": "",

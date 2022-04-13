@@ -2,8 +2,8 @@ extends Node
 class_name State
 
 var _state_machine: StateMachine setget set_state_machine
-export var min_wait: float = 3
-export var max_wait: float = 5
+export var min_wait: float = 1
+export var max_wait: float = 2
 var character
 
 func unhandled_input(event):
