@@ -14,28 +14,8 @@ extents = Vector2( 40, 40 )
 [node name="BasicEnemy" instance=ExtResource( 1 )]
 position = Vector2( 328, 144 )
 
-[node name="AnimatedSprite" parent="." index="1"]
+[node name="AnimatedSprite" parent="." index="2"]
 material = SubResource( 1 )
 
 [node name="CollisionShape2D" parent="HurtBoxArea2D" index="2"]
 shape = SubResource( 2 )
-
-[node name="HBoxContainer" parent="DebugControl/VBoxContainer" index="0"]
-margin_right = 90.0
-
-[node name="CurrentState" parent="DebugControl/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 86.0
-
-[node name="Currentvalue" parent="DebugControl/VBoxContainer/HBoxContainer" index="1"]
-margin_left = 90.0
-margin_right = 90.0
-
-[node name="HBoxContainer2" parent="DebugControl/VBoxContainer" index="1"]
-margin_right = 90.0
-
-[node name="last_state" parent="DebugControl/VBoxContainer/HBoxContainer2" index="0"]
-margin_right = 67.0
-
-[node name="lastvalue" parent="DebugControl/VBoxContainer/HBoxContainer2" index="1"]
-margin_left = 71.0
-margin_right = 90.0

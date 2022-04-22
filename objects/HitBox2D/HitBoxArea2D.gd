@@ -16,7 +16,7 @@ var number_hited = 0
 var critical_chance := 0.0
 var damage_source: Node setget set_damage_source
 var status_storage
-export var color: Color = Color(255,255,255,1)
+export var color: Color = Color.white
 
 func set_damage_source(new_damage_source: Node) -> void:
 	damage_source = new_damage_source
@@ -37,7 +37,7 @@ func apply_hit (hurt_box: HurtBoxArea2D) -> void:
 	else:
 		number_hited += 1
 	var this_hit: Hit = Hit.new()
-	this_hit.constructor(damage, critical_chance, self.color)
+	this_hit.constructor(damage, critical_chance, self.color, self.global_position)
 	hurt_box.get_hurt(this_hit)
 	apply_status(hurt_box)
 	emit_signal("hit_applied")
@@ -62,6 +62,8 @@ func apply_status(hurt_box: HurtBoxArea2D) -> void:
 			var original_status = status_storage.get_node(status_name)
 			var new_spawned_status = original_status.duplicate()
 			new_spawned_status.original_status = original_status
+			new_spawned_status.hurtbox = hurt_box
+			new_spawned_status.character = hurt_box.character
 			hurt_box.status.add_child(new_spawned_status)
 			new_spawned_status.initialize()
 

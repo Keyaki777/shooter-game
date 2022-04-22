@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Actors/Enemy/enemy.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://objects/StateMachine/State.gd" type="Script" id=7]
 [ext_resource path="res://Actors/Enemy/DebugControl.gd" type="Script" id=8]
 [ext_resource path="res://circle.png" type="Texture" id=9]
+[ext_resource path="res://Actors/Enemy/dying.gd" type="Script" id=10]
+[ext_resource path="res://objects/Animations/ExplosionAnimation/DeathExplosionAnimation.tscn" type="PackedScene" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 41, 40 )
@@ -102,6 +104,10 @@ script = ExtResource( 7 )
 
 [node name="StateMachineTimer" type="Timer" parent="StateMachine"]
 one_shot = true
+
+[node name="Die" type="Node" parent="StateMachine"]
+script = ExtResource( 10 )
+death_animation = ExtResource( 11 )
 
 [node name="DebugControl" type="Control" parent="."]
 margin_left = 22.0

@@ -23,7 +23,7 @@ export var base_hp: float = 1
 var bonus_hp: float = 0 setget set_bonus_hp
 var bonus_percent_hp: float = 0 setget set_bonus_percent_hp
 var _total_hp: int = 0
-var hp : float = 0 setget set_hp
+var _hp : float = 0 setget set_hp
 
 export var base_shield: float = 0 setget set_base_shield
 var bonus_shield: float = 0 setget set_bonus_shield
@@ -34,8 +34,9 @@ export var shield_regen_base: float = 0.5
 export var shield_recharge_cd: float = 2 setget set_shield_recharge_cd
 
 var can_be_hurt: bool = false
+var is_active:bool = true
 
-
+onready var _hurt_box = $HurtBoxArea2D
 onready var shield_recharge_action: = $ShieldRechargeAction
 onready var hero_weapon: HeroWeapon = $HeroWeapon
 onready var status_storage = $StatusStorage
@@ -46,6 +47,7 @@ onready var remote_transform : RemoteTransform2D = $RemoteTransform2D
 onready var _health_bar: ProgressBar = $UI/Control/HealthProgressBar
 onready var _shield_bar: ProgressBar = $UI/Control/ShieldProgressBar
 onready var _enemy_detector_raycast: RayCast2D = $RayCast2D
+
 
 func _ready():
 	connect("total_shield_changed", self, "_on_total_shield_changed")
@@ -100,12 +102,18 @@ func update_total_shield() -> void:
 
 func set_shield(value) -> void:
 	var old_shield = shield
-	shield = value
+	shield = clamp(value, 0, _total_shield)
 	
 	emit_signal("shield_changed")
 	
-	if shield == 0 and old_shield > 0:
-		emit_signal("shield_depleted")
+	if old_shield > 0:
+		if shield == 0:
+			emit_signal("shield_depleted")
+		if shield < old_shield:
+#			shield damaged
+			_shield_source._emit_shield_reaction()
+			
+	
 		
 	if shield == _total_shield and old_shield < _total_shield:
 		emit_signal("shield_full")
@@ -116,14 +124,26 @@ func set_shield(value) -> void:
 
 
 func update_total_hp() -> void:
+	
+	var current_hp_in_percent = -1
+	if _total_hp != 0 and _hp != 0:
+		current_hp_in_percent = _hp / _total_hp
 	var percentage_of_total_hp = (bonus_hp + base_hp)/100 * bonus_percent_hp
+	var old_total_hp = _total_hp
 	_total_hp = base_hp + bonus_hp + percentage_of_total_hp
+	if old_total_hp < _total_hp and current_hp_in_percent != -1:
+		set_hp(current_hp_in_percent * _total_hp)
 	emit_signal("total_hp_changed")
+	emit_signal("hp_changed")
 
 
 func set_hp(value):
-	hp = value
-	hp = clamp(hp, 0, _total_hp)
+	var proportional_current_hp = _hp / _total_hp * 100
+	
+	_hp = value
+	_hp = clamp(_hp, 0, _total_hp)
+	
+	
 	emit_signal("hp_changed")
 
 
@@ -147,8 +167,9 @@ func damage_shield(damage) -> void:
 	if damage > shield:
 		extra_damage = shield - damage
 		damage = shield
-		
+	
 	self.shield = shield - damage
+	
 #	remove later
 	if shield < 0:
 		print("shield is broken")
@@ -157,10 +178,11 @@ func damage_shield(damage) -> void:
 
 
 func damage_health(damage) -> void:
-	self.hp -= damage
+	self._hp -= damage
 
 
-func get_heal() -> void:
+func get_heal(heal_value) -> void:
+	self._hp += heal_value
 	emit_signal("heal")
 
 
@@ -214,18 +236,15 @@ func update_target() -> void:
 
 
 func _on_hp_changed() -> void:
-	_health_bar.value = self.hp
-#	_health_label.text = String(hero.hp) + "/" + String(hero._total_hp)
+	_health_bar.value = self._hp
 
 
 func _on_total_hp_changed() -> void:
 	_health_bar.max_value = self._total_hp
-#	_health_label.text = String(hero.hp) + "/" + String(hero._total_hp)
 
 
 func _on_shield_changed() -> void:
 	_shield_bar.value = self.shield
-#	_shield_label.text = String(hero.shield) + "/" + String(hero._total_shield)
 
 
 func _on_total_shield_changed() -> void:

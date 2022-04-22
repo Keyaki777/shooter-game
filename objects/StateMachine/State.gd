@@ -34,9 +34,13 @@ func set_state_machine(new_state_machine) -> void:
 		if !"_state_machine" in child:
 			continue
 		child._state_machine = self._state_machine
-	
+	initialize()
 
 
 func start_timer() -> void:
 	_state_machine._timer.wait_time = _state_machine.rng.randi_range(min_wait, max_wait)
 	_state_machine._timer.start()
+
+
+func initialize() -> void:
+	pass

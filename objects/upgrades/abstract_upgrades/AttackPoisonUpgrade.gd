@@ -1,12 +1,12 @@
 extends Upgrade
 
 func _ready():
-	_up_name = "Poison Attack1"
-	_up_effect = "triggers when enemy die"
+	_up_name = "PoisonBullets"
+	_up_effect = "Your bullets now have poison element"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
-	_signal_connect = "hero_shield_full"
+#	_signal_connect = "hero_shield_full"
 	_signal_bonus1 = "enemy_died"
 	_signal_bonus2 = ""
 	_signal_bonus3 = ""
@@ -25,24 +25,8 @@ func _initialize() -> void:
 	pass
 
 
-func update_atribute_bonus():
-	_atribute_bonus += next_bonus()
-	hero.bonus_hp = next_bonus()
-	print("next_bonus = ", next_bonus())
-	pass
-	
-
-func check_next_atribute():
-	return _atribute_bonus + next_bonus()
-
-
-func next_bonus():
-	return int(round(((pow(level, 1.5)+level*1.4)/7)+3))
-
-
-func buy_effect():
-	hero.set_bonus_hp(350)
-	add_status_on_hero_weapon("poison")	
+func on_buy_effect():
+	add_status_on_hero_weapon("Poison")	
 
 
 func on_signal_received(value = 0):

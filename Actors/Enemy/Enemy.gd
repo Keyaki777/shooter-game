@@ -3,26 +3,34 @@ class_name Enemy
 
 signal died
 signal damaged
+signal moved(enemy_global_position)
+signal critical_landed
 
+var is_active:bool = true
 var hp: int setget set_hp
 var bonus_percent_hp: float setget set_bonus_hp
 var total_hp: int
+var activated: bool = true
 export var base_hp: float
 onready var hurt_box: = $HurtBoxArea2D
 onready var sprite_animator :AnimationPlayer = $AnimatedSprite/AnimationPlayer
+onready var animated_sprite: AnimatedSprite = $AnimatedSprite
 onready var hero_detector: RayCast2D = $RayCast2D
+onready var enemy_area = $EnemyArea
 var wave setget set_wave
 var can_see_player: bool = false setget set_can_see_player
 var weapon
 var is_player_target: bool = false setget set_is_player_target
 
-export var _rotation_speed: int = 20
+export var _rotation_speed: float = 2.4
 export var speed = 100
 var velocity: Vector2 = Vector2.ZERO
 var direction: = Vector2.ZERO
 
+export var is_movement_enemy: bool = false
 
 func _ready():
+	hurt_box.connect("critical_landed", self, "_on_hurt_box_critical_landed")
 	weapon = $Weapon.get_child(0)
 	set_total_hp()
 	set_hp(total_hp)
@@ -62,8 +70,9 @@ func _on_Button_pressed():
 
 
 func _die() -> void:
-	emit_signal("died")
-	queue_free()
+#	emit_signal("died")
+	$StateMachine.transition_to("Die")
+#	queue_free()
 
 
 func _process(delta):
@@ -77,6 +86,8 @@ func set_wave(new_wave) -> void:
 
 
 func detect_hero() -> void:
+	if !activated:
+		return
 	hero_detector.enabled = true
 	hero_detector.force_raycast_update()
 	hero_detector.look_at(wave.hero.global_position)
@@ -107,3 +118,10 @@ func set_is_player_target(value) -> void:
 	is_player_target = value
 	$target_sprite.visible = is_player_target
 
+
+func when_moved() -> void:
+	emit_signal("moved", self.global_position)
+
+
+func _on_hurt_box_critical_landed() -> void:
+	emit_signal("critical_landed")

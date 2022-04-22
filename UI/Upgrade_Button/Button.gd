@@ -27,8 +27,8 @@ func fill_fields(upgrade: Upgrade) -> void:
 	if upgrade.is_bonus_3:
 		label_bonus_3.text = "UNLOCKED " + String(upgrade._bonus_3)
 	
-	if upgrade.is_activated:
-		atribute_description.text = String(upgrade._atribute_bonus) + ">" + String(upgrade.check_next_atribute())
+#	if upgrade.is_activated:
+#		atribute_description.text = String(upgrade._atribute_bonus)
 
 func clean_button() -> void:
 	upgrade = null
@@ -37,7 +37,7 @@ func clean_button() -> void:
 	label_bonus_1.text = ""
 	label_bonus_2.text = ""
 	label_bonus_3.text = ""
-	atribute_description.text = ""
+#	atribute_description.text = ""
 
 func _on_Button_button_up():
 	emit_signal("upgrade_button_pressed", self)

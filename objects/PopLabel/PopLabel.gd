@@ -11,6 +11,7 @@ export var duration_in_seconds :float = 0.4
 onready var label: Label = $Label
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
+
 func _ready():
 	rng.randomize()
 

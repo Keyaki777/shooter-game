@@ -31,3 +31,20 @@ func _on_ShieldRegenCooldown_timeout():
 	if character.shield == character._total_shield:
 		return
 	set_process(true)
+
+
+func recover_shield(value) -> void:
+	character.shield += value
+	
+
+func percentage_recover_shield(value) -> void:
+	character.shield += value/100 * character._total_shield
+
+
+
+
+
+
+
+
+

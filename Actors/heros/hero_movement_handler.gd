@@ -11,7 +11,7 @@ export var _rotation_speed: = 10
 
 var up: = Vector2.ZERO
 
-var bonus_speed = 0
+var bonus_speed = 0 setget set_bonus_speed
 var final_speed = 0
 
 var screen_size
@@ -36,6 +36,11 @@ func _physics_process(delta):
 
 func set_final_speed() -> void:
 	final_speed = base_speed + bonus_speed
+
+
+func set_bonus_speed(value) -> void:
+	bonus_speed = value
+	set_final_speed()
 	
 	
 func rotate_to_target(delta) -> bool:

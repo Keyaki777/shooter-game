@@ -47,6 +47,8 @@ func _physics_process(delta):
 
 
 func transition_to(target_state_path: String, msg: Dictionary = {}) -> void:
+	if !character.is_active:
+		return
 	if not has_node(target_state_path):
 		return
 	var target_state: = get_node(target_state_path)

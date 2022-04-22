@@ -49,7 +49,7 @@ func chosse_upgrades_to_buy() -> void:
 		var this_button: UpgradeButton = button
 		this_button.clean_button()
 
-	
+
 	var buttons_filled : int = 0
 	for upgrade in all_upgrades:
 		var this_upgrade: Upgrade = upgrade
@@ -59,6 +59,8 @@ func chosse_upgrades_to_buy() -> void:
 				continue
 			all_buttons[buttons_filled].fill_fields(this_upgrade)
 			buttons_filled += 1
+			if buttons_filled == 3:
+				break
 
 
 

@@ -5,6 +5,7 @@ signal hit_landed(damage)
 signal healed_by_value(heal_value)
 signal healed_by_percent(heal_percent_value)
 signal missed
+signal critical_landed
 
 enum Teams{PLAYER, ENEMY}
 export (Teams) var team:= Teams.ENEMY
@@ -19,15 +20,20 @@ var rng := RandomNumberGenerator.new()
 var character: Node2D 
 onready var status = $Status
 onready var pop_label_spawner := $PopLabelSpawner2D
+var last_hit_position: Vector2 = Vector2.ZERO
+var is_active: bool = true setget set_is_active
+
 
 func _ready():
 	rng.randomize()
 
 
 func get_hurt(hit: Hit) -> void:
+	last_hit_position = hit.hit_position
 	var is_critical = is_critical(hit.critical_chance)
 	if is_critical:
 		hit.damage = round(hit.damage * 2.5)
+		emit_signal("critical_landed")
 	var final_damage := clamp((hit.damage - total_armor),1,10000)
 	pop_label_spawner.spawn(hit.color_of_the_pop_label, String(final_damage), is_critical)
 	emit_signal("hit_landed", final_damage)
@@ -67,10 +73,25 @@ func is_critical(critical_chance: int) -> bool:
 		return false
 
 
-#func _input(event):
-#	if event.is_action_pressed("test_input_1"):
-#		var hit = Hit.new()
-#		hit.constructor(10,50)
-#		self.get_hurt(hit)
+func set_is_active(value) -> void:
+	is_active = value
+	if is_active == true:
+		return
+	for child in self.get_children():
+		child.queue_free()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

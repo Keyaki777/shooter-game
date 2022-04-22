@@ -19,7 +19,7 @@ func generate_random_position() -> Vector2:
 	return random_spawn_location
 
 
-func spawn(color: Color = Color(255,255,255,1), text_value: String = "100", is_critical: bool = false):
+func spawn(color: Color = Color.white, text_value: String = "100", is_critical: bool = false):
 	spawling = spawn_scene.instance()
 	add_child(spawling)
 	spawling.label.text = text_value
@@ -28,7 +28,7 @@ func spawn(color: Color = Color(255,255,255,1), text_value: String = "100", is_c
 	
 	if is_critical:
 		spawling.label.text = String(spawling.label.text + "!")
-		spawling.modulate = Color(255,0,0,1)
+		spawling.modulate = Color.red
 		spawling.tween_critical()
 		
 	else:

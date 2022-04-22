@@ -6,6 +6,7 @@ signal enemy_died
 signal object_destroyed
 signal _hero_shield_full
 signal _hero_shield_depleted
+signal _enemy_critical_landed
 
 onready var _hero = $HeroContainer.get_child(0)
 onready var _upgrade_handler = $CanvasLayer/Ui/UpgradeHandler
@@ -31,6 +32,8 @@ func _ready():
 	_hero.connect("shield_depleted", self, "_on_hero_shield_depleted")
 	_hero.connect("shield_full", self, "_on_hero_shield_full")
 	
+	
+	_wave_spawner.connect("enemy_critical_landed", self, "_on_enemy_critical_landed")
 	_wave_spawner.connect("wave_ended", self, "_on_wave_spawner_wave_ended")
 	_wave_spawner.connect("all_waves_ended", self, "_on_wave_spawner_all_waves_ended")
 	_wave_spawner.connect("enemy_died", self, "_on_Spawner_enemy_died")
@@ -85,15 +88,15 @@ func _on_upgrade_connect_request(upgrade: Upgrade) -> void:
 
 
 func _on_request_signal_trigger1(upgrade: Upgrade) -> void:
-	self.connect(upgrade._signal_bonus10, upgrade, "_execute_bonus_10")
+	self.connect(upgrade._signal_bonus1, upgrade, "_execute_bonus_1")
 
 
 func _on_request_signal_trigger2(upgrade: Upgrade) -> void:
-	self.connect(upgrade._signal_bonus20, upgrade, "_execute_bonus_20")
+	self.connect(upgrade._signal_bonus2, upgrade, "_execute_bonus_2")
 
 
 func _on_request_signal_trigger3(upgrade: Upgrade) -> void:
-	self.connect(upgrade._signal_bonus30, upgrade, "_execute_bonus_30")
+	self.connect(upgrade._signal_bonus3, upgrade, "_execute_bonus_3")
 
 
 func _on_hero_hurt(final_damage) -> void:
@@ -121,13 +124,13 @@ func _on_hero_shield_full():
 
 
 func _on_hero_hp_changed() -> void:
-	_health_bar.value = _hero.hp
-	_health_label.text = String(_hero.hp) + "/" + String(_hero._total_hp)
+	_health_bar.value = _hero._hp
+	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
 
 
 func _on_hero_total_hp_changed() -> void:
 	_health_bar.max_value = _hero._total_hp
-	_health_label.text = String(_hero.hp) + "/" + String(_hero._total_hp)
+	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
 
 
 func _on_hero_shield_changed() -> void:
@@ -148,20 +151,16 @@ func upgrade_pause() -> void:
 	get_tree().paused = !get_tree().paused
 
 
-func start_level() -> void:
-	_wave_spawner.call_next_wave()
-	_transition_rect.transition_in()
-
-
 func _on_reward_handler_activated(reward_name: String) -> void:
 	match reward_name:
 		"BuyReward":
+			_upgrade_handler.chosse_upgrades_to_buy()
 			_show_upgrade()
 
 
 func reset_hero_position() -> void:
-	_hero.global_position = Vector2(540, 1820)
-	_hero.global_rotation = -90
+	_hero.global_position = _wave_spawner.spawned_wave._player_start_position.global_position
+	_hero.global_rotation = _wave_spawner.spawned_wave._player_start_position.global_rotation
 
 
 func _on_Spawner_hero_left() -> void:
@@ -169,9 +168,30 @@ func _on_Spawner_hero_left() -> void:
 
 
 func call_next_level() -> void:
+	_hero.is_active = false
 	_transition_rect.transition_out()
 	yield(_transition_rect, "transition_ended")
 	_wave_spawner.call_next_wave()
 	reset_hero_position()
 	yield(get_tree().create_timer(1.0), "timeout")
 	_transition_rect.transition_in()
+	yield(get_tree().create_timer(1.0), "timeout")
+	_hero.is_active = true
+
+
+func start_level() -> void:
+	_hero.is_active = false
+	_wave_spawner.call_next_wave()
+	reset_hero_position()
+	_transition_rect.transition_in()
+	yield(get_tree().create_timer(1.0), "timeout")
+	_hero.is_active = true
+
+
+func _on_enemy_critical_landed(animation_name: String) -> void:
+	emit_signal("enemy_critical_landed")
+
+
+func _input(event):
+	if event.is_action_pressed("test_input_3"):
+		_on_reward_handler_activated("BuyReward")

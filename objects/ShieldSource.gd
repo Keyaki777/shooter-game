@@ -4,6 +4,7 @@ class_name ShieldSource
 var array_of_status_names: Array
 var shield_nova
 export var projectile_scene: PackedScene
+export var shield_reaction: PackedScene
 var character
 
 
@@ -22,6 +23,16 @@ func Nova() -> void:
 
 
 func _input(event):
-	if event.is_action("test_input_1"):
-		Nova()
+	if event.is_action("test_input_2"):
+#		Nova()
+		_emit_shield_reaction()
+
+func _emit_shield_reaction() -> void:
+	var instanced_shield_reaction: Node2D = shield_reaction.instance()
+	add_child(instanced_shield_reaction)
+#	instanced_shield_reaction.look_at(character._hurt_box.last_hit_position)
+	instanced_shield_reaction.look_at(get_global_mouse_position())
+	instanced_shield_reaction.set_global_position(self.global_position)
+
+
 

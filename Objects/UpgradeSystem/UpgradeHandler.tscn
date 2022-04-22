@@ -1,10 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://objects/upgradeSystem/UpgradeHandler.gd" type="Script" id=1]
 [ext_resource path="res://ui/Upgrade_Button/Button.tscn" type="PackedScene" id=2]
-[ext_resource path="res://objects/upgrades/abstract_upgrades/EnemyDiedUpgrade.tscn" type="PackedScene" id=3]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/HpUpUpgrade.tscn" type="PackedScene" id=3]
 [ext_resource path="res://objects/upgrades/abstract_upgrades/AttackPoisonUpgrade.tscn" type="PackedScene" id=4]
 [ext_resource path="res://objects/upgrades/abstract_upgrades/AttackFireUpgrade.tscn" type="PackedScene" id=5]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/WallRicochetUpgrade.tscn" type="PackedScene" id=6]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/AttackPlusUpgrade.tscn" type="PackedScene" id=7]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/EnemyRicochetUpgrade.tscn" type="PackedScene" id=8]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/SpeedPlusUpgrade.tscn" type="PackedScene" id=9]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/EnergyStealUpgrade.tscn" type="PackedScene" id=10]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/DiagonalShootsUpgrade.tscn" type="PackedScene" id=11]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/LifeStealUpgrade.tscn" type="PackedScene" id=12]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/AttackSpeedPlusUpgrade.tscn" type="PackedScene" id=13]
 
 [node name="Upgrade_Handler" type="Node2D"]
 script = ExtResource( 1 )
@@ -65,11 +73,25 @@ margin_bottom = 203.0
 
 [node name="UnsortedContainer" type="Node" parent="UpgradeContainer"]
 
+[node name="AbstractUpgrade2" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 13 )]
+
 [node name="AttackPoisonUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 4 )]
+
+[node name="DiagonalShootsUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 11 )]
+
+[node name="WallRicochetUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 6 )]
+
+[node name="AttackPlusUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 7 )]
+
+[node name="AttackFireUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 5 )]
+
+[node name="EnemyRicochetUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 8 )]
+
+[node name="SpeedPlusUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 9 )]
 is_unlocked = true
 
-[node name="EnemyDiedUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 3 )]
-is_unlocked = true
+[node name="HpUpUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 3 )]
 
-[node name="AttackPoisonUpgrade2" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 5 )]
-is_unlocked = true
+[node name="ShieldStealUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 10 )]
+
+[node name="AbstractUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 12 )]

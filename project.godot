@@ -129,7 +129,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/StateMachine/StateMachine.gd"
 }, {
-"base": "Node",
+"base": "Node2D",
 "class": "Status",
 "language": "GDScript",
 "path": "res://objects/Status/status.gd"
@@ -263,6 +263,11 @@ test_input_2={
 test_input_3={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":51,"unicode":0,"echo":false,"script":null)
+ ]
+}
+test_input_4={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":52,"unicode":0,"echo":false,"script":null)
  ]
 }
 

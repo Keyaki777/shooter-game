@@ -23,7 +23,7 @@ var _up_name: String = ""
 var _up_effect: String = ""
 export var _bonus_level: float = 1.0
 
-var _atribute_bonus: float = 0
+#var _atribute_bonus: float = 0
 
 var _bonus_1: String = ""
 var _bonus_2: String = ""
@@ -41,7 +41,7 @@ export var is_selected: bool = false
 export var is_activated: bool = false
 # if the upgrade has be unlocked by the player
 export var is_unlocked: bool = false
-export var is_signal_connect: bool = false
+#export var is_signal_connect: bool = false
 
 var is_bonus_1: bool = false
 var is_bonus_2: bool = false
@@ -54,13 +54,12 @@ var _signal_bonus3: String = ""
 
 func initialize() -> void:
 	is_activated = true
-	buy_effect()
-	if !is_signal_connect:
-		return
-	emit_signal("request_signal_connect", self)
+	on_buy_effect()
+	if _signal_connect != "":
+		emit_signal("request_signal_connect", self)
 
 
-func buy_effect() -> void:
+func on_buy_effect() -> void:
 	pass
 
 
@@ -101,8 +100,7 @@ func _execute_bonus_3() -> void:
 	
 
 func on_signal_received(value = 0):
-#	_execute()
-	pass
+	execute()
 
 
 func init_bonus_1() -> void:
