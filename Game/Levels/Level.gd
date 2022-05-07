@@ -19,6 +19,8 @@ onready var _shield_bar :ProgressBar = $CanvasLayer/Ui/ShieldBar
 onready var _shield_label :Label = $CanvasLayer/Ui/ShieldBar/ShieldLabel
 onready var _transition_rect: TransitionRect = $CanvasLayer/Ui/TransitionRect
 onready var _reward_handler: = $RewardHandler
+onready var _camera := $Camera2D
+
 
 func _ready():
 	_upgrade_handler.hero = self._hero
@@ -195,3 +197,7 @@ func _on_enemy_critical_landed(animation_name: String) -> void:
 func _input(event):
 	if event.is_action_pressed("test_input_3"):
 		_on_reward_handler_activated("BuyReward")
+
+
+func screen_shake() -> void:
+	_camera.shake = true

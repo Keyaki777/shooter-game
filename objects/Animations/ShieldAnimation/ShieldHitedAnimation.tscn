@@ -31,10 +31,10 @@ rotation = -8.63937
 scale = Vector2( 1.39827, 1.39827 )
 texture = ExtResource( 2 )
 hframes = 17
+frame = 12
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 autoplay = "shield_hitted"
 anims/shield_hitted = SubResource( 1 )
 
 [connection signal="animation_finished" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="animation_started" from="Sprite/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]

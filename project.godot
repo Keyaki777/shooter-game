@@ -29,6 +29,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/projectiles/bullets/Bullet.gd"
 }, {
+"base": "Particles2D",
+"class": "BulletParticles",
+"language": "GDScript",
+"path": "res://objects/Particles/Sakura/BulletParticle.gd"
+}, {
+"base": "Node2D",
+"class": "CrossHair",
+"language": "GDScript",
+"path": "res://objects/CrossHair/CrossHair.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Enemy",
 "language": "GDScript",
@@ -134,7 +144,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://objects/Status/status.gd"
 }, {
-"base": "Node",
+"base": "Node2D",
 "class": "StatusStorage",
 "language": "GDScript",
 "path": "res://Actors/heros/StatusHandler.gd"
@@ -174,6 +184,8 @@ _global_script_class_icons={
 "BasicEnemyBullet": "",
 "BasicWeapon": "",
 "Bullet": "",
+"BulletParticles": "",
+"CrossHair": "",
 "Enemy": "",
 "EnemyNova": "",
 "EnemyWeapon": "",
@@ -209,6 +221,11 @@ _global_script_class_icons={
 config/name="space shooter"
 run/main_scene="res://game/Levels/level.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+ParticlesCache="*res://objects/Singleton/ParticlesCache.gd"
+SignalManager="*res://objects/Singleton/SignalManager.gd"
 
 [display]
 

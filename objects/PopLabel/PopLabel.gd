@@ -7,7 +7,7 @@ export var final_critical_scale: int = 0.5
 export var final_scale: int = 0.2
 export (Vector2) var fading_position_offset:= Vector2.ZERO
 export var critical_fading_position_offset := Vector2.ZERO
-export var duration_in_seconds :float = 0.4
+export var duration_in_seconds :float = 0.5
 onready var label: Label = $Label
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 

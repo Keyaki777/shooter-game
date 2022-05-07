@@ -7,8 +7,8 @@ var stored_target_position: Vector2
 
 
 func _ready():
-	max_wait = 2
-	min_wait = 2
+	max_wait = 0.5
+	min_wait = 1
 	_animation_player.connect("animation_finished", self, "_on_animation_player_animation_finished")
 
 

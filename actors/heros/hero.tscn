@@ -76,7 +76,8 @@ one_shot = true
 projectile_scene = ExtResource( 4 )
 cooldown_time = 0.1
 
-[node name="StatusStorage" type="Node" parent="."]
+[node name="StatusStorage" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 9 )
 
 [node name="ShieldSource" parent="." instance=ExtResource( 3 )]

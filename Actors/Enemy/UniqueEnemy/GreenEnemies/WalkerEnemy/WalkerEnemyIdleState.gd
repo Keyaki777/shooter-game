@@ -2,8 +2,7 @@ extends State
 
 
 func _ready():
-	min_wait = 3
-	max_wait = 5
+	pass
 
 func unhandled_input(event):
 	return
@@ -13,6 +12,8 @@ func physics_process(delta):
 	pass
 
 func enter(msg: Dictionary = {}) -> void:
+	min_wait = 3
+	max_wait = 5
 	start_timer()
 
 

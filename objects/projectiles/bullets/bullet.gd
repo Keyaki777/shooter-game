@@ -10,19 +10,30 @@ var walls_bounced: = 0
 var enemies_bounced: = 0
 var max_enemies_bounces: = 0
 onready var enemy_detector: Area2D = $EnemyDetector
+onready var sprite: Node2D = $Sprite
 onready var raycast2d: RayCast2D = $RayCast2D
+export var explosion_particle_scene: PackedScene
+export var trail_particle_scene: PackedScene
+var trail: BulletParticles
 
+
+
+func _ready():
+	instance_trail_particle()
+	
 
 func _physics_process(delta):
 	var collision_info = move_and_collide(velocity)
 	if collision_info:
 		bounce(collision_info)
+	trail.global_position = self.global_position
 
 
 func find_next_target(last_enemy_hurt_box) -> void:
 	if !enemies_bounced < max_enemies_bounces:
 		destroy()
 		return
+	instance_explosion_particle()
 	var last_enemy = last_enemy_hurt_box.character
 	raycast2d.add_exception(last_enemy)
 	var enemies_detected = enemy_detector.get_overlapping_areas()
@@ -47,16 +58,48 @@ func find_next_target(last_enemy_hurt_box) -> void:
 		break
 	raycast2d.enabled = false
 
-	
 
 func destroy():
+	trail.destroy_after_time()
+	instance_explosion_particle()
 	queue_free()
+
+
+#func separate_particles(particle: BulletParticles) -> void:
+#	particle.emitting = false
+#	remove_child(particle)
+#	get_parent().add_child(particle)
+#	particle.destroy_after_time()
+	
+	
+func separate_explosion_particles(particle: BulletParticles) -> void:
+	particle.this_global_position = self.global_position
+	remove_child(particle)
+	get_parent().add_child(particle)
+	particle.destroy_explosion_after_time()
+
+
+func instance_explosion_particle() -> void:
+	var particle = explosion_particle_scene.instance()
+	particle.this_global_position = self.global_position
+	get_parent().add_child(particle)
+	particle.modulate = sprite.modulate
+	particle.destroy_explosion_after_time()
+
+
+func instance_trail_particle() -> void:
+	var particle: Particles2D = trail_particle_scene.instance()
+	particle.modulate = sprite.modulate
+	trail = particle
+	particle.set_as_toplevel(true)
+	get_parent().add_child(particle)
+	particle.global_position = self.global_position
+	particle.emitting = true
 
 
 func set_direction(new_direction) -> void:
 	direction = new_direction
 	velocity = direction * speed
-#	set_physics_process(true)
 
 
 func bounce(collision_info) -> void:
@@ -64,6 +107,7 @@ func bounce(collision_info) -> void:
 		walls_bounced += 1
 		velocity = velocity.bounce(collision_info.normal)
 		global_rotation = velocity.angle()
+		instance_explosion_particle()
 	else: destroy()
 
 
@@ -71,12 +115,9 @@ func _on_VisibilityNotifier2D_screen_exited():
 	destroy()
 
 
-#func _enemy_bounce() -> void:
-#	pass
-
-
 func _on_HitBoxArea2D_max_hited():
 	destroy()
 
 func _on_HitBoxArea2D_not_last_hit(hurt_box):
 	find_next_target(hurt_box)
+

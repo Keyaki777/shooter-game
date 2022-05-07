@@ -1,6 +1,6 @@
 extends State
 
-export var death_animation: PackedScene
+export var death_particle: PackedScene
 
 func unhandled_input(event):
 	return
@@ -14,19 +14,25 @@ func enter(msg: Dictionary = {}) -> void:
 	character.activated = false
 	character.enemy_area.set_deferred("monitoring", false)
 	character.hurt_box.is_active = false
-	var spawned_death_animation = death_animation.instance()
-	spawned_death_animation.global_position = character.global_position
-	spawned_death_animation.global_rotation = character.global_rotation
+	var spawned_death_particle = death_particle.instance()
+	spawned_death_particle.global_position = character.global_position
+	spawned_death_particle.global_rotation = character.global_rotation
 	character.animated_sprite.visible = false
-	add_child(spawned_death_animation)
+	character.weapon.visible = false
+	add_child(spawned_death_particle)
+	spawned_death_particle.emitting = true
 	character.set_is_player_target(false)
-	spawned_death_animation.animation_player.connect("animation_finished", self, "_on_animation_finished")
 	character.remove_from_group("enemies")
-	character.emit_signal("died")
+	character.emit_signal("camera_shake_requested")
+	max_wait = spawned_death_particle.lifetime +1
+	min_wait = spawned_death_particle.lifetime +1
+	start_timer()
+
 
 func exit() -> void:
 	return
 
 
-func _on_animation_finished(animation_name: String) -> void:
+func _on_timer_timeout() -> void:
+	character.emit_signal("died")
 	character.queue_free()

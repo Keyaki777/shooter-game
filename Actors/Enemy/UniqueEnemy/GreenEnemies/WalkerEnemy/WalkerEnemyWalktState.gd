@@ -8,8 +8,8 @@ var stored_target_position: Vector2
 export var threshold: int =1
 
 func _ready():
-	max_wait = 1
-	min_wait = 1
+	max_wait = 0.1
+	min_wait = 0.1
 	set_process(false)
 
 
@@ -37,11 +37,17 @@ func _on_timer_timeout() -> void:
 
 
 func move_along_path() -> void:
+	
 	if !path.size() > 0:
+		set_path()
 		return
 		
 	if character.global_position.distance_to(path[0]) < threshold:
 		path.remove(0)
+	
+	if character.global_position.distance_to(path[0]) < 64:
+		path.remove(0)
+		
 	else:
 		character.direction = character.global_position.direction_to(path[0])
 		character.velocity = character.direction * character.speed

@@ -11,7 +11,7 @@ onready var label_bonus_2 = $VBoxContainer/LabelVBoxContainer/Bonus2
 onready var label_bonus_3 = $VBoxContainer/LabelVBoxContainer/Bonus3
 
 var upgrade: Upgrade
-
+var index_of_upgrade: int
 
 func fill_fields(upgrade: Upgrade) -> void:
 	self.upgrade = upgrade

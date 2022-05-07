@@ -109,7 +109,6 @@ tracks/1/keys = {
 material = SubResource( 2 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

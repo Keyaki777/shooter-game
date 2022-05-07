@@ -3,7 +3,7 @@ extends Upgrade
 
 func _ready():
 	_up_name = "HP UP"
-	_up_effect = "Raises your HP"
+	_up_effect = "Raises your HP from 100 to 150"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
@@ -28,7 +28,7 @@ func _initialize() -> void:
 
 func on_buy_effect():
 	print(hero._hp)
-	hero.set_bonus_hp(350)
+	hero.set_bonus_hp(50)
 	print(hero._hp)
 
 

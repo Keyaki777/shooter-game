@@ -9,13 +9,15 @@ export var proc_wait_time: float = 5.5
 export var modifier: = 1
 onready var proc_timer_node: Timer = $ProcTimer
 onready var exaust_timer_node: Timer = $ExaustTimer
-
+export var main_particles_path: NodePath
+var main_particles
 
 func _ready():
 	proc_timer_node.connect("timeout", self, "_on_Proc_Timer_timeout")
 	exaust_timer_node.connect("timeout", self, "_on_Exaust_Timer_timeout")
 	proc_timer_node.wait_time = proc_wait_time
 	exaust_timer_node.wait_time = exaust_wait_time
+		
 
 
 func status_execute() -> void:
@@ -59,4 +61,3 @@ func _on_Exaust_Timer_timeout():
 
 func _on_Proc_Timer_timeout():
 	status_execute()
-

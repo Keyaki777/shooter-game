@@ -38,8 +38,6 @@ func shoot () -> void:
 		new_rotation = self.global_rotation
 	else:
 		new_rotation = all_cannons[selected_cannon].global_rotation
-		
-	
 	
 	if random_rotation:
 		new_rotation = new_rotation + new_rotation/100 * rng.randi_range(-aim_error_margin, aim_error_margin)
@@ -48,7 +46,7 @@ func shoot () -> void:
 
 
 
-func _input(event):
-	if event.is_action_pressed("test_input_3"):
-		shoot()
+#func _input(event):
+#	if event.is_action_pressed("test_input_3"):
+#		shoot()
 

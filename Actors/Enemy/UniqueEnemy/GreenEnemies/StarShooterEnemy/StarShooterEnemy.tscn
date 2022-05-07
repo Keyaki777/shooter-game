@@ -6,17 +6,17 @@
 [ext_resource path="res://objects/weapons/EnemyWeapons/BasicEnemyWeapon/BasicEnemyWeapon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://objects/Resources/DamagedShader.gdshader" type="Shader" id=5]
 [ext_resource path="res://Assets/Enemies/GreenShip/6.png" type="Texture" id=6]
-[ext_resource path="res://objects/projectiles/bullets/EnemyBullets/BasicEnemyBullet/StarBullet/StarBullet.tscn" type="PackedScene" id=7]
+[ext_resource path="res://objects/projectiles/bullets/EnemyBullets/BasicEnemyBullet/SlowGreenPipeBullet/SlowGreenPipeBullet.tscn" type="PackedScene" id=7]
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=1]
 radius = 17.2627
 
-[sub_resource type="ShaderMaterial" id=1]
+[sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
 shader = ExtResource( 5 )
 shader_param/damaged = false
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
@@ -24,10 +24,11 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 40, 40 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
+length = 3.5
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -51,30 +52,28 @@ tracks/0/keys = {
 
 [node name="StarShooterEnemy" instance=ExtResource( 3 )]
 rotation = 1.57079
+base_hp = 950.0
 _rotation_speed = 1
 
 [node name="CollisionShape2D" parent="." index="0"]
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 
-[node name="target_sprite" parent="." index="1"]
-position = Vector2( -8, 0 )
-
-[node name="AnimatedSprite" parent="." index="2"]
-material = SubResource( 1 )
+[node name="AnimatedSprite" parent="." index="1"]
+material = SubResource( 2 )
 rotation = 1.57079
 scale = Vector2( 0.176419, 0.176419 )
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 
 [node name="CollisionShape2D" parent="HurtBoxArea2D" index="2"]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
-[node name="Button" parent="." index="4"]
+[node name="Button" parent="." index="3"]
 visible = false
 
-[node name="Label" parent="." index="5"]
+[node name="Label" parent="." index="4"]
 visible = false
 
-[node name="StateMachine" parent="." index="8"]
+[node name="StateMachine" parent="." index="7"]
 initial_state = NodePath("Shoot")
 
 [node name="Idle" parent="StateMachine" index="0"]
@@ -86,10 +85,7 @@ min_wait = 0.01
 max_wait = 0.01
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine/Shoot" index="0"]
-anims/Shoot = SubResource( 4 )
-
-[node name="DebugControl" parent="." index="9"]
-visible = false
+anims/Shoot = SubResource( 5 )
 
 [node name="Weapon" type="Node2D" parent="." index="10"]
 rotation = 1.57079

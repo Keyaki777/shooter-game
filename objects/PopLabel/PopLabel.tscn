@@ -4,10 +4,11 @@
 
 [node name="PopLabel" type="Node2D"]
 script = ExtResource( 1 )
-final_critical_scale = 7
-final_scale = 3
-fading_position_offset = Vector2( 7, -20 )
-critical_fading_position_offset = Vector2( 15, -30 )
+final_critical_scale = 9
+final_scale = 4
+fading_position_offset = Vector2( 14, -45 )
+critical_fading_position_offset = Vector2( 25, -65 )
+duration_in_seconds = 0.7
 
 [node name="Label" type="Label" parent="."]
 anchor_left = 0.5

@@ -18,14 +18,17 @@ onready var upgrade_container = $UpgradeContainer
 onready var color_rect = $ColorRect
 onready var unsorted_container = $UpgradeContainer/UnsortedContainer.get_children()
 var all_upgrades = []
-
+var non_bought_upgrades: Array
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var upgrade_selected1: Upgrade
 var upgrade_selected2: Upgrade
 var upgrade_selected3: Upgrade
 
 
 func _ready():
+	rng.randomize()
 	all_upgrades.append_array(unsorted_container)
+	non_bought_upgrades = all_upgrades
 	set_containers()
 
 	for upgrade in all_upgrades:
@@ -48,22 +51,36 @@ func chosse_upgrades_to_buy() -> void:
 	for button in all_buttons:
 		var this_button: UpgradeButton = button
 		this_button.clean_button()
-
-
-	var buttons_filled : int = 0
-	for upgrade in all_upgrades:
-		var this_upgrade: Upgrade = upgrade
+	
+	
+	var buttons_filled: int = 0
+	while buttons_filled < 3:
+		var random_upgrade_index = rng.randi_range(0, non_bought_upgrades.size()-1)
+		var this_upgrade = non_bought_upgrades[random_upgrade_index]
 		if this_upgrade.is_unlocked and !this_upgrade.is_activated:
-#			button1.fill_fields(upgrade)
-			if is_upgrade_in_button(this_upgrade):
-				continue
-			all_buttons[buttons_filled].fill_fields(this_upgrade)
-			buttons_filled += 1
-			if buttons_filled == 3:
-				break
-
-
-
+			if !is_upgrade_in_button(this_upgrade):
+				all_buttons[buttons_filled].fill_fields(this_upgrade)
+				all_buttons[buttons_filled].index_of_upgrade = buttons_filled
+				buttons_filled += 1
+				
+	
+	
+	
+	
+	
+#	var buttons_filled : int = 0
+#	for upgrade in all_upgrades:
+#		var this_upgrade: Upgrade = upgrade
+#		if this_upgrade.is_unlocked and !this_upgrade.is_activated:
+##			button1.fill_fields(upgrade)
+#			if is_upgrade_in_button(this_upgrade):
+#				continue
+#			all_buttons[buttons_filled].fill_fields(this_upgrade)
+#			buttons_filled += 1
+#			if buttons_filled == 3:
+#				break
+#
+	
 
 func is_upgrade_in_button(upgrade) -> bool:
 	var upgrade_already_used: bool = false

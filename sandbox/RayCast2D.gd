@@ -7,7 +7,7 @@ var line_activated: bool = false setget set_line_activated
 onready var _line_2d: Line2D = $Line2D
 onready var _red_line_2d: Line2D = $RedLine2D
 onready var _tween: Tween = $Tween
-export var width_of_the_line: int = 20
+export var width_of_the_line: int = 3
 export var duration_of_the_animation:float = 1
 
 
@@ -31,7 +31,7 @@ func set_line_activated(value) -> void:
 func _reset_lines() -> void:
 	_line_2d.clear_points()
 	_line_2d.width = 0
-	_line_2d.default_color = Color.yellow
+	_line_2d.default_color = Color(0.30,0.30,0.30,0.40)
 
 
 func _draw_line()	-> void:
@@ -40,7 +40,7 @@ func _draw_line()	-> void:
 	_line_2d.add_point(self.global_position)
 	_line_2d.add_point(destiny_position)
 
-#
+
 #func _input(event):
 #	if event.is_action_pressed("click"):
 #		self.line_activated = !line_activated

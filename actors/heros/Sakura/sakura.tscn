@@ -1,29 +1,64 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Actors/heros/Hero.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Heros/Sakura/bluewingparts (20).png" type="Texture" id=2]
+[ext_resource path="res://Assets/Heros/Sakura/sakuraex.png" type="Texture" id=2]
 [ext_resource path="res://objects/LineTrail/Trail2D.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Actors/heros/Sakura/SakuraIdleState.gd" type="Script" id=4]
 [ext_resource path="res://Actors/heros/Sakura/SakuraMoveState.gd" type="Script" id=5]
 [ext_resource path="res://Actors/heros/Sakura/SakuraRotateAndShoot.gd" type="Script" id=6]
 [ext_resource path="res://objects/Animations/ShieldAnimation/ShieldHitedAnimation.tscn" type="PackedScene" id=7]
 [ext_resource path="res://objects/Animations/WeaponAnimations/SplashAnimation/WeaponSplashAnimation.tscn" type="PackedScene" id=8]
+[ext_resource path="res://objects/CrossHair/CrossHair.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Assets/Heros/Sakura/rect2150.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 27, 10 )
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+render_mode unshaded;
+ 
+uniform float width : hint_range(0.0, 116.0);
+uniform vec4 outline_color : hint_color;
+ 
+void fragment()
+{
+    vec2 size = vec2(width) / vec2(textureSize(TEXTURE, 0));
+   
+    vec4 sprite_color = texture(TEXTURE, UV);
+   
+    float alpha = sprite_color.a;
+    alpha += texture(TEXTURE, UV + vec2(0.0, -size.y)).a;
+    alpha += texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
+    alpha += texture(TEXTURE, UV + vec2(size.x, 0.0)).a;
+    alpha += texture(TEXTURE, UV + vec2(size.x, size.y)).a;
+    alpha += texture(TEXTURE, UV + vec2(0.0, size.y)).a;
+    alpha += texture(TEXTURE, UV + vec2(-size.x, size.y)).a;
+    alpha += texture(TEXTURE, UV + vec2(-size.x, 0.0)).a;
+    alpha += texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
+   
+    vec3 final_color = mix(outline_color.rgb, sprite_color.rgb, sprite_color.a);
+    COLOR = vec4(final_color, clamp(alpha, 0.0, 1.0));
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/width = 1.0
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 0.163636 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Sakura" instance=ExtResource( 1 )]
+base_shield = 10.0
 
 [node name="CollisionShape2D2" parent="." index="0"]
 shape = SubResource( 1 )
@@ -32,12 +67,15 @@ shape = SubResource( 1 )
 visible = false
 
 [node name="AnimatedSprite" parent="." index="2"]
-scale = Vector2( 0.161886, 0.161886 )
-frames = SubResource( 2 )
+material = SubResource( 3 )
+position = Vector2( -2.38419e-07, -5.96046e-08 )
+scale = Vector2( 1.90641, 1.90641 )
+frames = SubResource( 4 )
+frame = 1
 
 [node name="HeroWeapon" parent="." index="5"]
-cooldown_time = 1.0
-_base_damage = 10
+cooldown_time = 0.5
+_base_damage = 40
 splash_path = NodePath("SplashAnimatedSprite")
 
 [node name="SplashAnimatedSprite" parent="HeroWeapon" index="6" instance=ExtResource( 8 )]
@@ -51,16 +89,49 @@ shield_reaction = ExtResource( 7 )
 base_speed = 500
 
 [node name="TrailPoint" type="Position2D" parent="." index="13"]
-position = Vector2( -31, 0 )
+show_behind_parent = true
+position = Vector2( -24, 2 )
 
-[node name="Trail2D" parent="TrailPoint" index="0" instance=ExtResource( 3 )]
-modulate = Color( 2, 2, 2, 0.8 )
+[node name="WhiteTail" parent="TrailPoint" index="0" instance=ExtResource( 3 )]
+visible = false
+modulate = Color( 0.639216, 1.32157, 1.26275, 0.8 )
 position = Vector2( -683, -1043 )
+width = 3.0
+width_curve = null
+default_color = Color( 1, 1.9, 2, 0.6 )
+lenght = 15
+
+[node name="LeftWingTrail2" parent="TrailPoint" index="1" instance=ExtResource( 3 )]
+visible = false
+modulate = Color( 1, 1, 1, 0.8 )
+position = Vector2( -694, -1052 )
 width = 5.0
-width_curve = SubResource( 3 )
+width_curve = SubResource( 5 )
 lenght = 3
 
-[node name="StateMachine" parent="." index="14"]
+[node name="TrailPoint3" type="Position2D" parent="." index="14"]
+show_behind_parent = true
+position = Vector2( -35, -7 )
+
+[node name="LeftWingTrail" parent="TrailPoint3" index="0" instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 0.8 )
+position = Vector2( -683, -1043 )
+width = 5.0
+width_curve = SubResource( 5 )
+lenght = 3
+
+[node name="TrailPoint4" type="Position2D" parent="." index="15"]
+show_behind_parent = true
+position = Vector2( -35, 11 )
+
+[node name="RightWingTrail" parent="TrailPoint4" index="0" instance=ExtResource( 3 )]
+modulate = Color( 1, 1, 1, 0.8 )
+position = Vector2( -683, -1043 )
+width = 5.0
+width_curve = SubResource( 5 )
+lenght = 3
+
+[node name="StateMachine" parent="." index="16"]
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" index="1"]
@@ -71,3 +142,11 @@ script = ExtResource( 5 )
 
 [node name="RotateAndShoot" type="Node" parent="StateMachine" index="3"]
 script = ExtResource( 6 )
+
+[node name="CrossHair" parent="." index="17" instance=ExtResource( 9 )]
+
+[node name="Timer" type="Timer" parent="." index="18"]
+wait_time = 0.7
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

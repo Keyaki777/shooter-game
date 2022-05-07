@@ -5,6 +5,8 @@ var _state_machine: StateMachine setget set_state_machine
 export var min_wait: float = 1
 export var max_wait: float = 2
 var character
+var time_before_next_action : = 1
+
 
 func unhandled_input(event):
 	return
@@ -43,4 +45,14 @@ func start_timer() -> void:
 
 
 func initialize() -> void:
+	pass
+
+
+func is_the_state_machine_state() -> bool:
+	if _state_machine.state.name == self.name:
+		return true
+	else:
+		return false
+
+func next_action() -> void:
 	pass

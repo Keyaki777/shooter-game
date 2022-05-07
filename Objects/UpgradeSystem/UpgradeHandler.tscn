@@ -88,7 +88,6 @@ margin_bottom = 203.0
 [node name="EnemyRicochetUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 8 )]
 
 [node name="SpeedPlusUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 9 )]
-is_unlocked = true
 
 [node name="HpUpUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 3 )]
 

@@ -1,34 +1,27 @@
 extends Status
 
 
-#var hurtbox: HurtBoxArea2D
-#var character: Node2D
-#var original_status: Status setget set_original_status
-#export var duration: = 10
-#export var proc_timer: = 5
-#export var modifier: = 1
 
 func _ready():
 	set_process(false)
+#	remote_transform.set_as_toplevel(true)
 
 
 func status_execute() -> void:
-	create_hit()
-	$Particles2D.global_position = hurtbox.global_position
-	$Particles2D.emitting = true
+	create_hit(modifier)
+	yield(get_tree().create_timer(0.1), "timeout")
+	create_hit(modifier)
+	yield(get_tree().create_timer(0.1), "timeout")
+	create_hit(modifier)
 
 
 func status_cancel() -> void:
 	queue_free()
 
 
-#func initialize() -> void:
-#	$Timer.start()
-#
-#
-#func reset() -> void:
-#	$Timer.start()
-	
+func _physics_process(delta):
+	$Particles2D.global_rotation = 0
+
 
 func set_original_status(new_original_status: Status) -> void:
 	pass

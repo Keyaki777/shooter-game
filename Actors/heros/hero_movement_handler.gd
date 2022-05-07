@@ -51,15 +51,22 @@ func rotate_to_target(delta) -> bool:
 		return false
 
 	var v = character.target.global_position - character.global_position
-	var angle = v.angle()
-	var ideal_angle = angle
-	var r = character.global_rotation
+	var angle: float = v.angle()
+	var ideal_angle: float = angle
+	var r: float = character.global_rotation
 	angle = lerp_angle(r, angle, 1)
 	angle = clamp(angle, r - angle_delta, r + angle_delta)
 	character.global_rotation = angle
 	var x = (character.global_rotation - angle)
+#	if x < 0.01:
+#		character.global_rotation = ideal_angle
 	var character_rotation = character.global_rotation
-	if is_equal_approx(character.global_rotation,  ideal_angle):
+	
+	
+#	character.global_rotation = ideal_angle
+	var difference = abs(abs(character.global_rotation) - abs(ideal_angle))
+#	if is_equal_approx(character.global_rotation,  ideal_angle):
+	if difference < 0.0009:
 		return true
 	return false
 

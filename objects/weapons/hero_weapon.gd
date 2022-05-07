@@ -27,7 +27,7 @@ var max_number_of_hits: = 4
 var all_cannons: Array
 # 0 = left
 var last_front_cannon: int = 0
-var critical_chance: int = 0
+var critical_chance: int = 10
 
 
 func _ready():
@@ -87,7 +87,7 @@ func shoot() -> void:
 		spawned_projectile_hitbox.damage_source = self
 		spawned_projectile_hitbox.team = 0
 		spawned_projectile_hitbox.damage = _total_damage
-		spawned_projectile_hitbox.critical_chance = 50
+		spawned_projectile_hitbox.critical_chance = critical_chance
 		spawned_projectile_hitbox.max_number_of_hits = max_number_of_hits
 		spawned_projectile.max_enemies_bounces = max_enemies_bounces
 		spawned_projectile.max_wall_bounces = max_wall_bounces
@@ -137,7 +137,7 @@ func set_cooldown(value) -> void:
 
 
 func improve_cooldown() -> void:
-	self.cooldown_time = cooldown_time - (cooldown_time * 0.3)
+	self.cooldown_time = cooldown_time - (cooldown_time * 0.4)
 	print(cooldown_time)
 
 

@@ -23,7 +23,7 @@ func enter(msg: Dictionary = {}) -> void:
 
 
 func exit() -> void:
-	return
+	_animation_player.stop()
 
 
 func _on_timer_timeout() -> void:

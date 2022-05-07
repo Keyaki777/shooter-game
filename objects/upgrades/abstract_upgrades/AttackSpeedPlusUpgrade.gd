@@ -26,8 +26,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.set_bonus_hp(350)
-	add_status_on_hero_weapon("poison")	
+	hero.hero_weapon.improve_cooldown()
 
 
 func on_signal_received(value = 0):

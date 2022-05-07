@@ -8,6 +8,6 @@ monitoring = false
 collision_mask = 0
 script = ExtResource( 1 )
 
-[node name="Status" type="Node" parent="."]
+[node name="Status" type="Node2D" parent="."]
 
 [node name="PopLabelSpawner2D" parent="." instance=ExtResource( 2 )]

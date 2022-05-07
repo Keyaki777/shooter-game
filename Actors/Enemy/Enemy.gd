@@ -5,6 +5,8 @@ signal died
 signal damaged
 signal moved(enemy_global_position)
 signal critical_landed
+signal camera_shake_requested
+
 
 var is_active:bool = true
 var hp: int setget set_hp
@@ -22,14 +24,15 @@ var can_see_player: bool = false setget set_can_see_player
 var weapon
 var is_player_target: bool = false setget set_is_player_target
 
-export var _rotation_speed: float = 2.4
+export var _rotation_speed: float = 2
 export var speed = 100
 var velocity: Vector2 = Vector2.ZERO
 var direction: = Vector2.ZERO
-
 export var is_movement_enemy: bool = false
 
+
 func _ready():
+	connect("camera_shake_requested", SignalManager, "camera_shake_requested")
 	hurt_box.connect("critical_landed", self, "_on_hurt_box_critical_landed")
 	weapon = $Weapon.get_child(0)
 	set_total_hp()
@@ -116,7 +119,6 @@ func on_wave_ready() -> void:
 
 func set_is_player_target(value) -> void:
 	is_player_target = value
-	$target_sprite.visible = is_player_target
 
 
 func when_moved() -> void:
@@ -125,3 +127,4 @@ func when_moved() -> void:
 
 func _on_hurt_box_critical_landed() -> void:
 	emit_signal("critical_landed")
+

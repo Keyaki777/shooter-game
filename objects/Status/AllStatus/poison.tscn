@@ -27,7 +27,8 @@ modulate = Color( 0.85098, 0, 1, 1 )
 position = Vector2( 0, -1 )
 script = ExtResource( 1 )
 exaust_wait_time = 40.0
-proc_wait_time = 2.0
+proc_wait_time = 3.0
+modifier = 2
 
 [node name="ProcTimer" type="Timer" parent="."]
 wait_time = 2.0

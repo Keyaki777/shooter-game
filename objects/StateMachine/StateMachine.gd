@@ -12,7 +12,7 @@ onready var _timer: Timer = $StateMachineTimer
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var character 
-
+var last_state
 
 func set_character(new_character) -> void:
 	character = new_character
@@ -51,6 +51,7 @@ func transition_to(target_state_path: String, msg: Dictionary = {}) -> void:
 		return
 	if not has_node(target_state_path):
 		return
+	last_state = state
 	var target_state: = get_node(target_state_path)
 	
 	
@@ -66,4 +67,7 @@ func _on_timer_timeout() -> void:
 	state._on_timer_timeout()
 
 
+func call_next_action(time_before_next_action) -> void:
+	yield(get_tree().create_timer(time_before_next_action),"timeout")
+	state.next_action()
 

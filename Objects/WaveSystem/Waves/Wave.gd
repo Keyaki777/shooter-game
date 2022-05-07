@@ -18,10 +18,11 @@ var number_of_enemies = 0
 var standard_tile: int
 var hero: Hero = null
 onready var _player_start_position: Position2D = $PlayerStartPosition
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _ready():
-	
+	rng.randomize()
 	var all_heroes_nodes = get_tree().get_nodes_in_group("heroes")
 	if all_heroes_nodes.size() > 0:
 		hero = all_heroes_nodes[0]
@@ -39,7 +40,7 @@ func _ready():
 		
 		enemy.on_wave_ready()
 		enemy.connect("tree_exited",self,"_on_child_exited")
-		enemy.connect("moved_on_tile", self, "_on_enemy_moved_on_tile")
+		enemy.connect("moved", self, "_on_enemy_moved_on_tile")
 		enemy.connect("critical_landed", self, "_on_enemy_critical_laned")
 		
 		if enemy.has_signal("died"):
@@ -114,26 +115,20 @@ func _on_enemy_moved_on_tile(last_position: Vector2,new_position: Vector2) -> vo
 			walkable_cells[i] += 1
 			if walkable_cells[i] > 0:
 				walkable_tilemap.set_cell(new_position_on_tile.x, new_position_on_tile.y, 1)
-		
 		i += 1
 	
 	
+func get_random_walkable_cell_location() -> Vector2:
+	var random_walkable_cell_position: Vector2
+	var random_walkable_cell_number
 	
+	var type_of_cell: int = 1
+	while type_of_cell == 1:
+		random_walkable_cell_number = rng.randi_range(0, walkable_cells.size() -1)
+		random_walkable_cell_position =to_global(walkable_tilemap.get_used_cells()[random_walkable_cell_number])
+		type_of_cell = walkable_tilemap.get_cell(random_walkable_cell_position.x, random_walkable_cell_position.y)
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	random_walkable_cell_position = to_global(walkable_tilemap.map_to_world(random_walkable_cell_position))
+	return random_walkable_cell_position
 	
 	

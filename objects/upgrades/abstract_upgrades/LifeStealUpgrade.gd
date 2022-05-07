@@ -27,7 +27,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.bonus_shield += 100
+	pass
 
 
 func on_signal_received(value = 0):

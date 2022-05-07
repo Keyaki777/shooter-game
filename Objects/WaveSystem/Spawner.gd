@@ -6,7 +6,6 @@ signal all_waves_ended
 signal enemy_died
 signal object_destroyed
 signal hero_left
-signal enemy_critical_landed
 
 export var scene_to_spawn: PackedScene
 export var location_number: int = 1
@@ -87,7 +86,6 @@ func _input(event):
 
 
 func _connect_signals() -> void:
-	spawned_wave.connect("enemy_critical_landed", self, "_on_enemy_critical_landed")
 	spawned_wave.connect("wave_ended", self, "_on_wave_ended")
 	spawned_wave.connect("enemy_died", self, "_on_wave_enemy_died")
 	spawned_wave.connect("object_destroyed", self, "_on_wave_object_destroyed")
@@ -114,5 +112,4 @@ func call_next_wave() -> void:
 	instance_next_wave()
 
 
-func _on_enemy_critical_landed() -> void:
-	emit_signal("enemy_critical_landed")
+

@@ -47,6 +47,7 @@ onready var remote_transform : RemoteTransform2D = $RemoteTransform2D
 onready var _health_bar: ProgressBar = $UI/Control/HealthProgressBar
 onready var _shield_bar: ProgressBar = $UI/Control/ShieldProgressBar
 onready var _enemy_detector_raycast: RayCast2D = $RayCast2D
+onready var _cross_hair: CrossHair = $CrossHair
 
 
 func _ready():
@@ -69,8 +70,8 @@ func _ready():
 	$StateMachine.set_character(self)
 	
 	
-func _physics_process(delta):
-	update_target()
+#func _physics_process(delta):
+#	update_target()
 
 
 func _powered_up() -> void:
@@ -145,7 +146,8 @@ func set_hp(value):
 	
 	
 	emit_signal("hp_changed")
-
+	if _hp == 0:
+		emit_signal("died")
 
 func set_bonus_hp(value):
 	bonus_hp = value
@@ -256,5 +258,9 @@ func set_target(value) -> void:
 		target.is_player_target = false
 	target = value
 	target.is_player_target = true
-		
-	
+	_cross_hair.is_activated = true
+	_cross_hair.target = target
+
+
+func _on_Timer_timeout():
+	update_target()
