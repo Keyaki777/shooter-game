@@ -22,6 +22,8 @@ func physics_process(delta):
 
 func enter(msg: Dictionary = {}) -> void:
 	start_timer()
+	_animation_player.play("Shoot")
+#	_state_machine.transition_to("Idle")
 
 
 func exit() -> void:
@@ -38,3 +40,8 @@ func shoot() -> void:
 
 func _on_animation_player_animation_finished(anim_name):
 	_state_machine.transition_to("Idle")
+
+
+func _input(event):
+	if event.is_action_pressed("test_input_1"):
+		character.weapon.shoot_at_target()

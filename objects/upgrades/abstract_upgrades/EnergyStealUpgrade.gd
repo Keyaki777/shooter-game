@@ -6,10 +6,6 @@ func _ready():
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
-	_signal_connect = "enemy_died"
-	_signal_bonus1 = ""
-	_signal_bonus2 = ""
-	_signal_bonus3 = ""
 	_scene_path = "res://objects/status/status.tscn"
 	
 

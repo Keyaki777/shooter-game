@@ -1,10 +1,7 @@
 extends Node2D
 
-signal upgrade_ended
-signal upgrade_connect_request(upgrade)
-signal request_signal_trigger1(upgrade)
-signal request_signal_trigger2(upgrade)
-signal request_signal_trigger3(upgrade)
+
+
 
 
 var current_state: int = 0 setget set_current_state
@@ -30,14 +27,6 @@ func _ready():
 	all_upgrades.append_array(unsorted_container)
 	non_bought_upgrades = all_upgrades
 	set_containers()
-
-	for upgrade in all_upgrades:
-		upgrade.connect("request_signal_connect", self, "_on_upgrade_request_signal_connect")
-		upgrade.connect("request_signal_trigger1", self, "_on_upgrade_request_trigger1")
-		upgrade.connect("request_signal_trigger2", self, "_on_upgrade_request_trigger2")
-		upgrade.connect("request_signal_trigger3", self, "_on_upgrade_request_trigger3")
-		upgrade.connect("unlock_secondary", self, "_on_upgrade_unlock_secondary")
-
 
 	for button in $ColorRect/Panel/ButtonsHBoxContainer.get_children():
 		button.connect("upgrade_button_pressed", self, "upgrade_button_pressed")
@@ -153,26 +142,6 @@ func check_if_can_upgrade():
 	return true
 
 
-func on_upgrade_animation_ended() -> void:
-	emit_signal("upgrade_ended")
-
-
-func _on_upgrade_request_signal_connect(upgrade: Upgrade) -> void:
-	emit_signal("upgrade_connect_request", upgrade)
-	
-
-func _on_upgrade_request_trigger1(upgrade) -> void:
-	emit_signal("request_signal_trigger1", upgrade)
-
-
-func _on_upgrade_request_trigger2(upgrade) -> void:
-	emit_signal("request_signal_trigger2", upgrade)
-
-
-func _on_upgrade_request_trigger3(upgrade) -> void:
-	emit_signal("request_signal_trigger3", upgrade)
-
-
 func set_containers() -> void:
 	for upgrade in all_upgrades:
 		upgrade.get_parent().remove_child(upgrade)
@@ -184,7 +153,6 @@ func set_containers() -> void:
 		else:
 			var unique_container = upgrade_container.get_node(upgrade.Unique_Types.keys()[upgrade.unique_type])
 			unique_container.add_child(upgrade)
-
 
 
 func _on_upgrade_unlock_secondary(type: String) -> void:

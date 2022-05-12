@@ -5,7 +5,7 @@ signal hit_landed(damage)
 signal healed_by_value(heal_value)
 signal healed_by_percent(heal_percent_value)
 signal missed
-signal critical_landed
+signal critical_landed(critical_value)
 
 enum Teams{PLAYER, ENEMY}
 export (Teams) var team:= Teams.ENEMY
@@ -33,7 +33,7 @@ func get_hurt(hit: Hit) -> void:
 	var is_critical = is_critical(hit.critical_chance)
 	if is_critical:
 		hit.damage = round(hit.damage * 2.5)
-		emit_signal("critical_landed")
+		emit_signal("critical_landed", hit.damage)
 	var final_damage := clamp((hit.damage - total_armor),1,10000)
 	pop_label_spawner.spawn(hit.color_of_the_pop_label, String(final_damage), is_critical)
 	emit_signal("hit_landed", final_damage)

@@ -8,9 +8,6 @@ func _ready():
 	_bonus_2 = ""
 	_bonus_3 = ""
 #	_signal_connect = "hero_shield_full"
-	_signal_bonus1 = "enemy_died"
-	_signal_bonus2 = ""
-	_signal_bonus3 = ""
 	_scene_path = "res://objects/status/status.tscn"
 
 

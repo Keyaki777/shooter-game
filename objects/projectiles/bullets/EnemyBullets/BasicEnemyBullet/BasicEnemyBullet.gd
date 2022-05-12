@@ -38,3 +38,7 @@ func instance_explosion_particle() -> void:
 	particle.modulate = $Sprite.modulate
 	get_parent().add_child(particle)
 	particle.destroy_explosion_after_time()
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	pass

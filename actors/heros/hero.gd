@@ -51,10 +51,21 @@ onready var _cross_hair: CrossHair = $CrossHair
 
 
 func _ready():
+	
 	connect("total_shield_changed", self, "_on_total_shield_changed")
 	connect("shield_changed", self, "_on_shield_changed" )
 	connect("total_hp_changed", self, "_on_total_hp_changed")
 	connect("hp_changed", self, "_on_hp_changed")
+	
+	connect("heal", SignalManager, "_on_hero_heal")
+	connect("hurt", SignalManager, "_on_hero_hurt")
+	connect("hp_changed", SignalManager, "_on_hero_hp_changed")
+	connect("total_hp_changed", SignalManager, "_on_hero_total_hp_changed")
+	connect("shield_changed", SignalManager, "_on_hero_shield_changed")
+	connect("total_shield_changed", SignalManager, "_on_hero_total_shield_changed")
+	connect("shield_depleted", SignalManager, "_on_hero_shield_depleted")
+	connect("shield_full", SignalManager, "_on_hero_shield_full")
+
 
 	$UI.set_as_toplevel(true)
 	update_total_hp()
@@ -146,8 +157,10 @@ func set_hp(value):
 	
 	
 	emit_signal("hp_changed")
-	if _hp == 0:
+	if _hp == 0 or _hp < 0:
 		emit_signal("died")
+		queue_free()
+
 
 func set_bonus_hp(value):
 	bonus_hp = value

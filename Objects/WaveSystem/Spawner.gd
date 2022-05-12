@@ -3,7 +3,6 @@ extends Node2D
 
 signal wave_ended
 signal all_waves_ended
-signal enemy_died
 signal object_destroyed
 signal hero_left
 
@@ -16,26 +15,19 @@ var path_to_waves: = "res://objects/waveSystem/waves/Level1/" setget set_path_to
 var all_waves
 var wave_to_spawn: = 0
 
-var spawned_wave: Wave
+var spawned_wave
 
 
 func _ready():
-	self.path_to_waves = path_to_waves
+	connect("wave_ended", SignalManager, "_on_wave_spawner_wave_ended")
+	connect("all_waves_ended", SignalManager, "_on_wave_spawner_all_waves_ended")
+	set_path_to_waves(path_to_waves)
 
 
 func _on_wave_ended() -> void:
 	emit_signal("wave_ended")
 	if spawned.get_child_count() == 0:
 		emit_signal("all_waves_ended")
-
-
-func _on_wave_enemy_died() -> void:
-	emit_signal("enemy_died")
-
-
-
-func _on_wave_object_destroyed() -> void:
-	emit_signal("object_destroyed")
 
 
 func list_files_in_directory(path):
@@ -87,16 +79,14 @@ func _input(event):
 
 func _connect_signals() -> void:
 	spawned_wave.connect("wave_ended", self, "_on_wave_ended")
-	spawned_wave.connect("enemy_died", self, "_on_wave_enemy_died")
 	spawned_wave.connect("object_destroyed", self, "_on_wave_object_destroyed")
 	spawned_wave.connect("hero_left", self, "_on_wave_hero_left")
 
 
 func _disconnect_signals() -> void:
 	spawned_wave.disconnect("wave_ended", self, "_on_wave_ended")
-	spawned_wave.disconnect("enemy_died", self, "_on_wave_enemy_died")
 	spawned_wave.disconnect("object_destroyed", self, "_on_wave_object_destroyed")
-	spawned_wave.connect("hero_left", self, "_on_wave_hero_left")
+	spawned_wave.disconnect("hero_left", self, "_on_wave_hero_left")
 
 
 func open_wave_front_door() -> void:

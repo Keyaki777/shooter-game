@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Actors/heros/Hero.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Heros/Sakura/sakuraex.png" type="Texture" id=2]
@@ -10,6 +10,15 @@
 [ext_resource path="res://objects/Animations/WeaponAnimations/SplashAnimation/WeaponSplashAnimation.tscn" type="PackedScene" id=8]
 [ext_resource path="res://objects/CrossHair/CrossHair.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Assets/Heros/Sakura/rect2150.png" type="Texture" id=10]
+[ext_resource path="res://shieldstructure.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Assets/Heros/Sakura/path4001.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Heros/Sakura/test_sakura3.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Heros/Sakura/testsakura3.png" type="Texture" id=14]
+[ext_resource path="res://Assets/Heros/Sakura/testsakura777.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Heros/Sakura/testsakura7.png" type="Texture" id=16]
+[ext_resource path="res://Assets/Heros/Sakura/testsakura5.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Heros/Sakura/openoutercenter.png" type="Texture" id=18]
+[ext_resource path="res://Assets/Heros/Sakura/rect4619-7.png" type="Texture" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 27, 10 )
@@ -43,18 +52,21 @@ void fragment()
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = SubResource( 2 )
-shader_param/width = 1.0
-shader_param/outline_color = Color( 1, 1, 1, 1 )
+shader_param/width = 0.0
+shader_param/outline_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 15 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 10, 30 )
+
+[sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 0.163636 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [node name="Sakura" instance=ExtResource( 1 )]
@@ -68,14 +80,30 @@ visible = false
 
 [node name="AnimatedSprite" parent="." index="2"]
 material = SubResource( 3 )
-position = Vector2( -2.38419e-07, -5.96046e-08 )
-scale = Vector2( 1.90641, 1.90641 )
+position = Vector2( -4, -5.32907e-14 )
+scale = Vector2( 0.68855, 0.68855 )
 frames = SubResource( 4 )
-frame = 1
+frame = 7
+
+[node name="Sprite" type="Sprite" parent="AnimatedSprite" index="0"]
+modulate = Color( 1.5, 1.5, 1.5, 0.88 )
+rotation = -3.14159
+scale = Vector2( -1.06168, -1.06168 )
+texture = ExtResource( 18 )
+
+[node name="Sprite2" type="Sprite" parent="AnimatedSprite" index="1"]
+modulate = Color( 1.5, 1.5, 1.5, 0.88 )
+position = Vector2( 0.000135422, -10.1663 )
+rotation = -3.14159
+texture = ExtResource( 19 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBoxArea2D" index="3"]
+position = Vector2( -16, 0 )
+shape = SubResource( 7 )
 
 [node name="HeroWeapon" parent="." index="5"]
 cooldown_time = 0.5
-_base_damage = 40
+_base_damage = 35
 splash_path = NodePath("SplashAnimatedSprite")
 
 [node name="SplashAnimatedSprite" parent="HeroWeapon" index="6" instance=ExtResource( 8 )]
@@ -87,6 +115,33 @@ shield_reaction = ExtResource( 7 )
 
 [node name="HeroMovementHandler" parent="." index="9"]
 base_speed = 500
+
+[node name="ShieldProgressBar" parent="UI/Control" index="0"]
+visible = false
+
+[node name="HealthProgressBar" parent="UI/Control" index="1"]
+visible = false
+
+[node name="DebugState_machine" parent="UI/Control" index="2"]
+visible = false
+
+[node name="s" parent="UI/Control" index="3" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 32.5, 45 )
+scale = Vector2( 0.417582, 0.417582 )
+
+[node name="s2" parent="UI/Control" index="4" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 32.5, 45 )
+scale = Vector2( 0.651721, 0.651721 )
+
+[node name="s3" parent="UI/Control" index="5" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 32.5, 45 )
+scale = Vector2( 0.441838, 0.441838 )
+
+[node name="HeroArea" parent="." index="11"]
+visible = false
 
 [node name="TrailPoint" type="Position2D" parent="." index="13"]
 show_behind_parent = true
@@ -106,7 +161,7 @@ visible = false
 modulate = Color( 1, 1, 1, 0.8 )
 position = Vector2( -694, -1052 )
 width = 5.0
-width_curve = SubResource( 5 )
+width_curve = SubResource( 6 )
 lenght = 3
 
 [node name="TrailPoint3" type="Position2D" parent="." index="14"]
@@ -117,7 +172,7 @@ position = Vector2( -35, -7 )
 modulate = Color( 1, 1, 1, 0.8 )
 position = Vector2( -683, -1043 )
 width = 5.0
-width_curve = SubResource( 5 )
+width_curve = SubResource( 6 )
 lenght = 3
 
 [node name="TrailPoint4" type="Position2D" parent="." index="15"]
@@ -128,7 +183,7 @@ position = Vector2( -35, 11 )
 modulate = Color( 1, 1, 1, 0.8 )
 position = Vector2( -683, -1043 )
 width = 5.0
-width_curve = SubResource( 5 )
+width_curve = SubResource( 6 )
 lenght = 3
 
 [node name="StateMachine" parent="." index="16"]
@@ -144,6 +199,7 @@ script = ExtResource( 5 )
 script = ExtResource( 6 )
 
 [node name="CrossHair" parent="." index="17" instance=ExtResource( 9 )]
+visible = false
 
 [node name="Timer" type="Timer" parent="." index="18"]
 wait_time = 0.7

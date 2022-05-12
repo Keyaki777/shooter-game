@@ -41,6 +41,8 @@ func set_state_machine(new_state_machine) -> void:
 
 func start_timer() -> void:
 	_state_machine._timer.wait_time = _state_machine.rng.randi_range(min_wait, max_wait)
+	if _state_machine._timer.wait_time == 0:
+		var x
 	_state_machine._timer.start()
 
 

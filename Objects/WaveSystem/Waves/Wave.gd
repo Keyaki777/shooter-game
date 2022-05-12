@@ -5,7 +5,6 @@ signal wave_ended
 signal enemy_died
 signal object_destroyed
 signal hero_left
-signal enemy_critical_landed
 
 onready var walls: TileMap = $CrateWalls
 onready var floor_tilemap: TileMap = $Floor
@@ -22,6 +21,7 @@ var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _ready():
+	connect("hero_left", SignalManager, "_on_hero_left")
 	rng.randomize()
 	var all_heroes_nodes = get_tree().get_nodes_in_group("heroes")
 	if all_heroes_nodes.size() > 0:
@@ -41,13 +41,6 @@ func _ready():
 		enemy.on_wave_ready()
 		enemy.connect("tree_exited",self,"_on_child_exited")
 		enemy.connect("moved", self, "_on_enemy_moved_on_tile")
-		enemy.connect("critical_landed", self, "_on_enemy_critical_laned")
-		
-		if enemy.has_signal("died"):
-			enemy.connect("died", self, "_on_enemy_died")
-	
-		if enemy.has_signal("destroyed"):
-			enemy.connect("destroyed",self,"_on_object_destroyed")
 
 
 func _on_child_exited():
@@ -77,10 +70,6 @@ func _on_Area2D_area_entered(area):
 
 func player_left() -> void:
 	emit_signal("hero_left")
-
-
-func _on_enemy_critical_laned() -> void:
-	emit_signal("enemy_critical_landed")
 
 
 func get_floor_without_walls() -> void:

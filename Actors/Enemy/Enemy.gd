@@ -32,6 +32,8 @@ export var is_movement_enemy: bool = false
 
 
 func _ready():
+	connect("critical_landed", SignalManager, "_on_enemy_critical_landed")
+	connect("died", SignalManager, "_on_enemy_died")
 	connect("camera_shake_requested", SignalManager, "camera_shake_requested")
 	hurt_box.connect("critical_landed", self, "_on_hurt_box_critical_landed")
 	weapon = $Weapon.get_child(0)
@@ -125,6 +127,6 @@ func when_moved() -> void:
 	emit_signal("moved", self.global_position)
 
 
-func _on_hurt_box_critical_landed() -> void:
-	emit_signal("critical_landed")
+func _on_hurt_box_critical_landed(critical_damage) -> void:
+	emit_signal("critical_landed", critical_damage)
 

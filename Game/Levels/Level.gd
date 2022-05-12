@@ -10,7 +10,6 @@ signal _enemy_critical_landed
 
 onready var _hero = $HeroContainer.get_child(0)
 onready var _upgrade_handler = $CanvasLayer/Ui/UpgradeHandler
-#onready var _node_animation_player = $AnimationPlayer
 onready var _wave_spawner = $WaveSpawner
 
 onready var _health_bar :ProgressBar = $CanvasLayer/Ui/HealthBar
@@ -25,36 +24,18 @@ onready var _camera := $Camera2D
 func _ready():
 	_upgrade_handler.hero = self._hero
 	
-	_hero.connect("heal", self, "_on_hero_heal")
-	_hero.connect("hurt", self, "_on_hero_hurt")
-	_hero.connect("hp_changed", self, "_on_hero_hp_changed")
-	_hero.connect("total_hp_changed", self, "_on_hero_total_hp_changed")
-	_hero.connect("shield_changed", self, "_on_hero_shield_changed")
-	_hero.connect("total_shield_changed", self, "_on_hero_total_shield_changed")
-	_hero.connect("shield_depleted", self, "_on_hero_shield_depleted")
-	_hero.connect("shield_full", self, "_on_hero_shield_full")
+#	SignalManager.connect("enemy_critical_landed", self, "_on_enemy_critical_landed")
+	SignalManager.connect("wave_ended", self, "_on_wave_spawner_wave_ended")
+	SignalManager.connect("all_waves_ended", self, "_on_wave_spawner_all_waves_ended")
+	SignalManager.connect("object_destroyed", self, "_on_Spawner_object_destroyed")
+	SignalManager.connect("on_hero_left", self, "_on_Spawner_hero_left")
+	SignalManager.connect("upgrade_animation_finished", self, "_on_upgrade_handler_upgrade_finished")
 	
-	
-	_wave_spawner.connect("enemy_critical_landed", self, "_on_enemy_critical_landed")
-	_wave_spawner.connect("wave_ended", self, "_on_wave_spawner_wave_ended")
-	_wave_spawner.connect("all_waves_ended", self, "_on_wave_spawner_all_waves_ended")
-	_wave_spawner.connect("enemy_died", self, "_on_Spawner_enemy_died")
-	_wave_spawner.connect("object_destroyed", self, "_on_Spawner_object_destroyed")
-	_wave_spawner.connect("hero_left", self, "_on_Spawner_hero_left")
-	
-	_upgrade_handler.connect("upgrade_ended", self, "_on_upgrade_handler_upgrade_ended")
-	_upgrade_handler.connect("upgrade_connect_request", self, "_on_upgrade_connect_request")
-	_upgrade_handler.connect("request_signal_trigger1", self, "_on_request_signal_trigger1")
-	_upgrade_handler.connect("request_signal_trigger2", self, "_on_request_signal_trigger2")
-	_upgrade_handler.connect("request_signal_trigger3", self, "_on_request_signal_trigger3")
+
 	
 	_reward_handler.connect("reward_activated", self, "_on_reward_handler_activated")
 	
 	
-	_on_hero_total_hp_changed()
-	_on_hero_hp_changed()
-	_on_hero_total_shield_changed()
-	_on_hero_shield_changed()
 	start_level()
 
 func _show_upgrade_ui() -> void:
@@ -71,7 +52,7 @@ func _show_upgrade() -> void:
 	upgrade_pause()
 
 
-func _on_upgrade_handler_upgrade_ended():
+func _on_upgrade_handler_upgrade_finished():
 	_hide_upgrade_ui()
 	upgrade_pause()
 	_wave_spawner.open_wave_front_door()
@@ -101,48 +82,41 @@ func _on_request_signal_trigger3(upgrade: Upgrade) -> void:
 	self.connect(upgrade._signal_bonus3, upgrade, "_execute_bonus_3")
 
 
-func _on_hero_hurt(final_damage) -> void:
-	emit_signal("_hero_hurt", final_damage)
 
 
-func _on_hero_heal() -> void:
-	emit_signal("_hero_heal")
 
 
-func _on_Spawner_enemy_died():
-	emit_signal("enemy_died")
 
 
 func _on_Spawner_object_destroyed():
 	emit_signal("object_destroyed")
 
 
-func _on_hero_shield_depleted():
-	emit_signal("_hero_shield_depleted")
+
 
 
 func _on_hero_shield_full():
 	emit_signal("_hero_shield_full")
 
 
-func _on_hero_hp_changed() -> void:
-	_health_bar.value = _hero._hp
-	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
+#func _on_hero_hp_changed() -> void:
+#	_health_bar.value = _hero._hp
+#	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
 
-
-func _on_hero_total_hp_changed() -> void:
-	_health_bar.max_value = _hero._total_hp
-	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
-
-
-func _on_hero_shield_changed() -> void:
-	_shield_bar.value = _hero.shield
-	_shield_label.text = String(_hero.shield) + "/" + String(_hero._total_shield)
-
-
-func _on_hero_total_shield_changed() -> void:
-	_shield_bar.max_value = _hero._total_shield
-	_shield_label.text = String(_hero.shield) + "/" + String(_hero._total_shield)
+#
+#func _on_hero_total_hp_changed() -> void:
+#	_health_bar.max_value = _hero._total_hp
+#	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
+#
+#
+#func _on_hero_shield_changed() -> void:
+#	_shield_bar.value = _hero.shield
+#	_shield_label.text = String(_hero.shield) + "/" + String(_hero._total_shield)
+#
+#
+#func _on_hero_total_shield_changed() -> void:
+#	_shield_bar.max_value = _hero._total_shield
+#	_shield_label.text = String(_hero.shield) + "/" + String(_hero._total_shield)
 
 
 func toggle_shield_ui_visibility() -> void:
@@ -190,8 +164,7 @@ func start_level() -> void:
 	_hero.is_active = true
 
 
-func _on_enemy_critical_landed(animation_name: String) -> void:
-	emit_signal("enemy_critical_landed")
+
 
 
 func _input(event):

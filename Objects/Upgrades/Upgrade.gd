@@ -2,10 +2,10 @@ extends Node
 class_name Upgrade
 
 signal unlock_secondary(secondary_type)
-signal request_signal_connect(upgrade)
-signal request_signal_trigger1(upgrade)
-signal request_signal_trigger2(upgrade)
-signal request_signal_trigger3(upgrade)
+#signal request_signal_connect(upgrade)
+#signal request_signal_trigger1(upgrade)
+#signal request_signal_trigger2(upgrade)
+#signal request_signal_trigger3(upgrade)
 
 
 enum Types {Normal, Poison, Fire, Water, Ice}
@@ -28,7 +28,6 @@ export var _bonus_level: float = 1.0
 var _bonus_1: String = ""
 var _bonus_2: String = ""
 var _bonus_3: String = ""
-var _signal_connect: String = ""
 var _scene_path: String = ""
 
 #var category: = 
@@ -47,16 +46,18 @@ var is_bonus_1: bool = false
 var is_bonus_2: bool = false
 var is_bonus_3: bool = false
 
-var _signal_bonus1: String = ""
-var _signal_bonus2: String = ""
-var _signal_bonus3: String = ""
+
 
 
 func initialize() -> void:
 	is_activated = true
 	on_buy_effect()
-	if _signal_connect != "":
-		emit_signal("request_signal_connect", self)
+	on_buy_signal_connect()
+
+
+func on_buy_signal_connect() -> void:
+	pass
+
 
 
 func on_buy_effect() -> void:
@@ -83,8 +84,7 @@ func _unexecute() -> void:
 func buy() -> void:
 	if !is_activated:
 		initialize()
-#	check_bonus()
-#	update_atribute_bonus()
+
 
 
 func _execute_bonus_1() -> void:
@@ -105,20 +105,14 @@ func on_signal_received(value = 0):
 
 func init_bonus_1() -> void:
 	is_bonus_1 = true
-	if _signal_bonus1 != "":
-		emit_signal("request_signal_trigger1",self)
 
 
 func init_bonus_2() -> void:
 	is_bonus_2 = true
-	if _signal_bonus2 != "":
-		emit_signal("request_signal_trigger2",self)
 
 
 func init_bonus_3() -> void:
 	is_bonus_3 = true
-	if _signal_bonus3 != "":
-		emit_signal("request_signal_trigger3",self)
 
 
 func add_status_on_hero_weapon(status_name: String) -> void:
