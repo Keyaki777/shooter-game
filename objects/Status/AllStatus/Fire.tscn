@@ -38,7 +38,8 @@ color_ramp = SubResource( 2 )
 [node name="Fire" instance=ExtResource( 2 )]
 modulate = Color( 1.21, 1.21, 1.21, 1 )
 script = ExtResource( 1 )
-proc_wait_time = 0.5
+exaust_wait_time = 2.5
+proc_wait_time = 0.2
 modifier = 3
 
 [node name="Particles2D" type="Particles2D" parent="." index="2"]

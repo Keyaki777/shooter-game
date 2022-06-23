@@ -2,8 +2,6 @@ extends Node2D
 class_name Wave
 
 signal wave_ended
-signal enemy_died
-signal object_destroyed
 signal hero_left
 
 onready var walls: TileMap = $CrateWalls
@@ -12,7 +10,7 @@ onready var walkable_tilemap: TileMap = $Navigation2D/WalkableCells
 var walkable_cells: Array
 onready var border_walls: TileMap = $BorderWalls
 onready var navigation_2d: Navigation2D = $Navigation2D
-onready var enemies = $Enemies.get_children()
+onready var all_enemies = $Enemies.get_children()
 var number_of_enemies = 0
 var standard_tile: int
 var hero: Hero = null
@@ -21,6 +19,7 @@ var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
 func _ready():
+	connect("wave_ended", SignalManager, "_on_wave_ended")
 	connect("hero_left", SignalManager, "_on_hero_left")
 	rng.randomize()
 	var all_heroes_nodes = get_tree().get_nodes_in_group("heroes")
@@ -31,27 +30,38 @@ func _ready():
 	print(walkable_tilemap.world_to_map(Vector2(539,1570)))
 	
 
-	number_of_enemies = enemies.size()
-	for enemy in enemies:
-		enemy.wave = self
-		
-		if !enemy.is_movement_enemy:
-			_on_enemy_moved_on_tile(Vector2(-5,-5), enemy.global_position)
-		
-		enemy.on_wave_ready()
-		enemy.connect("tree_exited",self,"_on_child_exited")
-		enemy.connect("moved", self, "_on_enemy_moved_on_tile")
+	number_of_enemies = all_enemies.size()
+	for enemy in all_enemies:
+		initialize_enemy(enemy)
 
 
-func _on_child_exited():
+func initialize_enemy(enemy) -> void:
+	enemy.wave = self
+	
+	if !enemy.is_movement_enemy:
+		_on_enemy_moved_on_tile(Vector2(-5,-5), enemy.global_position)
+	
+	enemy.on_wave_ready()
+	enemy.connect("died",self,"_on_enemy_died")
+	enemy.connect("moved", self, "_on_enemy_moved_on_tile")
+
+
+func add_enemy(enemy) -> void:
+	number_of_enemies += 1
+	enemy.wave = self
+	
+	if !enemy.is_movement_enemy:
+		_on_enemy_moved_on_tile(Vector2(-5,-5), enemy.global_position)
+	
+	enemy.on_wave_ready()
+	enemy.connect("died",self,"_on_enemy_died")
+	enemy.connect("moved", self, "_on_enemy_moved_on_tile")
+
+
+func _on_enemy_died():
 	number_of_enemies -= 1
 	if number_of_enemies <= 0:
 		emit_signal("wave_ended")
-#		self.queue_free()
-
-
-func _on_enemy_died() -> void:
-	emit_signal("enemy_died")
 
 
 func _on_object_destroyed() -> void:

@@ -86,7 +86,7 @@ radius = 500.0
 
 [node name="Bullet" type="KinematicBody2D"]
 modulate = Color( 1.5, 1.5, 1.5, 1 )
-collision_layer = 0
+collision_layer = 64
 collision_mask = 2
 script = ExtResource( 3 )
 speed = 30
@@ -98,16 +98,14 @@ scale = Vector2( 0.486333, 0.486333 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-modulate = Color( 0.398438, 0.937337, 1, 1 )
-scale = Vector2( 1.67182, 1.67182 )
+modulate = Color( 0.4, 0.937255, 1, 1 )
+scale = Vector2( 1.63, 1.63 )
 frames = SubResource( 14 )
-frame = 2
 playing = true
 
 [node name="HitBoxArea2D" parent="." instance=ExtResource( 1 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
-visible = false
 scale = Vector2( 0.516603, 0.516603 )
 shape = SubResource( 15 )
 

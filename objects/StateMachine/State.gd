@@ -25,7 +25,7 @@ func exit() -> void:
 
 
 func _on_timer_timeout() -> void:
-	return
+	pass
 
 
 func set_state_machine(new_state_machine) -> void:
@@ -39,11 +39,18 @@ func set_state_machine(new_state_machine) -> void:
 	initialize()
 
 
-func start_timer() -> void:
-	_state_machine._timer.wait_time = _state_machine.rng.randi_range(min_wait, max_wait)
-	if _state_machine._timer.wait_time == 0:
-		var x
+func start_timer(new_wait_time: float = -1) -> void:
+	if new_wait_time != -1 :
+		_state_machine._timer.wait_time = new_wait_time
+		_state_machine._timer.start()
+		return
+
+	if min_wait == max_wait:
+		_state_machine._timer.wait_time = max(max_wait, 0.001)
+	else:
+		_state_machine._timer.wait_time = _state_machine.rng.randf_range(min_wait, max_wait)
 	_state_machine._timer.start()
+#	print(_state_machine._timer.wait_time)
 
 
 func initialize() -> void:

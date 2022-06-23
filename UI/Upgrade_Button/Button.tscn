@@ -126,6 +126,7 @@ size_flags_horizontal = 3
 text = "Name"
 align = 1
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -138,6 +139,7 @@ rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
 text = "Effect:"
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -149,6 +151,7 @@ margin_bottom = 76.0
 rect_min_size = Vector2( 0, 20 )
 size_flags_horizontal = 3
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -172,6 +175,7 @@ size_flags_vertical = 6
 text = "Awakening"
 align = 1
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -185,6 +189,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Unlock First Stage"
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -198,6 +203,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Unlock Second Stage"
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -211,6 +217,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 6
 text = "Unlock Third Stage"
 valign = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": true
 }

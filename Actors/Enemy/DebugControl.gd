@@ -4,7 +4,6 @@ extends Control
 
 
 func set_current_state(value) -> void:
-	$VBoxContainer/HBoxContainer2/lastvalue.text = $VBoxContainer/HBoxContainer/Currentvalue.text
 	$VBoxContainer/HBoxContainer/Currentvalue.text = String(value)
 
 

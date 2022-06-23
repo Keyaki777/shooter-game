@@ -1,5 +1,12 @@
 extends State
 
+signal hero_started_moving
+signal hero_stopped_moving
+
+func _ready():
+	connect("hero_started_moving", SignalManager, "_on_hero_started_moving")
+	connect("hero_stopped_moving", SignalManager, "_on_hero_stopped_moving")
+
 
 func unhandled_input(event):
 	return
@@ -13,11 +20,11 @@ func physics_process(delta):
 
 
 func enter(msg: Dictionary = {}) -> void:
-	return
+	emit_signal("hero_started_moving")
 
 
 func exit() -> void:
-	return
+	emit_signal("hero_stopped_moving")
 
 
 func _on_timer_timeout() -> void:

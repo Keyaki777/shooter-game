@@ -1,8 +1,12 @@
 extends Upgrade
 
+
+var _damage_cost = 10
+
+
 func _ready():
 	_up_name = "Diagonal Shoot"
-	_up_effect = "Your Gun Shoots Diagonal Shoots Also"
+	_up_effect = "Your Gun Shoots Diagonal Shoots but you lose 10 damage"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
@@ -24,10 +28,7 @@ func _initialize() -> void:
 
 func on_buy_effect():
 	hero.hero_weapon.add_diagonal_cannons1()
-
-
-func on_signal_received(value = 0):
-	_execute()
+	hero.hero_weapon._bonus_damage -= _damage_cost
 
 
 func _execute_bonus_1() -> void:

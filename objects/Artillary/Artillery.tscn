@@ -8,13 +8,16 @@ _data = {
 "points": PoolVector2Array(  )
 }
 
-[node name="Path2D" type="Path2D"]
+[node name="Artillery" type="Path2D"]
 curve = SubResource( 1 )
 script = ExtResource( 1 )
 time_variant = 3.0
 gravity = -50.0
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
+visible = false
+position = Vector2( 243, 518 )
+rotation = -0.582253
 
 [node name="BulletContainer" type="Node2D" parent="PathFollow2D"]
 

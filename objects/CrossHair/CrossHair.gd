@@ -46,6 +46,7 @@ func set_target(new_target) -> void:
 
 func move_to_target() -> void:
 	tween.interpolate_property(self, "global_position", self.global_position, target.global_position, 0.3, Tween.TRANS_BACK, Tween.EASE_OUT)
+	tween.interpolate_property(self, "scale", self.scale, Vector2(target.crosshair_scale, target.crosshair_scale), 0.3, Tween.TRANS_BACK, Tween.EASE_OUT)
 	tween.start()
 
 

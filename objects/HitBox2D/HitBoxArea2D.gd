@@ -8,8 +8,7 @@ signal max_hited
 
 enum Teams{PLAYER, ENEMY}
 export (Teams) var team := Teams.ENEMY
-
-export var damage:= 1
+export var damage:= 1.0
 
 export var max_number_of_hits = 0
 var number_hited = 0

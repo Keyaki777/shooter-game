@@ -4,17 +4,20 @@ class_name TargetEnemyBullet
 
 export var explosion_particle_scene : PackedScene
 onready var _animation_player: AnimationPlayer = $AnimationPlayer
-onready var _target_sprite : Sprite = $Target_Sprite
-
-#func _physics_process(delta):
-#	var collision_info = move_and_collide(velocity)
-#	if collision_info:
-#		explode()
+onready var _target_sprite = $AntecipationTargetAnimation
+onready var _hit_box : HitBoxArea2D = $HitBoxArea2D
+onready var _collision_shape: = $HitBoxArea2D/CollisionShape2D
+onready var _sprite := $Sprite
 
 
-#func explode() -> void:
-#	instance_explosion_particle()
-#	queue_free()
+func explode() -> void:
+	_target_sprite.visible = false
+	_sprite.visible = false
+	SignalManager.camera_shake_requested()
+	instance_explosion_particle()
+	$HitBoxArea2D/CollisionShape2D.disabled = false
+	yield(get_tree().create_timer(0.3), "timeout")
+	queue_free()
 
 
 #func set_direction(new_direction) -> void:
@@ -43,6 +46,8 @@ func _on_AnimationPlayer_animation_finished(anim_name):
 
 
 func _set_target_sprite(target_location):
-	$Target_Sprite.global_position = _target_sprite.global_position
+	_target_sprite.set_as_toplevel(true)
+	_target_sprite.global_position = target_location - Vector2(0,0)
+	_target_sprite.visible = true
 
 

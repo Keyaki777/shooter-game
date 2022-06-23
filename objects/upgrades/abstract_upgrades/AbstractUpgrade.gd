@@ -1,16 +1,16 @@
 extends Upgrade
 
+var effect_state: bool = false
+
+
 func _ready():
-	_up_name = "Poison Attack1"
-	_up_effect = "trigg die"
-
-#	_signal_connect = "hero_shield_full"
-
+	_up_name = "Agressive Endurance"
+	_up_effect = "Take 10% less damage while shooting"
 	_scene_path = "res://objects/status/status.tscn"
-	
+
 
 func _execute(value = 0):
-	print(name)
+	pass
 
 
 func _unexecute():
@@ -22,16 +22,11 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.set_bonus_hp(350)
-	add_status_on_hero_weapon("poison")	
-
-
-func on_signal_received(value = 0):
-	_execute()
+	pass
 
 
 func _execute_bonus_1() -> void:
-	print("enemy died and bonus 10 executed")
+	pass
 
 
 func _execute_bonus_2() -> void:
@@ -40,3 +35,6 @@ func _execute_bonus_2() -> void:
 
 func _execute_bonus_3() -> void:
 	pass
+
+func _on_timeout() -> void:
+	_unexecute()

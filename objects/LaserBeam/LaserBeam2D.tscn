@@ -65,7 +65,7 @@ is_inner_line = true
 [node name="FillLine2D" type="Line2D" parent="."]
 points = PoolVector2Array( 0, 0, 0, 0 )
 width = 14.0
-default_color = Color( 0.996078, 0.439216, 1, 1 )
+default_color = Color( 1, 1, 1, 1 )
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2

@@ -3,10 +3,10 @@
 [ext_resource path="res://objects/projectiles/bullets/EnemyBullets/BasicTargetEnemyBullets/TargetEnemyBombBullet.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Shoots/ballshoot.png" type="Texture" id=2]
 [ext_resource path="res://objects/HitBox2D/HitBoxArea2D.tscn" type="PackedScene" id=3]
-[ext_resource path="res://objects/Particles/Sakura/BulletExplosionParticle.tscn" type="PackedScene" id=4]
-[ext_resource path="res://circle.png" type="Texture" id=5]
+[ext_resource path="res://objects/Animations/AntecipationTargetAnimation/AntecipationTargetAnimation.tscn" type="PackedScene" id=4]
+[ext_resource path="res://objects/Particles/BombParticle/BombParticle.tscn" type="PackedScene" id=6]
 
-[sub_resource type="CapsuleShape2D" id=6]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 30.0
 height = 0.0
 
@@ -18,8 +18,8 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=7]
-radius = 30.0
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 20.0
 height = 0.0
 
 [sub_resource type="Animation" id=4]
@@ -73,11 +73,11 @@ scale = Vector2( 1.03701, 1.03701 )
 collision_layer = 0
 collision_mask = 0
 script = ExtResource( 1 )
-explosion_particle_scene = ExtResource( 4 )
+explosion_particle_scene = ExtResource( 6 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 scale = Vector2( 0.321617, 0.321617 )
-shape = SubResource( 6 )
+shape = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 modulate = Color( 1, 0, 0, 1 )
@@ -87,11 +87,12 @@ frames = SubResource( 2 )
 playing = true
 
 [node name="HitBoxArea2D" parent="." instance=ExtResource( 3 )]
+scale = Vector2( 2.94642, 2.94642 )
 damage = 10
 max_number_of_hits = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]
-shape = SubResource( 7 )
+shape = SubResource( 3 )
 disabled = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
@@ -101,10 +102,11 @@ autoplay = "SETUP"
 anims/Explosion = SubResource( 4 )
 anims/SETUP = SubResource( 5 )
 
-[node name="Target_Sprite" type="Sprite" parent="."]
-visible = false
-scale = Vector2( 0.220903, 0.220903 )
-texture = ExtResource( 5 )
+[node name="Particles2D" parent="." instance=ExtResource( 6 )]
+
+[node name="AntecipationTargetAnimation" parent="." instance=ExtResource( 4 )]
+modulate = Color( 1, 1, 1, 0.329412 )
+scale = Vector2( 0.424376, 0.424376 )
 
 [connection signal="hit_applied" from="HitBoxArea2D" to="." method="_on_HitBoxArea2D_hit_applied"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

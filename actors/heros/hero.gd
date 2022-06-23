@@ -9,6 +9,9 @@ signal shield_changed
 signal shield_depleted
 signal shield_full
 signal stopped
+signal started_shooting
+signal stopped_shooting
+
 
 signal heal
 signal before_hit(damage)
@@ -36,7 +39,7 @@ export var shield_recharge_cd: float = 2 setget set_shield_recharge_cd
 var can_be_hurt: bool = false
 var is_active:bool = true
 
-onready var _hurt_box = $HurtBoxArea2D
+onready var _hurt_box: HurtBoxArea2D = $HurtBoxArea2D
 onready var shield_recharge_action: = $ShieldRechargeAction
 onready var hero_weapon: HeroWeapon = $HeroWeapon
 onready var status_storage = $StatusStorage
@@ -48,7 +51,9 @@ onready var _health_bar: ProgressBar = $UI/Control/HealthProgressBar
 onready var _shield_bar: ProgressBar = $UI/Control/ShieldProgressBar
 onready var _enemy_detector_raycast: RayCast2D = $RayCast2D
 onready var _cross_hair: CrossHair = $CrossHair
-
+onready var _label_ui: LabelUI = $UI/Control/ValueUI
+onready var _state_machine : StateMachine = $StateMachine
+onready var _sprite: AnimatedSprite = $AnimatedSprite
 
 func _ready():
 	
@@ -65,11 +70,14 @@ func _ready():
 	connect("total_shield_changed", SignalManager, "_on_hero_total_shield_changed")
 	connect("shield_depleted", SignalManager, "_on_hero_shield_depleted")
 	connect("shield_full", SignalManager, "_on_hero_shield_full")
+	connect("started_shooting", SignalManager, "_on_hero_started_shooting" )
+	connect("stopped_shooting", SignalManager, "_on_hero_stopped_shooting")
 
 
 	$UI.set_as_toplevel(true)
 	update_total_hp()
 	set_hp(_total_hp)
+	
 
 	update_total_shield()
 	set_shield(_total_shield)
@@ -138,13 +146,17 @@ func set_shield(value) -> void:
 func update_total_hp() -> void:
 	
 	var current_hp_in_percent = -1
+	
 	if _total_hp != 0 and _hp != 0:
 		current_hp_in_percent = _hp / _total_hp
+		
 	var percentage_of_total_hp = (bonus_hp + base_hp)/100 * bonus_percent_hp
 	var old_total_hp = _total_hp
 	_total_hp = base_hp + bonus_hp + percentage_of_total_hp
+	
 	if old_total_hp < _total_hp and current_hp_in_percent != -1:
 		set_hp(current_hp_in_percent * _total_hp)
+		
 	emit_signal("total_hp_changed")
 	emit_signal("hp_changed")
 
@@ -154,12 +166,13 @@ func set_hp(value):
 	
 	_hp = value
 	_hp = clamp(_hp, 0, _total_hp)
+	_label_ui.tween_label_value(_hp)
 	
 	
 	emit_signal("hp_changed")
 	if _hp == 0 or _hp < 0:
-		emit_signal("died")
-		queue_free()
+		_state_machine.transition_without_delay("Die")
+		
 
 
 func set_bonus_hp(value):
@@ -184,7 +197,8 @@ func damage_shield(damage) -> void:
 		damage = shield
 	
 	self.shield = shield - damage
-	
+
+
 #	remove later
 	if shield < 0:
 		print("shield is broken")
@@ -198,6 +212,11 @@ func damage_health(damage) -> void:
 
 func get_heal(heal_value) -> void:
 	self._hp += heal_value
+	emit_signal("heal")
+
+
+func get_percentage_heal(heal_value_percentage) -> void:
+	self._hp += heal_value_percentage/100 * self._total_hp
 	emit_signal("heal")
 
 

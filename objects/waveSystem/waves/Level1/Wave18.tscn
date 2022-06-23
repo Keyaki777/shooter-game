@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://objects/waveSystem/waves/Wave.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/PipeEnemy/PipeEnemy.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/StarShooterEnemy/StarShooterEnemy.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/WalkerEnemy/WalkerEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/PipeEnemy/PipeEnemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/StarShooterEnemy/StarShooterEnemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/WalkerEnemy/WalkerEnemy.tscn" type="PackedScene" id=4]
 
 [node name="wave" instance=ExtResource( 1 )]
 

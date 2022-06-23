@@ -21,6 +21,15 @@ signal upgrade_animation_started
 signal upgrade_animation_finished
 signal level_entered
 signal level_exited
+signal hero_shooted
+signal hero_started_moving
+signal hero_stopped_moving
+signal on_wave_ended
+signal on_enemy_hit_landed
+signal enemy_death_started
+signal hero_started_shooting
+signal hero_stopped_shooting
+signal upgrade_duplicated(upgrade_duplicated)
 
 
 var _hero: Hero setget _set_hero
@@ -101,5 +110,42 @@ func upgrade_animation_started() -> void:
 func _on_level_entered() -> void:
 	emit_signal("level_entered")
 
+
 func _on_level_exited() -> void:
 	emit_signal("level_exited")
+
+
+func _on_hero_shooted() -> void:
+	emit_signal("hero_shooted")
+
+
+func _on_hero_started_moving() -> void:
+	emit_signal("hero_started_moving")
+
+
+func _on_hero_stopped_moving() -> void:
+	emit_signal("hero_stopped_moving")
+
+
+func _on_wave_ended() -> void:
+	emit_signal("on_wave_ended")
+
+
+func _on_enemy_hit_landed() -> void:
+	emit_signal("on_enemy_hit_landed")
+
+
+func _on_enemy_death_started() -> void:
+	emit_signal("enemy_death_started")
+
+
+func _on_hero_started_shooting() -> void:
+	emit_signal("hero_started_shooting")
+
+
+func _on_hero_stopped_shooting() -> void:
+	emit_signal("hero_stopped_shooting")
+
+
+func _on_upgrade_duplicated(upgrade_duplicated) -> void:
+	emit_signal("upgrade_duplicated", upgrade_duplicated)

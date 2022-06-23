@@ -1,16 +1,12 @@
-extends Node2D
+extends Node
+
+enum Unique_Types{Commom, Rare, VeryRare, Epic, Legendary, UltraLegendary, MegaLegendary, CaoticLegendary, OMGThisThinkEverEnds}
+export (Unique_Types) var unique_type = Unique_Types.Commom
+onready var one = $Sprite
 
 
-var def = 0 setget set_def
-
-
-func set_def(value) -> void:
-	print("before" , def)
-	def = value
-	print("after" , def)
 
 func _input(event):
 	if event.is_action_pressed("test_input_1"):
-		self.def += 1
-	if event.is_action_pressed("test_input_2"):
-		self.def = 1
+		add_child(one.duplicate(15))
+		add_child(one.duplicate(1))

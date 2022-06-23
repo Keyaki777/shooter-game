@@ -6,6 +6,8 @@ signal damaged
 signal moved(enemy_global_position)
 signal critical_landed
 signal camera_shake_requested
+signal death_started
+signal enemy_hit_landed
 
 
 var is_active:bool = true
@@ -19,29 +21,41 @@ onready var sprite_animator :AnimationPlayer = $AnimatedSprite/AnimationPlayer
 onready var animated_sprite: AnimatedSprite = $AnimatedSprite
 onready var hero_detector: RayCast2D = $RayCast2D
 onready var enemy_area = $EnemyArea
+#onready var support_container = $SupportControl/SuportContainerContainer
+onready var all_support_containers: = $SupportControl.get_children()
+var support_node: EnemySupport
 var wave setget set_wave
 var can_see_player: bool = false setget set_can_see_player
 var weapon
 var is_player_target: bool = false setget set_is_player_target
-
 export var _rotation_speed: float = 2
 export var speed = 100
 var velocity: Vector2 = Vector2.ZERO
 var direction: = Vector2.ZERO
 export var is_movement_enemy: bool = false
+export var crosshair_scale: float = 0.54
+export var max_support: int = 1
+export var support_number: int = 0
+
 
 
 func _ready():
 	connect("critical_landed", SignalManager, "_on_enemy_critical_landed")
 	connect("died", SignalManager, "_on_enemy_died")
+	connect("death_started", SignalManager, "_on_enemy_death_started")
 	connect("camera_shake_requested", SignalManager, "camera_shake_requested")
+	connect("enemy_hit_landed", SignalManager, "_on_enemy_hit_landed")
 	hurt_box.connect("critical_landed", self, "_on_hurt_box_critical_landed")
+	_initialize_sup_node()
 	weapon = $Weapon.get_child(0)
 	set_total_hp()
 	set_hp(total_hp)
 	hurt_box.character = self
 	set_process(false)
 	set_physics_process(false)
+	_initialize_sup_node()
+	$SupportControl.set_as_toplevel(true)
+
 
 
 func set_hp(value) -> void:
@@ -68,6 +82,7 @@ func get_hurt(damage) -> void:
 
 func _on_HurtBoxArea2D_hit_landed(damage):
 	get_hurt(damage)
+	emit_signal("enemy_hit_landed")
 
 
 func _on_Button_pressed():
@@ -75,9 +90,7 @@ func _on_Button_pressed():
 
 
 func _die() -> void:
-#	emit_signal("died")
-	$StateMachine.transition_to("Die")
-#	queue_free()
+	$StateMachine.transition_without_delay("Die")
 
 
 func _process(delta):
@@ -110,11 +123,8 @@ func detect_hero() -> void:
 
 func set_can_see_player(new_value) -> void:
 	can_see_player = new_value
-#	if can_see_player == true:
-#		self.modulate = Color(1,255,1,1)
-#	else:
-#		self.modulate = Color(255,255,255,255)
-#
+
+
 func on_wave_ready() -> void:
 	$StateMachine.set_character(self)
 
@@ -129,4 +139,11 @@ func when_moved() -> void:
 
 func _on_hurt_box_critical_landed(critical_damage) -> void:
 	emit_signal("critical_landed", critical_damage)
+
+
+func _initialize_sup_node() -> void:
+	if has_node("SupportNode"):
+		support_node = $SupportNode
+		support_node.character = self
+
 

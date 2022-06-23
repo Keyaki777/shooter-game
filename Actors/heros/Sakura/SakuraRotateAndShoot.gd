@@ -15,11 +15,11 @@ func physics_process(delta):
 
 
 func enter(msg: Dictionary = {}) -> void:
-	return
+	character.emit_signal("started_shooting")
 
 
 func exit() -> void:
-	return
+	character.emit_signal("stopped_shooting")
 
 
 func _on_timer_timeout() -> void:

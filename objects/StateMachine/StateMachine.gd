@@ -8,6 +8,7 @@ export var initial_state: = NodePath()
 
 onready var state = get_node(initial_state) setget set_state
 onready var _state_name = state.name
+var _next_state = ""
 onready var _timer: Timer = $StateMachineTimer
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -25,8 +26,7 @@ func _init() -> void:
 
 func _ready():
 	rng.randomize()
-	_timer.connect("timeout", self, "_on_timer_timeout")
-
+	_timer.connect("timeout", self, "_on_timeout")
 
 func insert_properties_on_states() -> void:
 	for state in get_children():
@@ -52,18 +52,31 @@ func transition_to(target_state_path: String, msg: Dictionary = {}) -> void:
 	if not has_node(target_state_path):
 		return
 	last_state = state
-	var target_state: = get_node(target_state_path)
+#	var target_state: = get_node(target_state_path)
+	_next_state = target_state_path
 	
-	
-	state.exit()
 	_timer.stop()
-	self.state = target_state
+	state.exit()
+	self.state = get_node("Delay")
 	state.enter(msg)
 	emit_signal("state_entered", state.name)
 	
 
+func transition_without_delay(target_state_path: String, msg: Dictionary = {}) -> void:
+	if !character.is_active:
+		return
+	if not has_node(target_state_path):
+		return
+	var target_state = _next_state
+	
+	_timer.stop()
+	state.exit()
+	self.state = get_node(target_state_path)
+	state.enter(msg)
+	emit_signal("state_entered", state.name)
 
-func _on_timer_timeout() -> void:
+
+func _on_timeout() -> void:
 	state._on_timer_timeout()
 
 

@@ -79,13 +79,11 @@ func _input(event):
 
 func _connect_signals() -> void:
 	spawned_wave.connect("wave_ended", self, "_on_wave_ended")
-	spawned_wave.connect("object_destroyed", self, "_on_wave_object_destroyed")
 	spawned_wave.connect("hero_left", self, "_on_wave_hero_left")
 
 
 func _disconnect_signals() -> void:
 	spawned_wave.disconnect("wave_ended", self, "_on_wave_ended")
-	spawned_wave.disconnect("object_destroyed", self, "_on_wave_object_destroyed")
 	spawned_wave.disconnect("hero_left", self, "_on_wave_hero_left")
 
 

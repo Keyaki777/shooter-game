@@ -38,7 +38,7 @@ playing = true
 
 [node name="HitBoxArea2D" parent="." instance=ExtResource( 2 )]
 visible = false
-damage = 10
+damage = 10.0
 max_number_of_hits = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea2D"]

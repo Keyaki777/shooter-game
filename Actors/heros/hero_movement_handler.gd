@@ -6,12 +6,12 @@ signal stopped
 var character: Hero setget set_character
 var direction = Vector2.ZERO
 var velocity = Vector2.ZERO
-export var base_speed: int = 300
+export var base_speed: float = 300
 export var _rotation_speed: = 10
 
 var up: = Vector2.ZERO
 
-var bonus_speed = 0 setget set_bonus_speed
+var bonus_speed: float = 0 setget set_bonus_speed
 var final_speed = 0
 
 var screen_size

@@ -1,12 +1,14 @@
 extends Node2D
 class_name HeroWeapon
 
+signal hero_shooted
+
 var array_of_status_names: Array
 var spawned_projectile
 export var projectile_scene: PackedScene
 var character
 export var cooldown_time: float = 0.9 setget set_cooldown
-export var _base_damage: int = 0
+export var _base_damage: int = 25
 var _total_damage: int = 2
 var _bonus_damage = 0 setget set_bonus_damage
 var _percent_bonus_damage = 0 setget set_percent_damage
@@ -18,28 +20,42 @@ onready var rear_cannon = $RearCannon
 onready var side_cannons = $SideCannons
 onready var front_cannon = $FrontCannons
 export var splash_path: NodePath
+
 var splash_animated_sprite
-
-
+var bullet_bonus_scale = 1
 var max_enemies_bounces : = 0 setget set_max_enemies_bounces
 var max_wall_bounces : = 0
 var max_number_of_hits: = 4
 var all_cannons: Array
-# 0 = left
 var last_front_cannon: int = 0
-var critical_chance: int = 10
+export var base_critical_chance: float = 10
+var bonus_critical_chance: float = 0 setget set_bonus_critical
+var percent_critical_chance: float = 0 setget set_percent_critical
+var total_critical_chance: float 
 
+
+
+
+func set_bonus_critical(new_value) -> void:
+	bonus_critical_chance = new_value
+
+
+func set_percent_critical(new_value) -> void:
+	percent_critical_chance = new_value
+
+
+
+func update_total_critical_chance() -> void:
+	var real_percent_critical_chance = percent_critical_chance / 100 * (bonus_critical_chance + base_critical_chance)
+	total_critical_chance = bonus_critical_chance + base_critical_chance + real_percent_critical_chance
 
 func _ready():
 	splash_animated_sprite = get_node(splash_path)
 	update_total_damage()
 	cooldown_timer_node.wait_time = cooldown_time
 	add_front_cannon()
-	
-#	add_diagonal_cannons1()
-#	add_rear_cannon()
-#	add_diagonal_cannons2()
-#	add_side_cannons()
+	self.connect("hero_shooted", SignalManager, "_on_hero_shooted")
+	update_total_critical_chance()
 
 
 func add_front_cannon() -> void:
@@ -87,10 +103,11 @@ func shoot() -> void:
 		spawned_projectile_hitbox.damage_source = self
 		spawned_projectile_hitbox.team = 0
 		spawned_projectile_hitbox.damage = _total_damage
-		spawned_projectile_hitbox.critical_chance = critical_chance
+		spawned_projectile_hitbox.critical_chance = total_critical_chance
 		spawned_projectile_hitbox.max_number_of_hits = max_number_of_hits
 		spawned_projectile.max_enemies_bounces = max_enemies_bounces
 		spawned_projectile.max_wall_bounces = max_wall_bounces
+		spawned_projectile.addapt_size(bullet_bonus_scale)
 		add_child(spawned_projectile)
 		spawned_projectile.set_as_toplevel(true)
 		spawned_projectile.global_position = cannon.global_position
@@ -98,6 +115,7 @@ func shoot() -> void:
 		spawned_projectile.direction = Vector2.RIGHT.rotated(cannon.global_rotation)
 		play_splash_sprite()
 		cooldown_timer_node.start()
+	emit_signal("hero_shooted")
 
 
 func _input(event):

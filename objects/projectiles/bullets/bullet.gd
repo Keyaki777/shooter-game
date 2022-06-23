@@ -9,12 +9,15 @@ var max_wall_bounces: = 0
 var walls_bounced: = 0
 var enemies_bounced: = 0
 var max_enemies_bounces: = 0
+var trail: BulletParticles
+
+onready var hitbox: HitBoxArea2D = $HitBoxArea2D
 onready var enemy_detector: Area2D = $EnemyDetector
 onready var sprite: Node2D = $Sprite
 onready var raycast2d: RayCast2D = $RayCast2D
+
 export var explosion_particle_scene: PackedScene
 export var trail_particle_scene: PackedScene
-var trail: BulletParticles
 
 
 
@@ -33,7 +36,9 @@ func find_next_target(last_enemy_hurt_box) -> void:
 	if !enemies_bounced < max_enemies_bounces:
 		destroy()
 		return
+	
 	instance_explosion_particle()
+	damage_reduction(hitbox.damage/100*20)
 	var last_enemy = last_enemy_hurt_box.character
 	raycast2d.add_exception(last_enemy)
 	var enemies_detected = enemy_detector.get_overlapping_areas()
@@ -64,6 +69,11 @@ func destroy():
 	instance_explosion_particle()
 	queue_free()
 
+
+func addapt_size(scale_variation) -> void:
+	if scale_variation != 0:
+		$Trail2D.visible = false
+		self.scale *= scale_variation
 
 #func separate_particles(particle: BulletParticles) -> void:
 #	particle.emitting = false
@@ -105,6 +115,7 @@ func set_direction(new_direction) -> void:
 func bounce(collision_info) -> void:
 	if walls_bounced < max_wall_bounces:
 		walls_bounced += 1
+		damage_reduction(hitbox.damage/100*20)
 		velocity = velocity.bounce(collision_info.normal)
 		global_rotation = velocity.angle()
 		instance_explosion_particle()
@@ -118,6 +129,10 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_HitBoxArea2D_max_hited():
 	destroy()
 
+
 func _on_HitBoxArea2D_not_last_hit(hurt_box):
 	find_next_target(hurt_box)
 
+
+func damage_reduction(value) -> void:
+	hitbox.damage -= int(value)

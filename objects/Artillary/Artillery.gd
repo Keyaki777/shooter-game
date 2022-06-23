@@ -49,13 +49,20 @@ func calculate_trajectory() -> void:
 	curve = curve2d
 	spawn_path()
 
+
 func spawn_path() -> void:
 	tween.interpolate_property(path_follow, "unit_offset", 0.0, 1.0,total_time / time_variant, Tween.TRANS_QUAD, Tween.EASE_IN )
 	projectile.set_as_toplevel(false)
+	path_follow.unit_offset = 1
+	projectile._set_target_sprite(path_follow.global_position)
+#	projectile._set_target_sprite(end)
+	path_follow.unit_offset = 0
+	path_follow.visible = true
+#	curve.get_point_count()
 	tween.start()
 
 
 func _on_Tween_tween_all_completed():
 	if !is_instance_valid(projectile):
 		return
-	projectile._animation_player.play("Explosion")
+	projectile.explode()

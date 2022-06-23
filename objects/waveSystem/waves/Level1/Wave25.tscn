@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://objects/waveSystem/waves/Wave.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/StraightLaserEnemy/StraightLaserEnemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/StraightLaserEnemy/StraightLaserEnemy.tscn" type="PackedScene" id=2]
 
 [node name="wave" instance=ExtResource( 1 )]
 

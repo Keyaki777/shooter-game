@@ -17,6 +17,7 @@ func _ready():
 
 
 func shoot_at_target (target_position: Vector2) -> void:
+	target_position.y = target_position.y + 90
 	var this_position
 	if !all_cannons.empty():
 		if selected_cannon == all_cannons.size()-1:

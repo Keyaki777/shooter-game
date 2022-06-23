@@ -6,6 +6,8 @@ export var growth_time := 0.1
 
 var is_casting := false setget set_is_casting
 var cast_point
+var is_target_point = false
+var target_location: Vector2
 export var is_inner_line = false
 
 onready var fill := $FillLine2D
@@ -21,6 +23,7 @@ onready var line_width: float = fill.width
 func _ready() -> void:
 	set_physics_process(false)
 	fill.points[1] = Vector2.ZERO
+	fill.modulate = self.modulate
 
 
 func _physics_process(delta: float) -> void:
@@ -51,8 +54,13 @@ func cast_beam() -> void:
 
 	force_raycast_update()
 	collision_particles.emitting = is_colliding()
+	
+	if is_target_point:
+		cast_point = to_local(target_location)
+		collision_particles.position = cast_point
+	
 
-	if is_colliding():
+	if is_colliding() and  ! is_target_point:
 		cast_point = to_local(get_collision_point())
 		collision_particles.global_rotation = get_collision_normal().angle()
 		collision_particles.position = cast_point
@@ -74,7 +82,8 @@ func disappear() -> void:
 		tween.stop_all()
 	tween.interpolate_property(fill, "width", fill.width, 0, growth_time)
 	tween.start()
-	
+
+
 func update_beam_particle_extent() -> void:
 	if is_casting:
 		beam_particles.process_material.emission_box_extents.x = cast_point.length() * 0.5

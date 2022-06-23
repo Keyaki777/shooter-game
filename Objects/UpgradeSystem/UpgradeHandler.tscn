@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://objects/upgradeSystem/UpgradeHandler.gd" type="Script" id=1]
 [ext_resource path="res://ui/Upgrade_Button/Button.tscn" type="PackedScene" id=2]
@@ -13,6 +13,13 @@
 [ext_resource path="res://objects/upgrades/abstract_upgrades/DiagonalShootsUpgrade.tscn" type="PackedScene" id=11]
 [ext_resource path="res://objects/upgrades/abstract_upgrades/LifeStealUpgrade.tscn" type="PackedScene" id=12]
 [ext_resource path="res://objects/upgrades/abstract_upgrades/AttackSpeedPlusUpgrade.tscn" type="PackedScene" id=13]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/AfterMoveUpgrade.tscn" type="PackedScene" id=14]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/10FirstSecondsAttackPlusUpgrade.tscn" type="PackedScene" id=15]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/OfenseIsTheBestDefenseUpgrade.tscn" type="PackedScene" id=16]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/DangerousGameUpgrade.tscn" type="PackedScene" id=17]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/DieHard.tscn" type="PackedScene" id=18]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/CatastrophicMoraleUpgrade.tscn" type="PackedScene" id=19]
+[ext_resource path="res://objects/upgrades/abstract_upgrades/AgressiveEnduranceUpgrade.tscn" type="PackedScene" id=20]
 
 [node name="Upgrade_Handler" type="Node2D"]
 script = ExtResource( 1 )
@@ -94,3 +101,19 @@ margin_bottom = 203.0
 [node name="ShieldStealUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 10 )]
 
 [node name="AbstractUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 12 )]
+
+[node name="AfterMoveUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 14 )]
+
+[node name="10FirstSecondsAttackPusUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 15 )]
+
+[node name="OfenseIsTheBestDefenseUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 16 )]
+
+[node name="DangerousGameUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 17 )]
+
+[node name="DieHard" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 18 )]
+
+[node name="CatastrophicMoraleUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 19 )]
+
+[node name="AgressiveEnduranceUpgrade" parent="UpgradeContainer/UnsortedContainer" instance=ExtResource( 20 )]
+
+[node name="UpgradesActive" type="Node" parent="UpgradeContainer"]

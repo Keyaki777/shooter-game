@@ -2,7 +2,7 @@ extends Upgrade
 
 func _ready():
 	_up_name = "LifeSteal"
-	_up_effect = "Whenever You Kill An Enemy You Heal 1 HP"
+	_up_effect = "Whenever You Kill An Enemy you have 50% chance to Heal 1 HP"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
@@ -11,8 +11,8 @@ func _ready():
 	
 
 func _execute():
-	print(name)
-	hero.get_heal(1)
+	if Rng.rng.randi_range(0,1) == 1:
+		hero.get_heal(1)
 
 
 func _unexecute():
@@ -24,7 +24,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	pass
+	SignalManager.connect("enemy_death_started", self, "_execute")
 
 
 func on_signal_received(value = 0):

@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://objects/waveSystem/waves/Wave.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/WalkerEnemy/WalkerEnemy.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/PipeEnemy/PipeEnemy.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Actors/Enemy/UniqueEnemy/GreenEnemies/StraightPipeEnemy/StraightPipeEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/WalkerEnemy/WalkerEnemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/PipeEnemy/PipeEnemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/StraightPipeEnemy/StraightPipeEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/BomberEnemy/BombEnemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/PixieEnemy/PixieEnemy.tscn" type="PackedScene" id=6]
 
 [node name="wave" instance=ExtResource( 1 )]
 
@@ -36,3 +38,24 @@ position = Vector2( 965, 836 )
 
 [node name="StraightPipeEnemy2" parent="Enemies" index="7" instance=ExtResource( 4 )]
 position = Vector2( 117, 557 )
+
+[node name="BomberEnemy" parent="Enemies" index="8" instance=ExtResource( 5 )]
+position = Vector2( 299, 369 )
+
+[node name="Pixie" parent="Enemies" index="9" instance=ExtResource( 6 )]
+position = Vector2( 663, 685 )
+
+[node name="Pixie4" parent="Enemies" index="10" instance=ExtResource( 6 )]
+position = Vector2( 663, 685 )
+
+[node name="Pixie5" parent="Enemies" index="11" instance=ExtResource( 6 )]
+position = Vector2( 663, 685 )
+
+[node name="Pixie6" parent="Enemies" index="12" instance=ExtResource( 6 )]
+position = Vector2( 663, 685 )
+
+[node name="Pixie2" parent="Enemies" index="13" instance=ExtResource( 6 )]
+position = Vector2( 466, 360 )
+
+[node name="Pixie3" parent="Enemies" index="14" instance=ExtResource( 6 )]
+position = Vector2( 627, 1083 )

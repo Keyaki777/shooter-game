@@ -1,6 +1,7 @@
 extends Node
 class_name Upgrade
 
+signal upgrade_duplicated(upgrade)
 signal unlock_secondary(secondary_type)
 #signal request_signal_connect(upgrade)
 #signal request_signal_trigger1(upgrade)
@@ -11,8 +12,8 @@ signal unlock_secondary(secondary_type)
 enum Types {Normal, Poison, Fire, Water, Ice}
 export (Types) var type = Types.Normal
 
-enum Unique_Types{Normal, AttackType, Revenge, Miss, ShieldNova, Critical, ShieldOn, EnemyKilled}
-export (Unique_Types) var unique_type = Unique_Types.Normal
+enum Unique_Types{Commom, Rare, VeryRare, Epic}
+export (Unique_Types) var unique_type = Unique_Types.Commom
 
 #enum Teams{PLAYER, ENEMY}
 #export (Teams) var team := Teams.ENEMY
@@ -39,7 +40,7 @@ export var is_selected: bool = false
 # if the upgrade have already been bought by the player
 export var is_activated: bool = false
 # if the upgrade has be unlocked by the player
-export var is_unlocked: bool = false
+export var is_unlocked: bool = true
 #export var is_signal_connect: bool = false
 
 var is_bonus_1: bool = false
@@ -50,6 +51,14 @@ var is_bonus_3: bool = false
 
 
 func initialize() -> void:
+	if unique_type == 0:
+		var duplicate: Upgrade = duplicate()
+		get_parent().add_child(duplicate)
+		duplicate.connect("upgrade_duplicated", SignalManager, "_on_upgrade_duplicated")
+		duplicate.emit_signal("upgrade_duplicated", duplicate)
+		
+		
+		
 	is_activated = true
 	on_buy_effect()
 	on_buy_signal_connect()
@@ -98,10 +107,6 @@ func _execute_bonus_2() -> void:
 func _execute_bonus_3() -> void:
 	pass
 	
-
-func on_signal_received(value = 0):
-	execute()
-
 
 func init_bonus_1() -> void:
 	is_bonus_1 = true

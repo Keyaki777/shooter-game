@@ -50,6 +50,11 @@ _global_script_classes=[ {
 "path": "res://objects/projectiles/bullets/EnemyBullets/BasicEnemyBullet/EnemyNova/EnemyNova.gd"
 }, {
 "base": "Node2D",
+"class": "EnemySupport",
+"language": "GDScript",
+"path": "res://Actors/Enemy/UniqueEnemy/PurpleEnemies/PixieEnemy/SupportNode.gd"
+}, {
+"base": "Node2D",
 "class": "EnemyWeapon",
 "language": "GDScript",
 "path": "res://objects/weapons/EnemyWeapons/PipeWeapon/PipeWeapon.gd"
@@ -93,6 +98,11 @@ _global_script_classes=[ {
 "class": "HurtBoxArea2D",
 "language": "GDScript",
 "path": "res://objects/hurtBoxArea2D/HurtBoxArea2D.gd"
+}, {
+"base": "Node2D",
+"class": "LabelUI",
+"language": "GDScript",
+"path": "res://objects/UI/HeroUI/ValueUI.gd"
 }, {
 "base": "Node2D",
 "class": "Nova",
@@ -198,6 +208,7 @@ _global_script_class_icons={
 "CrossHair": "",
 "Enemy": "",
 "EnemyNova": "",
+"EnemySupport": "",
 "EnemyWeapon": "",
 "Hero": "",
 "HeroState": "",
@@ -207,6 +218,7 @@ _global_script_class_icons={
 "Hit": "",
 "HitBoxArea2D": "",
 "HurtBoxArea2D": "",
+"LabelUI": "",
 "Nova": "",
 "PipeBullet": "",
 "PopLabel": "",
@@ -238,6 +250,7 @@ config/icon="res://icon.png"
 
 ParticlesCache="*res://objects/Singleton/ParticlesCache.gd"
 SignalManager="*res://objects/Singleton/SignalManager.gd"
+Rng="*res://objects/Singleton/Rng.gd"
 
 [display]
 
@@ -312,6 +325,7 @@ test_input_4={
 2d_physics/layer_4="player"
 2d_physics/layer_5="floor"
 2d_physics/layer_6="outerwalls"
+2d_physics/layer_7="bullet"
 
 [physics]
 

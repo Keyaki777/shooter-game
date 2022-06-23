@@ -1,18 +1,16 @@
 extends Status
 
 
-
 func _ready():
 	set_process(false)
+	
 #	remote_transform.set_as_toplevel(true)
 
 
 func status_execute() -> void:
 	create_hit(modifier)
-	yield(get_tree().create_timer(0.1), "timeout")
-	create_hit(modifier)
-	yield(get_tree().create_timer(0.1), "timeout")
-	create_hit(modifier)
+	proc_timer_node.start()
+	
 
 
 func status_cancel() -> void:
