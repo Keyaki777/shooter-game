@@ -45,7 +45,7 @@ tracks/0/keys = {
 
 [node name="BomberEnemy" instance=ExtResource( 3 )]
 base_hp = 700.0
-crosshair_scale = 0.7
+crosshair_scale = 0.8
 
 [node name="CollisionShape2D" parent="." index="0"]
 scale = Vector2( 0.652834, 0.652834 )
@@ -76,9 +76,6 @@ script = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StateMachine/Shoot" index="0"]
 anims/Shoot = SubResource( 4 )
-
-[node name="DebugControl" parent="." index="8"]
-visible = true
 
 [node name="Weapon" type="Node2D" parent="." index="10"]
 rotation = 1.57079

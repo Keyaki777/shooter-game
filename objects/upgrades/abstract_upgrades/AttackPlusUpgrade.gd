@@ -1,8 +1,10 @@
 extends Upgrade
 
+var attack_variation: int = 5
+
 func _ready():
 	_up_name = "Attack Plus"
-	_up_effect = "Upgrade the damage of your guns"
+	_up_effect = String("Your guns gain " + String(attack_variation) + " attack")
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
@@ -23,7 +25,10 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.hero_weapon._bonus_damage += 10
+	hero.hero_weapon._bonus_damage += update_attack_variation()
+	UpgradeCounter.counter_attack_up += 1
+	update_attack_variation()
+	
 
 
 func on_signal_received(value = 0):
@@ -40,3 +45,14 @@ func _execute_bonus_2() -> void:
 
 func _execute_bonus_3() -> void:
 	pass
+
+func update_labels() -> void:
+	update_attack_variation()
+	_atribute_description = "your attack is: " + String(hero.hero_weapon._total_damage)
+	_up_effect = String("Your guns gain " + String(attack_variation) + " attack")
+	
+	
+func update_attack_variation() -> int:
+	var nerf: int = UpgradeCounter.counter_attack_up / 2
+	attack_variation = max(2, 5 - round(nerf))
+	return attack_variation

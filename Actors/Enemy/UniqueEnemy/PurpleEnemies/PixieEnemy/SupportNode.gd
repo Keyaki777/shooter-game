@@ -33,7 +33,6 @@ func _remigrate_to_host(host) -> void:
 
 func _on_Tween_tween_completed(object, key):
 	if first_migrated == true and second_migrated == true:
-		var character_position = character.global_position
 #		character.set_as_toplevel(true)
 #		character.remove_from_group("enemies")
 #		remove_enemy()
@@ -52,6 +51,7 @@ func remove_enemy() -> void:
 	character.remove_from_group("enemies")
 	character.hurt_box.set_deferred("monitorable", false)
 
+
 func update_support_container():
 	self.support_container = null
 	for this_support_container in host.all_support_containers:
@@ -59,6 +59,7 @@ func update_support_container():
 			continue
 		else:
 			self.support_container = this_support_container
+			var old_global_position = character.global_position
 			character.get_parent().remove_child(character)
-	#		host.support_container.add_child(character)
 			support_container.add_child(character)
+			character.global_position = old_global_position

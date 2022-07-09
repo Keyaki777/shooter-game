@@ -30,6 +30,7 @@ signal enemy_death_started
 signal hero_started_shooting
 signal hero_stopped_shooting
 signal upgrade_duplicated(upgrade_duplicated)
+signal hero_death_started
 
 
 var _hero: Hero setget _set_hero
@@ -149,3 +150,23 @@ func _on_hero_stopped_shooting() -> void:
 
 func _on_upgrade_duplicated(upgrade_duplicated) -> void:
 	emit_signal("upgrade_duplicated", upgrade_duplicated)
+
+
+func disconnect_all_signals() -> void:
+	var signals = get_signal_list()
+	for cur_signal in signals:
+		var coons = get_signal_connection_list(cur_signal.name);
+		for cur_coon in coons:
+			print("signal = " , cur_coon.signal)
+			print("target = " , cur_coon.target)
+			print("method = " , cur_coon.method)
+			disconnect(cur_coon.signal, cur_coon.target, cur_coon.method)
+
+
+
+func _on_hero_death_started() -> void:
+	emit_signal("hero_death_started")
+
+
+
+

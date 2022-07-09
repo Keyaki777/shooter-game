@@ -21,7 +21,7 @@ onready var sprite_animator :AnimationPlayer = $AnimatedSprite/AnimationPlayer
 onready var animated_sprite: AnimatedSprite = $AnimatedSprite
 onready var hero_detector: RayCast2D = $RayCast2D
 onready var enemy_area = $EnemyArea
-#onready var support_container = $SupportControl/SuportContainerContainer
+onready var support_control = $SupportControl
 onready var all_support_containers: = $SupportControl.get_children()
 var support_node: EnemySupport
 var wave setget set_wave

@@ -4,7 +4,7 @@ extends Upgrade
 
 func _ready():
 	_up_name = "Repairs"
-	_up_effect = "Repair 50% of your ship health"
+	_up_effect = "Repair 35% of your ship health"
 	_scene_path = "res://objects/status/status.tscn"
 
 
@@ -22,8 +22,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.get_heal(hero._total_hp/2)
-
+	hero.get_heal(hero._total_hp * 35/100)
 
 
 func _execute_bonus_1() -> void:
@@ -39,3 +38,7 @@ func _execute_bonus_3() -> void:
 
 func _on_timeout() -> void:
 	_unexecute()
+
+
+func update_labels() -> void:
+	_atribute_description = "your hp is: " + String(hero._hp) + " and your total hp is " + String(hero._total_hp)

@@ -5,3 +5,4 @@
 
 [node name="OfenseIsTheBestDefenseUpgrade" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
+unique_type = 1

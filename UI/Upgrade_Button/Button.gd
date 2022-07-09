@@ -13,6 +13,7 @@ onready var label_bonus_1 = $VBoxContainer/LabelVBoxContainer/Bonus1
 onready var label_bonus_2 = $VBoxContainer/LabelVBoxContainer/Bonus2
 onready var label_bonus_3 = $VBoxContainer/LabelVBoxContainer/Bonus3
 onready var animation_player :AnimationPlayer = $AnimationPlayer
+onready var reference: Label = $VBoxContainer/Reference
 
 var upgrade: Upgrade
 var index_of_upgrade: int
@@ -33,10 +34,13 @@ func upgrade_animation_started(animation_name: String) -> void:
 
 
 func fill_fields(upgrade: Upgrade) -> void:
+	clean_button()
+	upgrade.update_labels()
 	self.upgrade = upgrade
 	label_name.text = String(upgrade._up_name)
 	ui_effect.text = "Effect: " + String(upgrade._up_effect)
-
+	atribute_description.text = upgrade._atribute_description
+	
 	if upgrade.is_bonus_1:
 		label_bonus_1.text = "UNLOCKED " + String(upgrade._bonus_1)
 
@@ -53,7 +57,8 @@ func clean_button() -> void:
 	ui_effect.text = ""
 	label_bonus_1.text = ""
 	label_bonus_2.text = ""
-	label_bonus_3.text = ""
+	label_bonus_3.text = ""  
+	atribute_description.text = ""
 
 
 func _on_Button_button_up():

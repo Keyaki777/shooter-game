@@ -36,11 +36,11 @@ scale_curve = SubResource( 4 )
 color_ramp = SubResource( 2 )
 
 [node name="Fire" instance=ExtResource( 2 )]
-modulate = Color( 1.21, 1.21, 1.21, 1 )
+self_modulate = Color( 1, 0.305882, 0, 1 )
 script = ExtResource( 1 )
-exaust_wait_time = 2.5
+exaust_wait_time = 3.5
 proc_wait_time = 0.2
-modifier = 3
+damage_modifier = 4
 
 [node name="Particles2D" type="Particles2D" parent="." index="2"]
 amount = 64

@@ -54,6 +54,7 @@ onready var _cross_hair: CrossHair = $CrossHair
 onready var _label_ui: LabelUI = $UI/Control/ValueUI
 onready var _state_machine : StateMachine = $StateMachine
 onready var _sprite: AnimatedSprite = $AnimatedSprite
+onready var _collision_shape: CollisionShape2D = $CollisionShape2D2
 
 func _ready():
 	

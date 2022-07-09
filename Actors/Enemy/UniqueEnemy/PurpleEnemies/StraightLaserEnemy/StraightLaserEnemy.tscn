@@ -61,9 +61,6 @@ script = ExtResource( 2 )
 [node name="DamageCooldownTimer" type="Timer" parent="StateMachine/Shoot" index="0"]
 one_shot = true
 
-[node name="DebugControl" parent="." index="8"]
-visible = true
-
 [node name="Weapon" type="Node2D" parent="." index="10"]
 
 [node name="BasicEnemyWeapon" parent="Weapon" index="0" instance=ExtResource( 4 )]
@@ -84,7 +81,7 @@ scale = Vector2( 0.262444, 0.262444 )
 texture = ExtResource( 10 )
 
 [node name="LaserBeam" parent="Weapon/BasicEnemyWeapon" index="4" instance=ExtResource( 11 )]
-modulate = Color( 1.4, 0.94, 1.27, 0.96 )
+modulate = Color( 1.2, 0.94, 1.07, 0.96 )
 position = Vector2( 58, 0 )
 
 [node name="AntecipationRayCast2D" parent="Weapon/BasicEnemyWeapon" index="5" instance=ExtResource( 7 )]

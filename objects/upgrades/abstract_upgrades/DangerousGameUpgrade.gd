@@ -2,14 +2,14 @@ extends Upgrade
 
 
 onready var _timer: Timer = $Timer
-var wait_time = 40
+var wait_time = 35
 var heal_amount = 5
 
 
 func _ready():
 	_timer.wait_time = wait_time
 	_up_name = "Dangerous Game"
-	_up_effect = "If you finish a chamber before 40 seconds heal 5 hp, else lose 3hp"
+	_up_effect = "If you finish a chamber before 35 seconds heal 5 hp, else lose 3hp"
 	_scene_path = "res://objects/status/status.tscn"
 	
 

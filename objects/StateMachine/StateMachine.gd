@@ -34,7 +34,6 @@ func insert_properties_on_states() -> void:
 			continue
 		state._state_machine = self
 		state.character = self.character
-		
 
 
 func set_state(new_state) -> void:

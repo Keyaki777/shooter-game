@@ -39,3 +39,6 @@ func _execute_bonus_3() -> void:
 
 func _on_timeout() -> void:
 	_unexecute()
+
+func update_labels() -> void:
+	_atribute_description = "your critical chance is: " + String(hero.hero_weapon.total_critical_chance)

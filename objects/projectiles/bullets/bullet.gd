@@ -10,7 +10,7 @@ var walls_bounced: = 0
 var enemies_bounced: = 0
 var max_enemies_bounces: = 0
 var trail: BulletParticles
-
+var ajusted_color: Color = self_modulate
 onready var hitbox: HitBoxArea2D = $HitBoxArea2D
 onready var enemy_detector: Area2D = $EnemyDetector
 onready var sprite: Node2D = $Sprite
@@ -22,6 +22,7 @@ export var trail_particle_scene: PackedScene
 
 
 func _ready():
+	update_color()
 	instance_trail_particle()
 	
 
@@ -71,9 +72,15 @@ func destroy():
 
 
 func addapt_size(scale_variation) -> void:
-	if scale_variation != 0:
+	if scale_variation == 1.0:
 		$Trail2D.visible = false
+	else:
 		self.scale *= scale_variation
+#		var new_scale = 1 / scale_variation
+#		$Trail2D.scale = Vector2(new_scale, new_scale)
+		$Trail2D.scale /= self.scale
+		$Trail2D.lenght = 5
+		
 
 #func separate_particles(particle: BulletParticles) -> void:
 #	particle.emitting = false
@@ -136,3 +143,12 @@ func _on_HitBoxArea2D_not_last_hit(hurt_box):
 
 func damage_reduction(value) -> void:
 	hitbox.damage -= int(value)
+
+
+func _on_hitbox_status_setted(original_status) -> void:
+	ajusted_color = original_status.self_modulate
+
+
+func update_color() -> void:
+	if ajusted_color != Color(1,1,1,1):
+		sprite.modulate = ajusted_color

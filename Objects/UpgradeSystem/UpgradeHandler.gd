@@ -55,11 +55,11 @@ func chosse_upgrades_to_buy() -> void:
 func chosse_upgrade_rarity() -> String:
 	var rarity_chance = rng.randi_range(1,100)
 	var rarity
-	if rarity_chance <= 70:
+	if rarity_chance <= 80:
 		rarity = "Commom"
-	elif rarity_chance >70 and rarity_chance <= 90:
+	elif rarity_chance >80 and rarity_chance <= 92:
 		rarity = "Rare"
-	elif rarity_chance > 90 and rarity_chance <=97:
+	elif rarity_chance > 92 and rarity_chance <=97:
 		rarity = "VeryRare"
 	elif rarity_chance > 97:
 		rarity = "Epic"

@@ -14,10 +14,11 @@ func _ready():
 
 
 func status_execute() -> void:
+	damage_modifier = 5 + float(character.hp) /100 * 7
 	create_hit()
 	$Particles2D.global_position = hurtbox.global_position
 	$Particles2D.emitting = true
-
+	
 
 func status_cancel() -> void:
 	queue_free()

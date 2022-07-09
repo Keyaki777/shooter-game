@@ -12,6 +12,13 @@ export var _base_damage: int = 25
 var _total_damage: int = 2
 var _bonus_damage = 0 setget set_bonus_damage
 var _percent_bonus_damage = 0 setget set_percent_damage
+
+
+var status_chance: float
+var base_status_chance: float = 5
+var bonus_status_chance: float = 0 setget set_bonus_status_chance
+var percent_status_chance: float = 0 setget set_percent_status_chance
+
 onready var cooldown_timer_node: Timer = $Cooldown
 onready var front_cannons = $FrontCannons
 onready var diagonal_cannons1 = $DiagonalCannons
@@ -21,6 +28,7 @@ onready var side_cannons = $SideCannons
 onready var front_cannon = $FrontCannons
 export var splash_path: NodePath
 
+var cooldown_modifier = 0.15
 var splash_animated_sprite
 var bullet_bonus_scale = 1
 var max_enemies_bounces : = 0 setget set_max_enemies_bounces
@@ -34,22 +42,23 @@ var percent_critical_chance: float = 0 setget set_percent_critical
 var total_critical_chance: float 
 
 
-
-
 func set_bonus_critical(new_value) -> void:
 	bonus_critical_chance = new_value
+	update_total_critical_chance()
 
 
 func set_percent_critical(new_value) -> void:
 	percent_critical_chance = new_value
-
+	update_total_critical_chance()
 
 
 func update_total_critical_chance() -> void:
 	var real_percent_critical_chance = percent_critical_chance / 100 * (bonus_critical_chance + base_critical_chance)
 	total_critical_chance = bonus_critical_chance + base_critical_chance + real_percent_critical_chance
 
+
 func _ready():
+	update_status_chance()
 	splash_animated_sprite = get_node(splash_path)
 	update_total_damage()
 	cooldown_timer_node.wait_time = cooldown_time
@@ -94,13 +103,20 @@ func add_status(status_name: String) -> void:
 
 
 func shoot() -> void:
+	var is_status_bullet = Rng.rng.randf_range(0, 100) <= status_chance
+
 	if !cooldown_timer_node.is_stopped():
 		return
 
 	for cannon in all_cannons:
 		spawned_projectile = projectile_scene.instance() 
 		var spawned_projectile_hitbox = spawned_projectile.get_node("HitBoxArea2D")
-		spawned_projectile_hitbox.damage_source = self
+		
+		if is_status_bullet and self.array_of_status_names.size() > 0:
+			spawned_projectile_hitbox.connect("status_setted", spawned_projectile, "_on_hitbox_status_setted")
+			spawned_projectile_hitbox.damage_source = self
+			var rand_status_index = Rng.rng.randi_range(0, self.array_of_status_names.size()-1)
+			spawned_projectile_hitbox.chossen_status = array_of_status_names[rand_status_index]
 		spawned_projectile_hitbox.team = 0
 		spawned_projectile_hitbox.damage = _total_damage
 		spawned_projectile_hitbox.critical_chance = total_critical_chance
@@ -126,6 +142,7 @@ func _input(event):
 func update_total_damage() -> void:
 	var percent_bonus_damage = _percent_bonus_damage/100 * (_base_damage + _bonus_damage)
 	_total_damage = _percent_bonus_damage + _base_damage + _bonus_damage
+	_total_damage = max (_total_damage, 7)
 
 
 func set_percent_damage(value) -> void:
@@ -155,8 +172,26 @@ func set_cooldown(value) -> void:
 
 
 func improve_cooldown() -> void:
-	self.cooldown_time = cooldown_time - (cooldown_time * 0.4)
-	print(cooldown_time)
+	self.cooldown_time = cooldown_time - (cooldown_time * cooldown_modifier)
+	cooldown_modifier -= cooldown_modifier /100 * 3.3
+
+
+func set_percent_status_chance(value) -> void:
+	percent_status_chance = value
+	update_status_chance()
+
+func set_bonus_status_chance(value) -> void:
+	bonus_status_chance = value
+	update_status_chance()
+
+func update_status_chance() -> void:
+	var raw_status_chance = base_status_chance + bonus_status_chance
+	var raw_percent_status_chance = percent_status_chance * raw_status_chance / 100
+	status_chance = raw_percent_status_chance + raw_status_chance
+
+
+
+
 
 
 

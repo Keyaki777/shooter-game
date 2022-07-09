@@ -23,7 +23,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.hero_movement_handler.bonus_speed += 170
+	hero.hero_movement_handler.bonus_speed += 63
 
 
 func on_signal_received(value = 0):

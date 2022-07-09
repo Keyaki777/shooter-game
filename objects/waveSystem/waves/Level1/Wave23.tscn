@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/PixieHollowEnemy/PixieHollowEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://objects/waveSystem/waves/Wave.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/StarShooterEnemy/StarShooterEnemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/StraightPipeEnemy/StraightPipeEnemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/WalkerShooterEnemy/WalkerShooterEnemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/PipeEnemy/PipeEnemy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Actors/Enemy/UniqueEnemy/PurpleEnemies/StraightLaserEnemy/StraightLaserEnemy.tscn" type="PackedScene" id=7]
+
+[node name="wave" instance=ExtResource( 2 )]
+
+[node name="CrateWalls" parent="." index="1"]
+tile_data = PoolIntArray( 589826, 1, 0, 589827, 1, 0, 589828, 1, 0, 589829, 1, 0, 589830, 1, 0, 589831, 1, 0, 589832, 1, 0, 589833, 1, 0, 589834, 1, 0, 589835, 1, 0, 589836, 1, 0, 589837, 1, 0, 589838, 1, 0, 1179650, 1, 0, 1179651, 1, 0, 1179652, 1, 0, 1179653, 1, 0, 1179654, 1, 0, 1179658, 1, 0, 1179659, 1, 0, 1179660, 1, 0, 1179661, 1, 0, 1179662, 1, 0, 1310720, 4, 0, 1572871, 1, 0, 1572872, 1, 0, 1572873, 1, 0 )
+
+[node name="BorderWalls" parent="." index="2"]
+tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 6, 4, 0, 7, 4, 0, 8, 4, 0, 9, 4, 0, 10, 4, 0, 11, 4, 0, 12, 4, 0, 13, 4, 0, 14, 4, 0, 15, 4, 0, 16, 4, 0, 65536, 4, 0, 65552, 4, 0, 131072, 4, 0, 131088, 4, 0, 196608, 4, 0, 196624, 4, 0, 262144, 4, 0, 262160, 4, 0, 327680, 4, 0, 327696, 4, 0, 393216, 4, 0, 393232, 4, 0, 458752, 4, 0, 458768, 4, 0, 524288, 4, 0, 524304, 4, 0, 589824, 4, 0, 589829, 11, 0, 589830, 11, 0, 589831, 11, 0, 589832, 11, 0, 589833, 11, 0, 589834, 11, 0, 589835, 11, 0, 589840, 4, 0, 655360, 4, 0, 655376, 4, 0, 720896, 4, 0, 720912, 4, 0, 786432, 4, 0, 786448, 4, 0, 851968, 4, 0, 851984, 4, 0, 917504, 4, 0, 917520, 4, 0, 983040, 4, 0, 983056, 4, 0, 1048576, 4, 0, 1048592, 4, 0, 1114112, 4, 0, 1114128, 4, 0, 1179648, 4, 0, 1179651, 11, 0, 1179652, 11, 0, 1179653, 11, 0, 1179654, 11, 0, 1179658, 11, 0, 1179659, 11, 0, 1179660, 11, 0, 1179661, 11, 0, 1179664, 4, 0, 1245184, 4, 0, 1245200, 4, 0, 1310720, 4, 0, 1310736, 4, 0, 1376256, 4, 0, 1376272, 4, 0, 1441792, 4, 0, 1441808, 4, 0, 1507328, 4, 0, 1507344, 4, 0, 1572864, 4, 0, 1572872, 11, 0, 1572880, 4, 0, 1638400, 4, 0, 1638416, 4, 0, 1703936, 4, 0, 1703952, 4, 0, 1769472, 4, 0, 1769488, 4, 0, 1835008, 4, 0, 1835024, 4, 0, 1900544, 4, 0, 1900545, 4, 0, 1900546, 4, 0, 1900547, 4, 0, 1900548, 4, 0, 1900549, 4, 0, 1900550, 4, 0, 1900551, 4, 0, 1900552, 4, 0, 1900553, 4, 0, 1900554, 4, 0, 1900555, 4, 0, 1900556, 4, 0, 1900557, 4, 0, 1900558, 4, 0, 1900559, 4, 0, 1900560, 4, 0 )
+
+[node name="StarShooterEnemy" parent="Enemies" index="0" instance=ExtResource( 3 )]
+position = Vector2( 559, 1000 )
+rotation = -1.57079
+_rotation_speed = 2.0
+
+[node name="StarShooterEnemy2" parent="Enemies" index="1" instance=ExtResource( 3 )]
+position = Vector2( 571, 1343 )
+_rotation_speed = 2.0
+
+[node name="StarShooterEnemy3" parent="Enemies" index="2" instance=ExtResource( 3 )]
+position = Vector2( 554, 277 )
+_rotation_speed = 2.0
+
+[node name="StraightPipeEnemy" parent="Enemies" index="3" instance=ExtResource( 4 )]
+position = Vector2( 124, 112 )
+
+[node name="StraightPipeEnemy2" parent="Enemies" index="4" instance=ExtResource( 4 )]
+position = Vector2( 547, 475 )
+
+[node name="StraightPipeEnemy3" parent="Enemies" index="5" instance=ExtResource( 4 )]
+position = Vector2( 973, 112 )
+
+[node name="WalkerShooterEnemy" parent="Enemies" index="6" instance=ExtResource( 5 )]
+position = Vector2( 226, 246 )
+
+[node name="WalkerShooterEnemy2" parent="Enemies" index="7" instance=ExtResource( 5 )]
+position = Vector2( 828, 243 )
+
+[node name="WalkerShooterEnemy3" parent="Enemies" index="8" instance=ExtResource( 5 )]
+position = Vector2( 545, 707 )
+
+[node name="SniperPipeEnemy" parent="Enemies" index="9" instance=ExtResource( 7 )]
+position = Vector2( 76, 802 )
+
+[node name="SniperPipeEnemy2" parent="Enemies" index="10" instance=ExtResource( 7 )]
+position = Vector2( 1013, 802 )
+rotation = -3.14159
+
+[node name="SniperPipeEnemy3" parent="Enemies" index="11" instance=ExtResource( 7 )]
+position = Vector2( 547, 71 )
+rotation = 1.57079
+
+[node name="PipeEnemy" parent="Enemies" index="12" instance=ExtResource( 6 )]
+position = Vector2( 337, 105 )
+rotation = 1.57079
+
+[node name="PipeEnemy2" parent="Enemies" index="13" instance=ExtResource( 6 )]
+position = Vector2( 337, 105 )
+rotation = 1.57079
+
+[node name="PipeEnemy3" parent="Enemies" index="14" instance=ExtResource( 6 )]
+position = Vector2( 731, 105 )
+rotation = 1.57079
+
+[node name="PipeEnemy4" parent="Enemies" index="15" instance=ExtResource( 6 )]
+position = Vector2( 545, 363 )
+rotation = 1.57079
+
+[node name="PipeEnemy5" parent="Enemies" index="16" instance=ExtResource( 6 )]
+position = Vector2( 265, 696 )
+rotation = 1.57079
+
+[node name="PipeEnemy6" parent="Enemies" index="17" instance=ExtResource( 6 )]
+position = Vector2( 749, 704 )
+rotation = 1.57079
+
+[node name="PixieHollow" parent="Enemies" index="18" instance=ExtResource( 1 )]
+position = Vector2( 848, 416 )

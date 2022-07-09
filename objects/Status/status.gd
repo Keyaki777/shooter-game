@@ -7,6 +7,7 @@ var original_status: Status setget set_original_status
 export var exaust_wait_time: float = 10.5
 export var proc_wait_time: float = 5.5
 export var modifier: = 1
+export var damage_modifier: float = 1
 onready var proc_timer_node: Timer = $ProcTimer
 onready var exaust_timer_node: Timer = $ExaustTimer
 export var main_particles_path: NodePath
@@ -48,9 +49,9 @@ func set_original_status(new_original_status: Status) -> void:
 	modifier = original_status.modifier
 
 
-func create_hit(damage: int = 1, critical_chance: int = 0,color: Color = self.modulate ,global_position: Vector2 = hurtbox.global_position) -> Hit:
+func create_hit(damage : int = self.damage_modifier, critical_chance: int = 0,color: Color = self_modulate ,global_position: Vector2 = hurtbox.global_position) -> Hit:
 	var this_hit: Hit = Hit.new()
-	this_hit.constructor(damage, critical_chance, self.modulate, self.global_position)
+	this_hit.constructor(damage, critical_chance, self_modulate, self.global_position)
 	hurtbox.get_hurt(this_hit)
 	return this_hit
 

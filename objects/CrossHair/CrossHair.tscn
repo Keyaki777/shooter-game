@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Assets/CrossHair/outeraim34.png" type="Texture" id=1]
-[ext_resource path="res://Assets/CrossHair/outeraim3.png" type="Texture" id=2]
-[ext_resource path="res://Assets/CrossHair/crosshair7part4.png" type="Texture" id=3]
-[ext_resource path="res://Assets/CrossHair/outeraim343.png" type="Texture" id=4]
+[ext_resource path="res://Assets/CrossHair/new folder/outeraim34.png" type="Texture" id=1]
+[ext_resource path="res://Assets/CrossHair/new folder/outeraim3.png" type="Texture" id=2]
+[ext_resource path="res://Assets/CrossHair/new folder/crosshair7part4.png" type="Texture" id=3]
+[ext_resource path="res://Assets/CrossHair/new folder/outeraim343.png" type="Texture" id=4]
 [ext_resource path="res://objects/CrossHair/CrossHair.gd" type="Script" id=5]
 
 [node name="CrossHair" type="Node2D"]

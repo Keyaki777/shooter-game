@@ -21,7 +21,7 @@ func generate_random_position() -> Vector2:
 
 func spawn(color: Color = Color.white, text_value: String = "100", is_critical: bool = false):
 	spawling = spawn_scene.instance()
-	add_child(spawling)
+	get_parent().add_child(spawling)
 	spawling.label.text = text_value
 	spawling.set_as_toplevel(true)
 	spawling.global_position = generate_random_position()

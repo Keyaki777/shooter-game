@@ -44,7 +44,7 @@ tracks/0/keys = {
 }
 
 [node name="StraightPipeEnemy" instance=ExtResource( 1 )]
-base_hp = 370.0
+base_hp = 120.0
 
 [node name="AnimatedSprite" parent="." index="1"]
 material = SubResource( 1 )

@@ -30,7 +30,7 @@ var _bonus_1: String = ""
 var _bonus_2: String = ""
 var _bonus_3: String = ""
 var _scene_path: String = ""
-
+var _atribute_description: String = ""
 #var category: = 
 
 var level: = 1
@@ -88,6 +88,9 @@ func _execute() ->void:
 func _unexecute() -> void:
 	pass
 
+
+func update_labels() -> void:
+	pass
 
 
 func buy() -> void:

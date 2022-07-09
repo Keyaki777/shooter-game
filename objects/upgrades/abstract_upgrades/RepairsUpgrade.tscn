@@ -5,4 +5,4 @@
 
 [node name="RepairsUpgrade" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
-is_unlocked = false
+unique_type = 1

@@ -2,7 +2,7 @@ extends Upgrade
 
 func _ready():
 	_up_name = "Shield Steal"
-	_up_effect = "When you kill an enemy you recover 30 shield"
+	_up_effect = "When you kill an enemy you recover 10 shield"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
@@ -10,7 +10,7 @@ func _ready():
 	
 
 func _execute():
-	hero.shield_recharge_action.recover_shield(50)
+	hero.shield_recharge_action.recover_shield(10)
 
 
 func _unexecute():
@@ -22,7 +22,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	hero.hero_weapon.max_enemies_bounces += 1
+	SignalManager.connect("enemy_death_started", self, "_execute")
 
 
 func on_signal_received(value = 0):

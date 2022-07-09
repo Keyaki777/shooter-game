@@ -2,7 +2,7 @@ extends Upgrade
 
 func _ready():
 	_up_name = "FireBullets"
-	_up_effect = "Your bullets now have poison element"
+	_up_effect = "You can shoot fire bullets now"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""

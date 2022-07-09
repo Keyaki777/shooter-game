@@ -20,23 +20,30 @@ onready var _shield_label :Label = $CanvasLayer/Ui/ShieldBar/ShieldLabel
 onready var _transition_rect: TransitionRect = $CanvasLayer/Ui/TransitionRect
 onready var _reward_handler: = $RewardHandler
 onready var _camera := $Camera2D
+onready var _restart_button = $CanvasLayer/RestartButton
+onready var _timer: Timer = $Timer
 
 
 func _ready():
+#	SignalManager.disconnect_all_signals()
 	_upgrade_handler.hero = self._hero
-
-
+	
+	
 	SignalManager.connect("wave_ended", self, "_on_wave_spawner_wave_ended")
 	SignalManager.connect("all_waves_ended", self, "_on_wave_spawner_all_waves_ended")
 	SignalManager.connect("object_destroyed", self, "_on_Spawner_object_destroyed")
 	SignalManager.connect("on_hero_left", self, "_on_Spawner_hero_left")
 	SignalManager.connect("upgrade_animation_finished", self, "_on_upgrade_handler_upgrade_finished")
 	connect("_level_started", SignalManager, "_on_level_entered")
-	
+	_restart_button.connect("restart_button_pressed", self, "_on_restart_button_pressed")
 	_reward_handler.connect("reward_activated", self, "_on_reward_handler_activated")
 	
-	
 	start_level()
+
+func count_timer() -> void:
+	var elapsed_time = (_timer.wait_time - _timer.time_left)
+	print(String(_wave_spawner.all_waves[_wave_spawner.wave_to_spawn - 1]), " took ", elapsed_time   )
+	_timer.start()
 
 func _show_upgrade_ui() -> void:
 	_upgrade_handler.visible = true
@@ -82,41 +89,12 @@ func _on_request_signal_trigger3(upgrade: Upgrade) -> void:
 	self.connect(upgrade._signal_bonus3, upgrade, "_execute_bonus_3")
 
 
-
-
-
-
-
-
 func _on_Spawner_object_destroyed():
 	emit_signal("object_destroyed")
 
 
-
-
-
 func _on_hero_shield_full():
 	emit_signal("_hero_shield_full")
-
-
-#func _on_hero_hp_changed() -> void:
-#	_health_bar.value = _hero._hp
-#	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
-
-#
-#func _on_hero_total_hp_changed() -> void:
-#	_health_bar.max_value = _hero._total_hp
-#	_health_label.text = String(_hero._hp) + "/" + String(_hero._total_hp)
-#
-#
-#func _on_hero_shield_changed() -> void:
-#	_shield_bar.value = _hero.shield
-#	_shield_label.text = String(_hero.shield) + "/" + String(_hero._total_shield)
-#
-#
-#func _on_hero_total_shield_changed() -> void:
-#	_shield_bar.max_value = _hero._total_shield
-#	_shield_label.text = String(_hero.shield) + "/" + String(_hero._total_shield)
 
 
 func toggle_shield_ui_visibility() -> void:
@@ -144,6 +122,7 @@ func _on_Spawner_hero_left() -> void:
 
 
 func call_next_level() -> void:
+	count_timer()
 	_hero.is_active = false
 	_transition_rect.transition_out()
 	yield(_transition_rect, "transition_ended")
@@ -164,7 +143,6 @@ func start_level() -> void:
 	yield(get_tree().create_timer(1.0), "timeout")
 	_hero.is_active = true
 	emit_signal("_level_started")
-	
 
 
 func _input(event):
@@ -174,3 +152,8 @@ func _input(event):
 
 func screen_shake() -> void:
 	_camera.shake = true
+
+
+func _on_restart_button_pressed() -> void:
+	SignalManager.disconnect_all_signals()
+	get_tree().reload_current_scene()

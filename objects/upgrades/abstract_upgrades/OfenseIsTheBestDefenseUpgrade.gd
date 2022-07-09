@@ -39,3 +39,7 @@ func _execute_bonus_3() -> void:
 
 func _on_timeout() -> void:
 	_unexecute()
+
+
+func update_labels() -> void:
+	_atribute_description = "your hp is: " + String(hero._hp) + " and your total hp is " + String(hero._total_hp)

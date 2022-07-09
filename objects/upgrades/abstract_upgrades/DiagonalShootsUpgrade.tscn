@@ -5,3 +5,4 @@
 
 [node name="DiagonalShootsUpgrade" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+unique_type = 2

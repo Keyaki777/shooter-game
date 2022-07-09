@@ -4,8 +4,8 @@ var effect_state: bool = false
 
 
 func _ready():
-	_up_name = "Agressive Endurance"
-	_up_effect = "Take 10% less damage while shooting"
+	_up_name = "AftyerMoveCritical"
+	_up_effect = "The first shoot after move has 10% more critical chance"
 	_scene_path = "res://objects/status/status.tscn"
 
 
@@ -22,7 +22,7 @@ func _initialize() -> void:
 
 
 func on_buy_effect():
-	pass
+	hero.hero_weapon.bonus_critical_chance += 5
 
 
 func _execute_bonus_1() -> void:

@@ -2,7 +2,7 @@ extends Upgrade
 
 func _ready():
 	_up_name = "Attack Speed Plus"
-	_up_effect = "Improves your Attack Speed but decreases 3 damage"
+	_up_effect = "Improves your Attack Speed"
 	_bonus_1 = ""
 	_bonus_2 = ""
 	_bonus_3 = ""
@@ -24,7 +24,7 @@ func _initialize() -> void:
 
 func on_buy_effect():
 	hero.hero_weapon.improve_cooldown()
-	hero.hero_weapon._bonus_damage -= 5
+#	hero.hero_weapon._bonus_damage -= 1
 
 
 func on_signal_received(value = 0):

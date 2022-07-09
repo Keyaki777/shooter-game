@@ -8,7 +8,7 @@ func _ready():
 
 
 func status_execute() -> void:
-	create_hit(modifier)
+	create_hit()
 	proc_timer_node.start()
 	
 
@@ -24,18 +24,4 @@ func _physics_process(delta):
 func set_original_status(new_original_status: Status) -> void:
 	pass
 
-
-#func create_hit(damage: int = 1, critical_chance: int = 0,color: Color = self.color ,global_position: Vector2 = hurtbox.global_position) -> Hit:
-#	var this_hit: Hit = Hit.new()
-#	this_hit.constructor(damage, critical_chance, self.color, self.global_position)
-#	hurtbox.get_hurt(this_hit)
-#	return this_hit
-#
-#
-#func _on_Exaust_Timer_timeout():
-#	status_cancel()
-#
-#
-#func _on_Proc_Timer_timeout():
-#	status_execute()
 

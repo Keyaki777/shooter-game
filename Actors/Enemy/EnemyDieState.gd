@@ -15,6 +15,7 @@ func physics_process(delta):
 func enter(msg: Dictionary = {}) -> void:
 	character.emit_signal("death_started")
 	character.activated = false
+	character.support_control.visible = false
 	character.enemy_area.set_deferred("monitoring", false)
 	character.hurt_box.is_active = false
 	var spawned_death_particle = death_particle.instance()
@@ -31,6 +32,7 @@ func enter(msg: Dictionary = {}) -> void:
 	max_wait = spawned_death_particle.lifetime +1
 	min_wait = spawned_death_particle.lifetime +1
 	start_timer()
+	
 
 
 func exit() -> void:
